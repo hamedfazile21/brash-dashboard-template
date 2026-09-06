@@ -12,11 +12,7 @@ import {
   CircleCheckBig,
   CircleOff,
   CirclePlay,
-  Ellipsis,
-  SquarePen,
-  Trash2,
 } from 'lucide-react'
-import Popover from '#/components/popover'
 import TaskSortPopover from './task-sort-popover'
 import ActionColumn from './action-column'
 
@@ -241,6 +237,7 @@ export const selectColumn = columnHelper.display({
 })
 
 export const actionsColumn = columnHelper.display({
+  enableHiding: false,
   id: 'actions',
   size: 48,
   minSize: 48,
