@@ -99,7 +99,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
         <Popover
           className="w-48 p-1!"
           trigger={
-            <button className="border border-dashed border-borderColor py-1.5 text-[13px] px-3 rounded-md flex items-center gap-x-2 hover:bg-surface-hover transition-colors">
+            <button className="btn btn-secondary py-1.5! border-dashed">
               <span>
                 <Sparkles size={17} className="text-muted" />
               </span>
@@ -204,7 +204,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
         <Popover
           className="w-48 p-1!"
           trigger={
-            <button className="border border-dashed border-borderColor py-1.5 text-[13px] px-3 rounded-md flex items-center gap-x-2 hover:bg-surface-hover transition-colors">
+            <button className="btn btn-secondary py-1.5! border-dashed">
               <span>
                 <Sparkles size={17} className="text-muted" />
               </span>
@@ -321,7 +321,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
       <Popover
         className="w-38 p-0! py-1!"
         trigger={
-          <button className="border border-dashed border-borderColor py-1.5 text-[13px] px-3 rounded-md flex items-center gap-x-2 hover:bg-surface-hover transition-colors">
+          <button className="btn btn-secondary py-1.5! border-dashed">
             <span>
               <SlidersHorizontal size={17} className="text-muted" />
             </span>

@@ -57,7 +57,7 @@ const TableBulkAction: FC<props> = ({
               <button
                 type="button"
                 onClick={() => onArchive?.(selectedIds)}
-                className="btn btn-light bg-muted/10"
+                className="btn btn-secondary"
               >
                 <Archive size={18} />
               </button>
@@ -66,7 +66,7 @@ const TableBulkAction: FC<props> = ({
               <button
                 type="button"
                 onClick={() => onExport?.(selectedIds)}
-                className="btn btn-light bg-muted/10"
+                className="btn btn-secondary"
               >
                 <Download size={18} />
               </button>
