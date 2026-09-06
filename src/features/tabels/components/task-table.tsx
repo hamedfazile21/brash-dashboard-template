@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type SetStateAction } from 'react'
 import {
   flexRender,
   getCoreRowModel,
@@ -17,6 +17,7 @@ import { defaultData } from '../data/task'
 import { columns, selectColumn } from './task-columns'
 import { useTask } from './task-provider'
 import TableToolbar from './table-toolbar'
+import TableBulkAction from './table-bulk-action'
 
 const TaskTable = () => {
   const {
@@ -146,7 +147,7 @@ const TaskTable = () => {
         </table>
         <div className="flex items-center justify-between py-4 px-5 border-t border-borderColor">
           <Pagination
-            currentPage={pageIndex + 1} // Pagination is 1-indexed, TanStack's pageIndex is 0-indexed
+            currentPage={pageIndex + 1}
             totalPages={Math.max(table.getPageCount(), 1)}
             onPageChange={(page) => table.setPageIndex(page - 1)}
             perPage={pageSize}
@@ -155,6 +156,13 @@ const TaskTable = () => {
           />
         </div>
       </div>
+      <TableBulkAction
+        rowSelection={table.getState().rowSelection}
+        setRowSelection={(updater) => table.setRowSelection(updater)}
+        onArchive={(ids) => console.log('archive', ids)}
+        onDelete={(ids) => console.log('delete', ids)}
+        onExport={(ids) => console.log('export', ids)}
+      />
     </div>
   )
 }

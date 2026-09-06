@@ -68,7 +68,7 @@ interface TooltipProps {
   /** Delay before showing, in ms — keeps quick mouse-passes from triggering it */
   delay?: number
   disabled?: boolean
-  className? : string
+  className?: string
 }
 
 export function Tooltip({
@@ -77,7 +77,7 @@ export function Tooltip({
   placement = 'top',
   delay = 150,
   disabled = false,
-  className
+  className,
 }: TooltipProps) {
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
@@ -150,7 +150,7 @@ export function Tooltip({
             <div
               style={transitionStyles}
               className="rounded-lg border border-white/10 bg-surface/40 px-2.5 py-1.5
-                text-xs font-medium text-foreground backdrop-blur-xl backdrop-saturate-150
+                text-sm font-medium text-foreground backdrop-blur-xl backdrop-saturate-150
                 shadow-lg shadow-black/10 ring-1 ring-black/5
                 dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30"
             >

@@ -15,7 +15,7 @@ function TablesShowCase() {
   // const { globalFilter, setGlobalFilter } = useTask()
 
   return (
-    <div>
+    <div className='relative'>
       <div className="flex items-center justify-between">
         <div className="mb-8">
           <h1 className="text-xl font-semibold text-foreground">

@@ -205,15 +205,15 @@ export const selectColumn = columnHelper.display({
   maxSize: 25,
   meta: { width: '25px' },
   header: ({ table }) => {
-    const isIndeterminate = table.getIsSomeRowsSelected()
+    const isIndeterminate = table.getIsSomePageRowsSelected()
 
     return (
       <div
         style={{ width: '25px', display: 'flex', justifyContent: 'flex-start' }}
       >
         <CheckBox
-          checked={table.getIsAllRowsSelected()}
-          onChange={table.getToggleAllRowsSelectedHandler()}
+          checked={table.getIsAllPageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()}
           isIndeterminate={isIndeterminate}
           rounded
           aria-label="Select all rows"
