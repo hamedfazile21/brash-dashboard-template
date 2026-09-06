@@ -12,7 +12,7 @@ import React, {
   type SetStateAction,
 } from 'react'
 
-export type TaskDialogType = 'delete-confirmation'
+export type TaskDialogType = 'delete-confirmation' | 'create-task'
 
 type TaskContextType = {
   open: TaskDialogType | null

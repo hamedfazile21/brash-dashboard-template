@@ -14,7 +14,7 @@ import {
 
 import Pagination from '#/components/pagination'
 import { defaultData } from '../data/task'
-import { columns, selectColumn } from './task-columns'
+import { actionsColumn, columns, selectColumn } from './task-columns'
 import { useTask } from './task-provider'
 import TableToolbar from './table-toolbar'
 import TableBulkAction from './table-bulk-action'
@@ -37,7 +37,7 @@ const TaskTable = () => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const table = useReactTable({
     data: defaultData,
-    columns: [selectColumn, ...columns],
+    columns: [selectColumn, ...columns, actionsColumn],
     getCoreRowModel: getCoreRowModel(),
     state: {
       rowSelection,

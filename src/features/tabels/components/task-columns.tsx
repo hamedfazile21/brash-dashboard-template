@@ -12,8 +12,13 @@ import {
   CircleCheckBig,
   CircleOff,
   CirclePlay,
+  Ellipsis,
+  SquarePen,
+  Trash2,
 } from 'lucide-react'
+import Popover from '#/components/popover'
 import TaskSortPopover from './task-sort-popover'
+import ActionColumn from './action-column'
 
 const columnHelper = createColumnHelper<Task>()
 export const statusIcon = {
@@ -233,4 +238,13 @@ export const selectColumn = columnHelper.display({
       />
     </div>
   ),
+})
+
+export const actionsColumn = columnHelper.display({
+  id: 'actions',
+  size: 48,
+  minSize: 48,
+  maxSize: 48,
+  header: () => <span className="sr-only">Actions</span>,
+  cell: ({ row }) => <ActionColumn row={row} />,
 })

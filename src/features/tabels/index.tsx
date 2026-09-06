@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 import TaskTable from './components/task-table'
 import TaskDialog from './components/task-dialog'
+import { useTask } from './components/task-provider'
 
 export interface Task {
   id: string
@@ -13,7 +14,7 @@ export interface Task {
 
 function TablesShowCase() {
   const { t } = useTranslation()
-  // const { globalFilter, setGlobalFilter } = useTask()
+  const { setOpen } = useTask()
 
   return (
     <div className="relative">
@@ -29,7 +30,12 @@ function TablesShowCase() {
           </p>
         </div>
         <div>
-          <button className="btn btn-primary">{t('New Task')}</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => setOpen('create-task')}
+          >
+            {t('New Task')}
+          </button>
         </div>
       </div>
       <div className="card w-full overflow-hidden p-0!">
