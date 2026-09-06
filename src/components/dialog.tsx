@@ -114,7 +114,10 @@ export function Dialog({
 
   return (
     <Transition show={open} as={Fragment}>
-      <HeadlessDialog onClose={closeOnOutsideClick ? onClose : () => {}} className="relative z-50">
+      <HeadlessDialog
+        onClose={closeOnOutsideClick ? onClose : () => {}}
+        className="relative z-50"
+      >
         {/* Backdrop */}
         <TransitionChild
           as={Fragment}
@@ -125,7 +128,10 @@ export function Dialog({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+            aria-hidden="true"
+          />
         </TransitionChild>
 
         {/* Panel wrapper — controls center vs top anchoring */}

@@ -3,10 +3,9 @@
   --color-primary-foreground: rgb(255 255 255);
 
   /* Backgrounds */
-  --background: rgb(255 255 255);
-  --surface: rgb(245 245 244); /* stone-100 */
-  --surface-hover: rgb(231 229 228); /* stone-200 */
-
+  --background: rgb(250 250 252);
+  --surface: rgb(239 241 246);
+  --surface-hover: rgb(225 228 236);
   /* Text */
   --foreground: rgb(64, 64, 64);
   --muted-foreground: oklch(55.4% 0.046 257.417);
