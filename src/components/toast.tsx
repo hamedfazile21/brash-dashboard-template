@@ -23,7 +23,7 @@ const Toaster = (props: ToasterProps) => {
         unstyled: true,
         classNames: {
           toast: `
-            group font-jost relative flex w-full items-center gap-x-3 rounded-xl border p-4
+            group font-inter relative flex w-full items-center gap-x-3 rounded-xl border p-4
             border-white/10 bg-surface/40 backdrop-blur-xl backdrop-saturate-150
             shadow-lg shadow-black/10
             dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30

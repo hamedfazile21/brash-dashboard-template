@@ -5,6 +5,7 @@ import { Transition } from '@headlessui/react'
 import { Archive, Download, Trash2, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import Tooltip from '#/components/tooltip'
+import { useTask } from './task-provider'
 
 interface props {
   rowSelection: RowSelectionState
@@ -21,6 +22,7 @@ const TableBulkAction: FC<props> = ({
   onDelete,
   onExport,
 }) => {
+  const { setOpen } = useTask()
   const selectedIds = Object.keys(rowSelection)
   const count = selectedIds.length
   const isOpen = count > 0
@@ -45,7 +47,7 @@ const TableBulkAction: FC<props> = ({
               {count}
             </span>
             <span className="whitespace-nowrap text-sm font-medium text-foreground">
-              selected
+              {t('selected')}
             </span>
           </div>
 
@@ -74,7 +76,7 @@ const TableBulkAction: FC<props> = ({
             <Tooltip placement="top" content={'Delete Selected Tasks'}>
               <button
                 type="button"
-                onClick={() => onDelete?.(selectedIds)}
+                onClick={() => setOpen('delete-confirmation')}
                 className="btn btn-light bg-danger! text-white!"
               >
                 <Trash2 size={18} />

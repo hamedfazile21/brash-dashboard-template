@@ -115,7 +115,7 @@ button {
 }
 
 @utility glass {
-  @apply relative border border-black/8 bg-surface/20
+  @apply relative border border-black/8 bg-surface/60
     backdrop-blur-xl backdrop-saturate-150
     shadow-md shadow-black/5
     inset-ring-1 inset-ring-white/40

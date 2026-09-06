@@ -27,8 +27,9 @@ const TaskTable = () => {
     setSorting,
     setColumnVisibility,
     columnVisibility,
+    rowSelection,
+    setRowSelection,
   } = useTask()
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,

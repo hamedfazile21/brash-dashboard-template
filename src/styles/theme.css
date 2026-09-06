@@ -4,8 +4,8 @@
 
   /* Backgrounds */
   --background: rgb(255 255 255);
-  --surface: rgb(248 250 252);
-  --surface-hover: rgb(241 245 249);
+  --surface: rgb(245 245 244); /* stone-100 */
+  --surface-hover: rgb(231 229 228); /* stone-200 */
 
   /* Text */
   --foreground: rgb(64, 64, 64);

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 import TaskTable from './components/task-table'
+import TaskDialog from './components/task-dialog'
 
 export interface Task {
   id: string
@@ -15,7 +16,7 @@ function TablesShowCase() {
   // const { globalFilter, setGlobalFilter } = useTask()
 
   return (
-    <div className='relative'>
+    <div className="relative">
       <div className="flex items-center justify-between">
         <div className="mb-8">
           <h1 className="text-xl font-semibold text-foreground">
@@ -34,6 +35,7 @@ function TablesShowCase() {
       <div className="card w-full overflow-hidden p-0!">
         <TaskTable />
       </div>
+      <TaskDialog />
     </div>
   )
 }

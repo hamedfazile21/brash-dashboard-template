@@ -1,5 +1,9 @@
 import useDialogState from '#/hooks/use-dialog-state'
-import type { SortingState, VisibilityState } from '@tanstack/react-table'
+import type {
+  RowSelectionState,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table'
 import React, {
   createContext,
   useContext,
@@ -8,26 +12,30 @@ import React, {
   type SetStateAction,
 } from 'react'
 
-export type TodoDialogType = 'create' | 'update' | 'details'
+export type TaskDialogType = 'delete-confirmation'
 
 type TaskContextType = {
-  open: TodoDialogType | null
-  setOpen: (str: TodoDialogType | null) => void
+  open: TaskDialogType | null
+  setOpen: (str: TaskDialogType | null) => void
   globalFilter: string
   setGlobalFilter: Dispatch<SetStateAction<string>>
   sorting: SortingState
   setSorting: Dispatch<SetStateAction<SortingState>>
   columnVisibility: VisibilityState
   setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>
+  rowSelection: RowSelectionState
+  setRowSelection: Dispatch<SetStateAction<RowSelectionState>>
 }
 
 const TaskContext = createContext<TaskContextType | null>(null)
 
 export function TaskProvider({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useDialogState<TodoDialogType>(null)
+  const [open, setOpen] = useDialogState<TaskDialogType>(null)
   const [globalFilter, setGlobalFilter] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+
   return (
     <TaskContext.Provider
       value={{
@@ -39,6 +47,8 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
         sorting,
         columnVisibility,
         setColumnVisibility,
+        rowSelection,
+        setRowSelection,
       }}
     >
       {children}
