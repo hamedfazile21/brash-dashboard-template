@@ -4,7 +4,7 @@ import DeleteConfirmationDialog from './delete-confirmation-dialog'
 import CreateTaskDialog from './create-task-dialog'
 
 const TaskDialog = () => {
-  const { open, setOpen, rowSelection } = useTask()
+  const { open, setOpen, rowSelection, currentRow } = useTask()
   const tasksCount = Object.values(rowSelection).length
   return (
     <>
@@ -18,6 +18,7 @@ const TaskDialog = () => {
         key={'create-task'}
         open={open === 'create-task'}
         setOpen={() => setOpen('create-task')}
+        currentRow={currentRow}
       />
     </>
   )

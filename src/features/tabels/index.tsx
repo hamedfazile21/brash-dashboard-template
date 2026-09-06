@@ -14,7 +14,7 @@ export interface Task {
 
 function TablesShowCase() {
   const { t } = useTranslation()
-  const { setOpen } = useTask()
+  const { setOpen , setCurrentRow} = useTask()
 
   return (
     <div className="relative">
@@ -32,7 +32,10 @@ function TablesShowCase() {
         <div>
           <button
             className="btn btn-primary"
-            onClick={() => setOpen('create-task')}
+            onClick={() => {
+              setOpen('create-task')
+              setCurrentRow(null)
+            }}
           >
             {t('New Task')}
           </button>

@@ -1,5 +1,6 @@
 import useDialogState from '#/hooks/use-dialog-state'
 import type {
+  Row,
   RowSelectionState,
   SortingState,
   VisibilityState,
@@ -11,6 +12,7 @@ import React, {
   type Dispatch,
   type SetStateAction,
 } from 'react'
+import type { Task } from '..'
 
 export type TaskDialogType = 'delete-confirmation' | 'create-task'
 
@@ -25,6 +27,8 @@ type TaskContextType = {
   setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>
   rowSelection: RowSelectionState
   setRowSelection: Dispatch<SetStateAction<RowSelectionState>>
+  currentRow: Task | null
+  setCurrentRow: Dispatch<SetStateAction<Task | null>>
 }
 
 const TaskContext = createContext<TaskContextType | null>(null)
@@ -35,6 +39,7 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [currentRow, setCurrentRow] = useState<Task | null>(null)
 
   return (
     <TaskContext.Provider
@@ -49,6 +54,8 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
         setColumnVisibility,
         rowSelection,
         setRowSelection,
+        currentRow,
+        setCurrentRow,
       }}
     >
       {children}

@@ -142,7 +142,7 @@ export function Popover({
               <div
                 style={transitionStyles}
                 onClick={handleContentClick}
-                className={` rounded-xl border border-white/10 bg-surface/40 p-1.5
+                className={` rounded-lg border border-white/10 bg-surface/40 p-1.5
                   backdrop-blur-xl backdrop-saturate-150
                   shadow-lg shadow-black/10 ring-1 ring-black/5
                   dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30

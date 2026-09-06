@@ -158,7 +158,10 @@ export function Dialog({
 
   return (
     <Transition show={open} as={Fragment}>
-      <HeadlessDialog onClose={closeOnOutsideClick ? onClose : () => {}} className="relative z-50">
+      <HeadlessDialog
+        onClose={closeOnOutsideClick ? onClose : () => {}}
+        className="relative z-50"
+      >
         {/* Backdrop */}
         <TransitionChild
           as={Fragment}
@@ -169,17 +172,22 @@ export function Dialog({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" aria-hidden="true" />
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+            aria-hidden="true"
+          />
         </TransitionChild>
 
         {/* Panel wrapper — controls center / top / left / right anchoring */}
-        <div className={`fixed inset-0 flex overflow-y-auto ${wrapperPositionClasses[position]}`}>
+        <div
+          className={`fixed inset-0 flex overflow-y-auto ${wrapperPositionClasses[position]}`}
+        >
           <TransitionChild
             as={Fragment}
-            enter="ease-out duration-250"
+            enter="transition-all ease-out duration-300"
             enterFrom={closed}
             enterTo={openState}
-            leave="ease-in duration-200"
+            leave="transition-all ease-in duration-200"
             leaveFrom={openState}
             leaveTo={closed}
           >
@@ -196,7 +204,7 @@ export function Dialog({
               {(title || showCloseButton) && (
                 <div
                   className={`flex shrink-0 items-start justify-between gap-x-4 border-b border-white/10 p-4 dark:border-white/8 ${
-                    !isSide ? 'p-6 pb-4' : ''
+                    !isSide ? 'p-1.5!' : ''
                   }`}
                 >
                   <div>
@@ -206,7 +214,9 @@ export function Dialog({
                       </DialogTitle>
                     )}
                     {description && (
-                      <Description className="mt-1 text-sm text-muted">{description}</Description>
+                      <Description className="mt-1 text-sm text-muted">
+                        {description}
+                      </Description>
                     )}
                   </div>
 
@@ -225,7 +235,11 @@ export function Dialog({
 
               {/* Content — the only scrollable region, matters most for
                   tall side panels but harmless for centered dialogs too */}
-              <div className={`flex-1 overflow-y-auto ${isSide ? 'p-4' : 'p-6 pt-4'}`}>{children}</div>
+              <div
+                className={`flex-1 overflow-y-auto ${isSide ? 'p-4' : 'p-1.5'}`}
+              >
+                {children}
+              </div>
 
               {/* Footer — shrink-0, stays pinned to the bottom */}
               {footer && (

@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import { useEffect, type FC } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
 import Dialog from '#/components/dialog'
@@ -8,6 +8,8 @@ import { useAppSelector } from '#/hooks/redux'
 import type { SelectOption } from '#/components/input-select'
 import InputSelect from '#/components/input-select'
 import { showObjectToast } from '#/helper/toast-helper'
+import type { Row } from '@tanstack/react-table'
+import { t } from 'i18next'
 
 export interface Task {
   title: string
@@ -19,7 +21,7 @@ export interface Task {
 interface props {
   open: boolean
   setOpen: (str: TaskDialogType | null) => void
-  onCreate?: (task: Task) => void | Promise<void>
+  currentRow: Task | null
 }
 
 const labelOptions: SelectOption[] = [
@@ -43,20 +45,21 @@ const priorityStyles: Record<Task['priority'], string> = {
   Critical: 'bg-red-500/15 text-red-500',
 }
 
-const CreateTaskDialog: FC<props> = ({ open, setOpen, onCreate }) => {
+const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
   const { direction } = useAppSelector((state) => state.themeConfig)
+  const isEditMode = currentRow
 
-  const closeDialog = () => {
-    setOpen(null)
-  }
+  const defaultFormValue = isEditMode
+    ? currentRow
+    : {
+        title: '',
+        label: 'Bug',
+        priority: 'Medium',
+        status: 'Backlog',
+      }
 
   const form = useForm({
-    defaultValues: {
-      title: '',
-      label: 'Bug',
-      priority: 'Medium',
-      status: 'Backlog',
-    } as Task,
+    defaultValues: defaultFormValue as Task,
     onSubmit: async ({ value }) => {
       await showObjectToast('Login From Submitted', value)
 
@@ -64,6 +67,10 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, onCreate }) => {
       closeDialog()
     },
   })
+
+  const closeDialog = () => {
+    setOpen(null)
+  }
 
   return (
     <Dialog
@@ -82,7 +89,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, onCreate }) => {
             onClick={closeDialog}
             className="btn btn-secondary"
           >
-            Cancel
+            {t('Cancel')}
           </button>
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
@@ -93,7 +100,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, onCreate }) => {
                 disabled={!canSubmit || isSubmitting}
                 className="btn btn-primary disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isSubmitting ? 'Creating...' : 'Create Task'}
+                {isSubmitting ? t('Creating...') : t('Create Task')}
               </button>
             )}
           />
