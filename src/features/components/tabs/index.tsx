@@ -1,8 +1,9 @@
 import { BicepsFlexed, HatGlasses, Settings, ShieldMinus } from 'lucide-react'
-import Tabs from '../../../components/tabs/tabs'
+// import Tabs from '../../../components/tabs/tabs'
 import dummyPanels from './components/dummy-panels'
 import { GlassBlob1, GlassBlob2 } from '../../../../public/assets'
 import { useTranslation } from 'react-i18next'
+import Tabs from '#/components/tab/tabs'
 
 function TabsShowcase() {
   const { t } = useTranslation()

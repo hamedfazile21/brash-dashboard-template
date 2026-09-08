@@ -1,4 +1,4 @@
-import Accordion from '#/components/accordions/accordion'
+import Accordion from '#/components/accordion/accordion'
 import { CreditCard, Rocket, ShieldCheck } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 

@@ -1,4 +1,4 @@
-import Accordion from '#/components/accordions/accordion'
+import Accordion from '#/components/accordion/accordion'
 import { faq } from '../data/FAQ'
 import { useTranslation } from 'react-i18next'
 
