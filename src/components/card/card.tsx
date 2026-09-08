@@ -22,8 +22,7 @@ interface CardProps {
 const rootViewClasses: Record<CardView, string> = {
   default: `card group relative overflow-hidden p-0! transition-all duration-300 ease-out
     hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl hover:shadow-black/10`,
-  stat: `card flex items-center justify-between relative overflow-hidden p-5 transition-all duration-300 ease-out
-    hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10`,
+  stat: `card flex items-center justify-between relative overflow-hidden p-5 transition-all duration-300 ease-out`,
   media: `card group overflow-hidden p-0 transition-all duration-300 ease-out
     hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10`,
   hover: `group relative aspect-[4/5] cursor-pointer overflow-hidden rounded-xl

@@ -1,3 +1,4 @@
+import Card from '#/components/card/card'
 import {
   DollarSign,
   ShoppingCart,
@@ -35,25 +36,22 @@ const CardInfo = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
       {stats.map(({ label, value, change, up, icon: Icon }) => (
-        <div key={label} className="card flex items-center justify-between p-4">
-          <div>
-            <p className="text-xs text-muted">{label}</p>
-            <p className="mt-1 text-xl font-semibold text-foreground">
-              {value}
-            </p>
-            <p
-              className={`mt-1 flex items-center gap-x-1 text-xs font-medium ${
-                up ? 'text-emerald-500' : 'text-red-500'
-              }`}
+        <Card key={label} view="stat" className="">
+          <Card.Header>
+            <Card.Description>{label}</Card.Description>
+            <Card.Title>{value}</Card.Title>
+            <span
+              className={`mt-1.5 flex items-center gap-x-1 text-xs font-medium ${up ? 'text-emerald-500' : 'text-danger'} `}
             >
+              <TrendingUp size={13} />
               {up ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
               {change}
-            </p>
-          </div>
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/15 text-primary">
+            </span>
+          </Card.Header>
+          <Card.Icon>
             <Icon size={18} />
-          </div>
-        </div>
+          </Card.Icon>
+        </Card>
       ))}
     </div>
   )
