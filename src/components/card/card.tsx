@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react'
 import { CardContext, type CardView } from './card-provider'
-import CardHeader from './card-header'
-import CardTitle from './card-title'
-import CardDescription from './card-description'
-import CardContent from './card-content'
-import CardFooter from './card-footer'
-import CardMedia from './card-media'
-import CardIcon from './card-icon'
-import CardActions from './card-action'
-import CardAvatar from './card-avatar'
+import { CardTitle } from './card-title'
+import { CardHeader } from './card-header'
+import { CardContent } from './card-content'
+import { CardDescription } from './card-description'
+import { CardFooter } from './card-footer'
+import { CardMedia } from './card-media'
+import { CardIcon } from './card-icon'
+import { CardActions } from './card-action'
+import { CardAvatar } from './card-avatar'
 
 /* ==========================================================================
    Card (root)
@@ -20,9 +20,9 @@ interface CardProps {
 }
 
 const rootViewClasses: Record<CardView, string> = {
-  default: `card group relative overflow-hidden p-0 transition-all duration-300 ease-out
+  default: `card group relative overflow-hidden p-0! transition-all duration-300 ease-out
     hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl hover:shadow-black/10`,
-  stat: `card relative overflow-hidden p-5 transition-all duration-300 ease-out
+  stat: `card flex items-center justify-between relative overflow-hidden p-5 transition-all duration-300 ease-out
     hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10`,
   media: `card group overflow-hidden p-0 transition-all duration-300 ease-out
     hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10`,
