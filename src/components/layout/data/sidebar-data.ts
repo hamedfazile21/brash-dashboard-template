@@ -15,6 +15,7 @@ import {
   Pyramid,
   Table,
   RectangleEllipsis,
+  Palette,
 } from 'lucide-react'
 
 export type SidebarChild = {
@@ -180,7 +181,7 @@ export const sidebar_data: SidebarItem[] = [
       {
         id: 'components',
         title: 'Components',
-        icon: Box,
+        icon: Palette,
         href: '',
         children: [
           {
@@ -201,6 +202,35 @@ export const sidebar_data: SidebarItem[] = [
           },
         ],
       },
+      {
+        id: 'element',
+        title: 'Element',
+        icon: Box,
+        href: '',
+        children: [
+          {
+            title: 'Buttons',
+            href: '/buttons',
+          },
+          {
+            title: 'Dropdowns',
+            href: '/dropdown',
+          },
+          {
+            title: 'Loaders',
+            href: '/loader',
+          },
+          {
+            title: 'Pagination',
+            href: '/pagination',
+          },
+          {
+            title: 'Tooltips',
+            href: '/tooltips',
+          },
+        ],
+      },
+      // <ScanBox />
       {
         id: 'charts',
         title: 'Charts',
