@@ -29,6 +29,7 @@ import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } 
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
 import { Route as LayoutComponentsTabsIndexRouteImport } from './routes/_layout/_components/tabs/index'
 import { Route as LayoutComponentsModalsIndexRouteImport } from './routes/_layout/_components/modals/index'
+import { Route as LayoutComponentsCardsIndexRouteImport } from './routes/_layout/_components/cards/index'
 import { Route as LayoutComponentsAccordionsIndexRouteImport } from './routes/_layout/_components/accordions/index'
 
 const LayoutRouteRoute = LayoutRouteRouteImport.update({
@@ -143,6 +144,12 @@ const LayoutComponentsModalsIndexRoute =
     path: '/modals/',
     getParentRoute: () => LayoutRouteRoute,
   } as any)
+const LayoutComponentsCardsIndexRoute =
+  LayoutComponentsCardsIndexRouteImport.update({
+    id: '/_components/cards/',
+    path: '/cards/',
+    getParentRoute: () => LayoutRouteRoute,
+  } as any)
 const LayoutComponentsAccordionsIndexRoute =
   LayoutComponentsAccordionsIndexRouteImport.update({
     id: '/_components/accordions/',
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/to-do-list/': typeof LayoutToDoListIndexRoute
   '/lock-screen/': typeof PageLockScreenIndexRoute
   '/accordions/': typeof LayoutComponentsAccordionsIndexRoute
+  '/cards/': typeof LayoutComponentsCardsIndexRoute
   '/modals/': typeof LayoutComponentsModalsIndexRoute
   '/tabs/': typeof LayoutComponentsTabsIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
@@ -181,6 +189,7 @@ export interface FileRoutesByTo {
   '/to-do-list': typeof LayoutToDoListIndexRoute
   '/lock-screen': typeof PageLockScreenIndexRoute
   '/accordions': typeof LayoutComponentsAccordionsIndexRoute
+  '/cards': typeof LayoutComponentsCardsIndexRoute
   '/modals': typeof LayoutComponentsModalsIndexRoute
   '/tabs': typeof LayoutComponentsTabsIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
@@ -205,6 +214,7 @@ export interface FileRoutesById {
   '/_layout/to-do-list/': typeof LayoutToDoListIndexRoute
   '/_page/lock-screen/': typeof PageLockScreenIndexRoute
   '/_layout/_components/accordions/': typeof LayoutComponentsAccordionsIndexRoute
+  '/_layout/_components/cards/': typeof LayoutComponentsCardsIndexRoute
   '/_layout/_components/modals/': typeof LayoutComponentsModalsIndexRoute
   '/_layout/_components/tabs/': typeof LayoutComponentsTabsIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/to-do-list/'
     | '/lock-screen/'
     | '/accordions/'
+    | '/cards/'
     | '/modals/'
     | '/tabs/'
     | '/emailVerification-basic/'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/to-do-list'
     | '/lock-screen'
     | '/accordions'
+    | '/cards'
     | '/modals'
     | '/tabs'
     | '/emailVerification-basic'
@@ -274,6 +286,7 @@ export interface FileRouteTypes {
     | '/_layout/to-do-list/'
     | '/_page/lock-screen/'
     | '/_layout/_components/accordions/'
+    | '/_layout/_components/cards/'
     | '/_layout/_components/modals/'
     | '/_layout/_components/tabs/'
     | '/_page/_email-verification/emailVerification-basic/'
@@ -445,6 +458,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutComponentsModalsIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
+    '/_layout/_components/cards/': {
+      id: '/_layout/_components/cards/'
+      path: '/cards'
+      fullPath: '/cards/'
+      preLoaderRoute: typeof LayoutComponentsCardsIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_components/accordions/': {
       id: '/_layout/_components/accordions/'
       path: '/accordions'
@@ -463,6 +483,7 @@ interface LayoutRouteRouteChildren {
   LayoutTaskManagementIndexRoute: typeof LayoutTaskManagementIndexRoute
   LayoutToDoListIndexRoute: typeof LayoutToDoListIndexRoute
   LayoutComponentsAccordionsIndexRoute: typeof LayoutComponentsAccordionsIndexRoute
+  LayoutComponentsCardsIndexRoute: typeof LayoutComponentsCardsIndexRoute
   LayoutComponentsModalsIndexRoute: typeof LayoutComponentsModalsIndexRoute
   LayoutComponentsTabsIndexRoute: typeof LayoutComponentsTabsIndexRoute
 }
@@ -475,6 +496,7 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutTaskManagementIndexRoute: LayoutTaskManagementIndexRoute,
   LayoutToDoListIndexRoute: LayoutToDoListIndexRoute,
   LayoutComponentsAccordionsIndexRoute: LayoutComponentsAccordionsIndexRoute,
+  LayoutComponentsCardsIndexRoute: LayoutComponentsCardsIndexRoute,
   LayoutComponentsModalsIndexRoute: LayoutComponentsModalsIndexRoute,
   LayoutComponentsTabsIndexRoute: LayoutComponentsTabsIndexRoute,
 }

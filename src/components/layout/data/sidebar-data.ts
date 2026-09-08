@@ -195,6 +195,10 @@ export const sidebar_data: SidebarItem[] = [
             title: 'Accordions',
             href: '/accordions',
           },
+          {
+            title: 'Cards',
+            href: '/cards',
+          },
         ],
       },
       {
@@ -246,4 +250,3 @@ export const sidebar_data: SidebarItem[] = [
     ],
   },
 ]
-
