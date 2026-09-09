@@ -2,6 +2,9 @@ import { Check, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import Popover from './popover'
 import { useTranslation } from 'react-i18next'
 
+type PaginationVariant = 'primary' | 'outline'
+type PaginationRounded = 'md' | 'full'
+
 interface PaginationProps {
   currentPage: number
   totalPages: number
@@ -11,6 +14,18 @@ interface PaginationProps {
   className?: string
   perPage?: number
   setPerPage?: (page: number) => void
+  /** 'primary' (default) = active page is a solid fill. 'outline' = every
+   * button gets a border; the active page gets a colored border + soft fill
+   * instead of going solid. */
+  variant?: PaginationVariant
+  /** 'md' (default) = rounded-md corners. 'full' = fully rounded/pill buttons. */
+  rounded?: PaginationRounded
+  /** Joins Prev/page numbers/Next into one connected strip (collapsed
+   * borders, rounding only on the outer edges) instead of separately
+   * spaced buttons. The "..." ellipsis breaks the join, since it isn't
+   * a real button — grouping only applies between genuinely adjacent
+   * buttons on either side of it. */
+  grouped?: boolean
 }
 
 const DOTS = '...'
@@ -20,7 +35,6 @@ function getPageRange(
   totalPages: number,
   siblingCount: number,
 ) {
-  // Total numbers shown: first, last, current, siblings on both sides, 2 dots
   const totalVisible = siblingCount * 2 + 5
 
   if (totalPages <= totalVisible) {
@@ -64,8 +78,10 @@ export function Pagination({
   perPage,
   setPerPage,
   className = '',
+  variant = 'primary',
+  rounded = 'md',
+  grouped = false,
 }: PaginationProps) {
-  // if (totalPages <= 1) return null
   const { t } = useTranslation()
   const pages = getPageRange(currentPage, totalPages, siblingCount)
 
@@ -74,70 +90,112 @@ export function Pagination({
     onPageChange(page)
   }
 
-  return (
-    <div className="flex items-center w-full justify-between">
-      {perPage && setPerPage && (
-        <>
-          <div className="w-fit flex items-center gap-x-2">
-            <Popover
-              className="w-25 p-1!"
-              closeOn="select"
-              trigger={
-                <button
-                  type="button"
-                  aria-label="Toggle columns"
-                  className="flex items-center gap-x-1.5 rounded-md border border-borderColor px-3 py-2 text-xs font-medium text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
-                >
-                  {perPage}
-                  <ChevronDown size={18} />
-                </button>
-              }
+  const cornerClass = rounded === 'full' ? 'rounded-full' : 'rounded-md'
+  const roundLeft = rounded === 'full' ? 'rounded-l-full' : 'rounded-l-md'
+  const roundRight = rounded === 'full' ? 'rounded-r-full' : 'rounded-r-md'
 
-              placement="bottom-start"
-            >
-              <div className="flex flex-col gap-y-1 ">
-                {Array.from({ length: 5 }).map((_, index) => {
-                  const pageSize = (index + 1) * 10
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => setPerPage(pageSize)}
-                      className="flex items-center justify-between text-xs text-foreground hover:bg-surface-hover p-2 rounded-md w-full text-start"
-                    >
-                      {pageSize}
-                      {perPage === pageSize && (
-                        <span>
-                          <Check size={18} />
-                        </span>
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-            </Popover>
-            <span className="text-sm font-medium text-foreground">
-              {t('Rows per page')}
-            </span>
-          </div>
-        </>
+  /** Whether this button should collapse its border against the item
+   * immediately before it in the actual rendered order. False right
+   * after a DOTS span, since there's no bordered neighbor to merge with. */
+  const shouldCollapseLeft = (index: number) => {
+    if (!grouped) return false
+    if (index === 0) return true // collapse against the Prev button
+    return pages[index - 1] !== DOTS
+  }
+
+  const groupedButtonClasses = (index: number, isActive: boolean) => {
+    if (!grouped) return ''
+
+    const collapse = shouldCollapseLeft(index) ? '-ml-px' : ''
+    // Page-number buttons are never the outermost element — Prev/Next
+    // always occupy those slots and round themselves separately (see
+    // their own className below) — so every page button stays square.
+    const corner = 'rounded-none'
+
+    return `${collapse} ${corner} ${isActive ? 'z-10' : 'hover:z-10 focus-visible:z-10'}`.trim()
+  }
+
+  const pageButtonBase = grouped
+    ? 'flex size-8 items-center justify-center border text-sm transition-colors duration-150'
+    : `flex size-8 items-center justify-center ${cornerClass} text-sm transition-colors duration-150`
+
+  const activeClasses =
+    variant === 'outline'
+      ? 'border-primary bg-primary/10 text-primary'
+      : grouped
+        ? 'border-primary bg-primary text-primary-foreground'
+        : 'bg-primary text-primary-foreground'
+
+  const inactiveClasses =
+    variant === 'outline' || grouped
+      ? 'border-borderColor text-foreground hover:bg-surface-hover'
+      : 'text-foreground hover:bg-surface-hover'
+
+  const arrowBase = `flex size-8 items-center justify-center border border-borderColor text-muted
+    transition-colors duration-150
+    hover:bg-surface-hover hover:text-foreground
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30
+    disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent`
+
+  return (
+    <div className="flex w-full items-center justify-between">
+      {perPage && setPerPage && (
+        <div className="flex w-fit items-center gap-x-2">
+          <Popover
+            className="w-25 p-1!"
+            closeOn="select"
+            trigger={
+              <button
+                type="button"
+                aria-label="Toggle columns"
+                className="flex items-center gap-x-1.5 rounded-md border border-borderColor px-3 py-2 text-xs font-medium text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
+              >
+                {perPage}
+                <ChevronDown size={18} />
+              </button>
+            }
+            placement="bottom-start"
+          >
+            <div className="flex flex-col gap-y-1">
+              {Array.from({ length: 5 }).map((_, index) => {
+                const pageSize = (index + 1) * 10
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setPerPage(pageSize)}
+                    className="flex w-full items-center justify-between rounded-md p-2 text-start text-xs text-foreground hover:bg-surface-hover"
+                  >
+                    {pageSize}
+                    {perPage === pageSize && (
+                      <span>
+                        <Check size={18} />
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </Popover>
+          <span className="text-sm font-medium text-foreground">
+            {t('Rows per page')}
+          </span>
+        </div>
       )}
+
       <nav
         aria-label="Pagination"
-        className={`flex items-center gap-x-1 ${className}`}
+        className={`flex items-center ${grouped ? '' : 'gap-x-1'} ${className}`}
       >
         <span className="text-sm font-medium text-foreground me-2">
           {t('Page')} {currentPage} {t('of')} {totalPages}
         </span>
+
         <button
           type="button"
           onClick={() => goTo(currentPage - 1)}
           disabled={currentPage === 1}
           aria-label="Previous page"
-          className="flex size-8 items-center rtl:rotate-180 justify-center rounded-md border border-borderColor text-muted
-          transition-colors duration-150
-          hover:bg-surface-hover hover:text-foreground
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30
-          disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
+          className={`${arrowBase} rtl:rotate-180 ${grouped ? roundLeft : cornerClass}`}
         >
           <ChevronLeft size={16} />
         </button>
@@ -156,11 +214,9 @@ export function Pagination({
               type="button"
               onClick={() => goTo(page as number)}
               aria-current={page === currentPage ? 'page' : undefined}
-              className={`flex size-8 items-center justify-center rounded-md text-sm transition-colors duration-150 ${
-                page === currentPage
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:bg-surface-hover'
-              }`}
+              className={`${pageButtonBase} ${
+                page === currentPage ? activeClasses : inactiveClasses
+              } ${groupedButtonClasses(index, page === currentPage)}`}
             >
               {page}
             </button>
@@ -172,11 +228,9 @@ export function Pagination({
           onClick={() => goTo(currentPage + 1)}
           disabled={currentPage === totalPages}
           aria-label="Next page"
-          className="flex size-8 items-center rtl:rotate-180 justify-center rounded-md border border-borderColor text-muted
-          transition-colors duration-150
-          hover:bg-surface-hover hover:text-foreground
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30
-          disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
+          className={`${arrowBase} rtl:rotate-180 ${
+            grouped ? `${roundRight} -ml-px` : cornerClass
+          }`}
         >
           <ChevronRight size={16} />
         </button>
