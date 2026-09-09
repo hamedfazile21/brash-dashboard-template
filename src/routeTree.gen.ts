@@ -27,6 +27,7 @@ import { Route as PageForgotPasswordForgotPasswordCoverIndexRouteImport } from '
 import { Route as PageForgotPasswordForgotPasswordBasicIndexRouteImport } from './routes/_page/_forgot-password/forgotPassword-basic/index'
 import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } from './routes/_page/_email-verification/emailVerification-cover/index'
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
+import { Route as LayoutElementButtonsIndexRouteImport } from './routes/_layout/_element/buttons/index'
 import { Route as LayoutComponentsTabsIndexRouteImport } from './routes/_layout/_components/tabs/index'
 import { Route as LayoutComponentsModalsIndexRouteImport } from './routes/_layout/_components/modals/index'
 import { Route as LayoutComponentsCardsIndexRouteImport } from './routes/_layout/_components/cards/index'
@@ -132,6 +133,12 @@ const PageEmailVerificationEmailVerificationBasicIndexRoute =
     path: '/emailVerification-basic/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LayoutElementButtonsIndexRoute =
+  LayoutElementButtonsIndexRouteImport.update({
+    id: '/_element/buttons/',
+    path: '/buttons/',
+    getParentRoute: () => LayoutRouteRoute,
+  } as any)
 const LayoutComponentsTabsIndexRoute =
   LayoutComponentsTabsIndexRouteImport.update({
     id: '/_components/tabs/',
@@ -169,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/cards/': typeof LayoutComponentsCardsIndexRoute
   '/modals/': typeof LayoutComponentsModalsIndexRoute
   '/tabs/': typeof LayoutComponentsTabsIndexRoute
+  '/buttons/': typeof LayoutElementButtonsIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -192,6 +200,7 @@ export interface FileRoutesByTo {
   '/cards': typeof LayoutComponentsCardsIndexRoute
   '/modals': typeof LayoutComponentsModalsIndexRoute
   '/tabs': typeof LayoutComponentsTabsIndexRoute
+  '/buttons': typeof LayoutElementButtonsIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -217,6 +226,7 @@ export interface FileRoutesById {
   '/_layout/_components/cards/': typeof LayoutComponentsCardsIndexRoute
   '/_layout/_components/modals/': typeof LayoutComponentsModalsIndexRoute
   '/_layout/_components/tabs/': typeof LayoutComponentsTabsIndexRoute
+  '/_layout/_element/buttons/': typeof LayoutElementButtonsIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/_page/_email-verification/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/_page/_forgot-password/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/cards/'
     | '/modals/'
     | '/tabs/'
+    | '/buttons/'
     | '/emailVerification-basic/'
     | '/emailVerification-cover/'
     | '/forgotPassword-basic/'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/cards'
     | '/modals'
     | '/tabs'
+    | '/buttons'
     | '/emailVerification-basic'
     | '/emailVerification-cover'
     | '/forgotPassword-basic'
@@ -289,6 +301,7 @@ export interface FileRouteTypes {
     | '/_layout/_components/cards/'
     | '/_layout/_components/modals/'
     | '/_layout/_components/tabs/'
+    | '/_layout/_element/buttons/'
     | '/_page/_email-verification/emailVerification-basic/'
     | '/_page/_email-verification/emailVerification-cover/'
     | '/_page/_forgot-password/forgotPassword-basic/'
@@ -444,6 +457,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageEmailVerificationEmailVerificationBasicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/_element/buttons/': {
+      id: '/_layout/_element/buttons/'
+      path: '/buttons'
+      fullPath: '/buttons/'
+      preLoaderRoute: typeof LayoutElementButtonsIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_components/tabs/': {
       id: '/_layout/_components/tabs/'
       path: '/tabs'
@@ -486,6 +506,7 @@ interface LayoutRouteRouteChildren {
   LayoutComponentsCardsIndexRoute: typeof LayoutComponentsCardsIndexRoute
   LayoutComponentsModalsIndexRoute: typeof LayoutComponentsModalsIndexRoute
   LayoutComponentsTabsIndexRoute: typeof LayoutComponentsTabsIndexRoute
+  LayoutElementButtonsIndexRoute: typeof LayoutElementButtonsIndexRoute
 }
 
 const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
@@ -499,6 +520,7 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutComponentsCardsIndexRoute: LayoutComponentsCardsIndexRoute,
   LayoutComponentsModalsIndexRoute: LayoutComponentsModalsIndexRoute,
   LayoutComponentsTabsIndexRoute: LayoutComponentsTabsIndexRoute,
+  LayoutElementButtonsIndexRoute: LayoutElementButtonsIndexRoute,
 }
 
 const LayoutRouteRouteWithChildren = LayoutRouteRoute._addFileChildren(

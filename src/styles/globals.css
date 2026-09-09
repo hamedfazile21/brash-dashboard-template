@@ -134,10 +134,24 @@ button {
     focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
 
-.btn-normal {
-  @applay;
+/* ---- Sizes ----
+   .btn's own p-2/text-sm acts as the implicit "md" default (unchanged,
+   so every existing `className="btn btn-primary"` usage stays correct).
+   .btn-md is a harmless explicit alias for when you want to say it
+   directly; .btn-sm/.btn-lg override the base padding/font-size. */
+.btn-sm {
+  @apply gap-x-1 px-2.5 py-1.5 text-xs;
 }
 
+.btn-md {
+  @apply gap-x-1.5 p-2 text-sm;
+}
+
+.btn-lg {
+  @apply gap-x-2 px-4 py-2.5 text-base;
+}
+
+/* ---- Solid variants ---- */
 .btn-primary {
   @apply border border-transparent bg-primary text-white dark:text-foreground
     shadow-sm shadow-primary/25
@@ -154,8 +168,144 @@ button {
     dark:hover:bg-surface-hover/45;
 }
 
+.btn-success {
+  @apply border border-transparent bg-success text-white dark:text-foreground
+    shadow-sm shadow-success/25
+    hover:bg-[color-mix(in_srgb,var(--color-success)_85%,white)]
+    active:bg-[color-mix(in_srgb,var(--color-success)_88%,black)]
+    focus-visible:ring-success/40;
+}
+
+.btn-danger {
+  @apply border border-transparent bg-danger text-white dark:text-foreground
+    shadow-sm shadow-danger/25
+    hover:bg-[color-mix(in_srgb,var(--color-danger)_85%,white)]
+    active:bg-[color-mix(in_srgb,var(--color-danger)_88%,black)]
+    focus-visible:ring-danger/40;
+}
+
+.btn-info {
+  @apply border border-transparent bg-info text-white dark:text-foreground
+    shadow-sm shadow-info/25
+    hover:bg-[color-mix(in_srgb,var(--color-info)_85%,white)]
+    active:bg-[color-mix(in_srgb,var(--color-info)_88%,black)]
+    focus-visible:ring-info/40;
+}
+
+.btn-warning {
+  @apply border border-transparent bg-warning text-white dark:text-foreground
+    shadow-sm shadow-warning/25
+    hover:bg-[color-mix(in_srgb,var(--color-warning)_85%,white)]
+    active:bg-[color-mix(in_srgb,var(--color-warning)_88%,black)]
+    focus-visible:ring-warning/40;
+}
+
+/* ---- Outline variants ----
+   Transparent background, colored border + text; hover fills with a
+   soft tint of the same color instead of going solid. */
+.btn-primary-outline {
+  @apply border border-primary bg-transparent text-primary
+    hover:bg-primary/10 active:bg-primary/15
+    focus-visible:ring-primary/40;
+}
+
+.btn-secondary-outline {
+  @apply border border-borderColor bg-transparent text-foreground
+    hover:bg-surface-hover active:bg-surface-hover/70
+    focus-visible:ring-primary/30;
+}
+
+.btn-success-outline {
+  @apply border border-success bg-transparent text-success
+    hover:bg-success/10 active:bg-success/15
+    focus-visible:ring-success/40;
+}
+
+.btn-danger-outline {
+  @apply border border-danger bg-transparent text-danger
+    hover:bg-danger/10 active:bg-danger/15
+    focus-visible:ring-danger/40;
+}
+
+.btn-info-outline {
+  @apply border border-info bg-transparent text-info
+    hover:bg-info/10 active:bg-info/15
+    focus-visible:ring-info/40;
+}
+
+.btn-warning-outline {
+  @apply border border-warning bg-transparent text-warning
+    hover:bg-warning/10 active:bg-warning/15
+    focus-visible:ring-warning/40;
+}
+
 .btn-rounded-full {
   @apply rounded-full;
+}
+
+.btn-rounded-full {
+  @apply rounded-full;
+}
+
+.btn-group {
+  @apply inline-flex;
+}
+
+.btn-group > .btn {
+  @apply w-auto rounded-none;
+}
+
+.btn-group > .btn:not(:first-child) {
+  margin-left: -1px; /* collapses the double border into a single line */
+}
+
+.btn-group > .btn:first-child {
+  @apply rounded-l-md;
+}
+
+.btn-group > .btn:last-child {
+  @apply rounded-r-md;
+}
+
+/* Keeps a hovered/focused button's border and focus ring fully visible
+   on top of its neighbors, instead of being partially covered by the
+   next button's -1px overlap. */
+.btn-group > .btn:hover,
+.btn-group > .btn:focus-visible {
+  @apply z-10;
+}
+
+/* Pairs with .btn-rounded-full buttons inside the group — rounds the
+   group's outer edges into full pills instead of the default btn-group
+   corner radius above. */
+.btn-group-full > .btn:first-child {
+  @apply rounded-l-full;
+}
+
+.btn-group-full > .btn:last-child {
+  @apply rounded-r-full;
+}
+
+/* Vertical variant — same collapsed-border idea, stacked top to bottom */
+.btn-group-vertical {
+  @apply inline-flex flex-col;
+}
+
+.btn-group-vertical > .btn {
+  @apply w-full rounded-none;
+}
+
+.btn-group-vertical > .btn:not(:first-child) {
+  margin-left: 0;
+  margin-top: -1px;
+}
+
+.btn-group-vertical > .btn:first-child {
+  @apply rounded-t-md;
+}
+
+.btn-group-vertical > .btn:last-child {
+  @apply rounded-b-md;
 }
 
 .input {
