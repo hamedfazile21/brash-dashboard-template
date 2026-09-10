@@ -218,7 +218,7 @@ export const sidebar_data: SidebarItem[] = [
           },
           {
             title: 'Loaders',
-            href: '/loader',
+            href: '/loaders',
           },
           {
             title: 'Pagination',

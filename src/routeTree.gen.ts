@@ -28,6 +28,7 @@ import { Route as PageForgotPasswordForgotPasswordBasicIndexRouteImport } from '
 import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } from './routes/_page/_email-verification/emailVerification-cover/index'
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
 import { Route as LayoutElementPaginationIndexRouteImport } from './routes/_layout/_element/pagination/index'
+import { Route as LayoutElementLoadersIndexRouteImport } from './routes/_layout/_element/loaders/index'
 import { Route as LayoutElementButtonsIndexRouteImport } from './routes/_layout/_element/buttons/index'
 import { Route as LayoutComponentsTabsIndexRouteImport } from './routes/_layout/_components/tabs/index'
 import { Route as LayoutComponentsModalsIndexRouteImport } from './routes/_layout/_components/modals/index'
@@ -140,6 +141,12 @@ const LayoutElementPaginationIndexRoute =
     path: '/pagination/',
     getParentRoute: () => LayoutRouteRoute,
   } as any)
+const LayoutElementLoadersIndexRoute =
+  LayoutElementLoadersIndexRouteImport.update({
+    id: '/_element/loaders/',
+    path: '/loaders/',
+    getParentRoute: () => LayoutRouteRoute,
+  } as any)
 const LayoutElementButtonsIndexRoute =
   LayoutElementButtonsIndexRouteImport.update({
     id: '/_element/buttons/',
@@ -184,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/modals/': typeof LayoutComponentsModalsIndexRoute
   '/tabs/': typeof LayoutComponentsTabsIndexRoute
   '/buttons/': typeof LayoutElementButtonsIndexRoute
+  '/loaders/': typeof LayoutElementLoadersIndexRoute
   '/pagination/': typeof LayoutElementPaginationIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
@@ -209,6 +217,7 @@ export interface FileRoutesByTo {
   '/modals': typeof LayoutComponentsModalsIndexRoute
   '/tabs': typeof LayoutComponentsTabsIndexRoute
   '/buttons': typeof LayoutElementButtonsIndexRoute
+  '/loaders': typeof LayoutElementLoadersIndexRoute
   '/pagination': typeof LayoutElementPaginationIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
@@ -236,6 +245,7 @@ export interface FileRoutesById {
   '/_layout/_components/modals/': typeof LayoutComponentsModalsIndexRoute
   '/_layout/_components/tabs/': typeof LayoutComponentsTabsIndexRoute
   '/_layout/_element/buttons/': typeof LayoutElementButtonsIndexRoute
+  '/_layout/_element/loaders/': typeof LayoutElementLoadersIndexRoute
   '/_layout/_element/pagination/': typeof LayoutElementPaginationIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/_page/_email-verification/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/modals/'
     | '/tabs/'
     | '/buttons/'
+    | '/loaders/'
     | '/pagination/'
     | '/emailVerification-basic/'
     | '/emailVerification-cover/'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/modals'
     | '/tabs'
     | '/buttons'
+    | '/loaders'
     | '/pagination'
     | '/emailVerification-basic'
     | '/emailVerification-cover'
@@ -314,6 +326,7 @@ export interface FileRouteTypes {
     | '/_layout/_components/modals/'
     | '/_layout/_components/tabs/'
     | '/_layout/_element/buttons/'
+    | '/_layout/_element/loaders/'
     | '/_layout/_element/pagination/'
     | '/_page/_email-verification/emailVerification-basic/'
     | '/_page/_email-verification/emailVerification-cover/'
@@ -477,6 +490,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutElementPaginationIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
+    '/_layout/_element/loaders/': {
+      id: '/_layout/_element/loaders/'
+      path: '/loaders'
+      fullPath: '/loaders/'
+      preLoaderRoute: typeof LayoutElementLoadersIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_element/buttons/': {
       id: '/_layout/_element/buttons/'
       path: '/buttons'
@@ -527,6 +547,7 @@ interface LayoutRouteRouteChildren {
   LayoutComponentsModalsIndexRoute: typeof LayoutComponentsModalsIndexRoute
   LayoutComponentsTabsIndexRoute: typeof LayoutComponentsTabsIndexRoute
   LayoutElementButtonsIndexRoute: typeof LayoutElementButtonsIndexRoute
+  LayoutElementLoadersIndexRoute: typeof LayoutElementLoadersIndexRoute
   LayoutElementPaginationIndexRoute: typeof LayoutElementPaginationIndexRoute
 }
 
@@ -542,6 +563,7 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutComponentsModalsIndexRoute: LayoutComponentsModalsIndexRoute,
   LayoutComponentsTabsIndexRoute: LayoutComponentsTabsIndexRoute,
   LayoutElementButtonsIndexRoute: LayoutElementButtonsIndexRoute,
+  LayoutElementLoadersIndexRoute: LayoutElementLoadersIndexRoute,
   LayoutElementPaginationIndexRoute: LayoutElementPaginationIndexRoute,
 }
 
