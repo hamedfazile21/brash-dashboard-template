@@ -28,6 +28,7 @@ import { Route as PageForgotPasswordForgotPasswordBasicIndexRouteImport } from '
 import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } from './routes/_page/_email-verification/emailVerification-cover/index'
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
 import { Route as LayoutElementTooltipsIndexRouteImport } from './routes/_layout/_element/tooltips/index'
+import { Route as LayoutElementPopoversIndexRouteImport } from './routes/_layout/_element/popovers/index'
 import { Route as LayoutElementPaginationIndexRouteImport } from './routes/_layout/_element/pagination/index'
 import { Route as LayoutElementLoadersIndexRouteImport } from './routes/_layout/_element/loaders/index'
 import { Route as LayoutElementButtonsIndexRouteImport } from './routes/_layout/_element/buttons/index'
@@ -142,6 +143,12 @@ const LayoutElementTooltipsIndexRoute =
     path: '/tooltips/',
     getParentRoute: () => LayoutRouteRoute,
   } as any)
+const LayoutElementPopoversIndexRoute =
+  LayoutElementPopoversIndexRouteImport.update({
+    id: '/_element/popovers/',
+    path: '/popovers/',
+    getParentRoute: () => LayoutRouteRoute,
+  } as any)
 const LayoutElementPaginationIndexRoute =
   LayoutElementPaginationIndexRouteImport.update({
     id: '/_element/pagination/',
@@ -200,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/buttons/': typeof LayoutElementButtonsIndexRoute
   '/loaders/': typeof LayoutElementLoadersIndexRoute
   '/pagination/': typeof LayoutElementPaginationIndexRoute
+  '/popovers/': typeof LayoutElementPopoversIndexRoute
   '/tooltips/': typeof LayoutElementTooltipsIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
@@ -227,6 +235,7 @@ export interface FileRoutesByTo {
   '/buttons': typeof LayoutElementButtonsIndexRoute
   '/loaders': typeof LayoutElementLoadersIndexRoute
   '/pagination': typeof LayoutElementPaginationIndexRoute
+  '/popovers': typeof LayoutElementPopoversIndexRoute
   '/tooltips': typeof LayoutElementTooltipsIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
@@ -256,6 +265,7 @@ export interface FileRoutesById {
   '/_layout/_element/buttons/': typeof LayoutElementButtonsIndexRoute
   '/_layout/_element/loaders/': typeof LayoutElementLoadersIndexRoute
   '/_layout/_element/pagination/': typeof LayoutElementPaginationIndexRoute
+  '/_layout/_element/popovers/': typeof LayoutElementPopoversIndexRoute
   '/_layout/_element/tooltips/': typeof LayoutElementTooltipsIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/_page/_email-verification/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
@@ -285,6 +295,7 @@ export interface FileRouteTypes {
     | '/buttons/'
     | '/loaders/'
     | '/pagination/'
+    | '/popovers/'
     | '/tooltips/'
     | '/emailVerification-basic/'
     | '/emailVerification-cover/'
@@ -312,6 +323,7 @@ export interface FileRouteTypes {
     | '/buttons'
     | '/loaders'
     | '/pagination'
+    | '/popovers'
     | '/tooltips'
     | '/emailVerification-basic'
     | '/emailVerification-cover'
@@ -340,6 +352,7 @@ export interface FileRouteTypes {
     | '/_layout/_element/buttons/'
     | '/_layout/_element/loaders/'
     | '/_layout/_element/pagination/'
+    | '/_layout/_element/popovers/'
     | '/_layout/_element/tooltips/'
     | '/_page/_email-verification/emailVerification-basic/'
     | '/_page/_email-verification/emailVerification-cover/'
@@ -503,6 +516,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutElementTooltipsIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
+    '/_layout/_element/popovers/': {
+      id: '/_layout/_element/popovers/'
+      path: '/popovers'
+      fullPath: '/popovers/'
+      preLoaderRoute: typeof LayoutElementPopoversIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_element/pagination/': {
       id: '/_layout/_element/pagination/'
       path: '/pagination'
@@ -569,6 +589,7 @@ interface LayoutRouteRouteChildren {
   LayoutElementButtonsIndexRoute: typeof LayoutElementButtonsIndexRoute
   LayoutElementLoadersIndexRoute: typeof LayoutElementLoadersIndexRoute
   LayoutElementPaginationIndexRoute: typeof LayoutElementPaginationIndexRoute
+  LayoutElementPopoversIndexRoute: typeof LayoutElementPopoversIndexRoute
   LayoutElementTooltipsIndexRoute: typeof LayoutElementTooltipsIndexRoute
 }
 
@@ -586,6 +607,7 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutElementButtonsIndexRoute: LayoutElementButtonsIndexRoute,
   LayoutElementLoadersIndexRoute: LayoutElementLoadersIndexRoute,
   LayoutElementPaginationIndexRoute: LayoutElementPaginationIndexRoute,
+  LayoutElementPopoversIndexRoute: LayoutElementPopoversIndexRoute,
   LayoutElementTooltipsIndexRoute: LayoutElementTooltipsIndexRoute,
 }
 

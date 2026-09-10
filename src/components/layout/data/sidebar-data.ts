@@ -213,8 +213,8 @@ export const sidebar_data: SidebarItem[] = [
             href: '/buttons',
           },
           {
-            title: 'Dropdowns',
-            href: '/dropdown',
+            title: 'Popovers',
+            href: '/popovers',
           },
           {
             title: 'Loaders',
