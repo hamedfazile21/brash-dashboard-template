@@ -10,7 +10,16 @@ const PopoverShowCase = () => {
         <h1 className="text-xl font-semibold text-foreground">Popover</h1>
         <p className="mt-1 text-sm text-muted">
           Placement, trigger type, close behavior, arrow, and controlled state —
-          all in one component built on Floating UI.
+          all in one component built on{' '}
+          <a
+            href="https://floating-ui.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-primary hover:underline"
+          >
+            Floating UI
+          </a>
+          .
         </p>
       </div>
 

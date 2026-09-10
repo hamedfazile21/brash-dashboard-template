@@ -96,7 +96,7 @@ const Header = () => {
       icon: <Mail size={18} />,
     },
     {
-      className: `text-danger! hover:bg-surface-hover`,
+      className: `text-danger! hover:bg-danger/10`,
       onClick: () => {},
       title: 'Logout',
       icon: <LogOut size={18} />,
