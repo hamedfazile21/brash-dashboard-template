@@ -319,7 +319,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
       </div>
 
       <Popover
-        className="w-38 p-0! py-1!"
+        className="w-38 p-1!"
         trigger={
           <button className="btn btn-secondary py-1.5! border-dashed">
             <span>
