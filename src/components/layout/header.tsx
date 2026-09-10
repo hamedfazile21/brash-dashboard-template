@@ -1,4 +1,3 @@
-import Dropdown from '../drop-down'
 import {
   CircleUser,
   Globe,
