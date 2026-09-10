@@ -1,10 +1,10 @@
 import CheckBox from '#/components/checkbox'
-import Dropdown from '#/components/drop-down'
 import { Ellipsis, SquarePen, Star, StarOff, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { TodoType } from '../data/todos'
 import { useTodo } from './todo-provider'
 import type { Dispatch, SetStateAction } from 'react'
+import Popover from '#/components/popover'
 
 interface TaskRowProps {
   rowKey: number
@@ -70,6 +70,28 @@ function TodoRow({ rowKey, setActiveItem, item }: TaskRowProps) {
     setTodos(deleteData)
   }
 
+  const ellipsisData = [
+    {
+      className: `hover:bg-surface-hover`,
+      onClick: () => handelFormEdit(item),
+      title: 'Edit',
+      icon: <SquarePen size={18} />,
+    },
+
+    {
+      className: `hover:bg-surface-hover`,
+      onClick: () => handelToggleImportant(item.id),
+      title: item.isImportant ? 'Not Important' : 'Important',
+      icon: item.isImportant ? <StarOff size={18} /> : <Star size={18} />,
+    },
+    {
+      className: `text-red-500 hover:bg-surface-hover`,
+      onClick: () => handelDeleteTask(item.id),
+      title: 'Delete',
+      icon: <Trash2 size={18} />,
+    },
+  ]
+
   return (
     <div
       key={rowKey}
@@ -119,39 +141,39 @@ function TodoRow({ rowKey, setActiveItem, item }: TaskRowProps) {
             <img src={item.assignee} />
           </div>
 
-          <Dropdown
-            menuItemClassName="!w-[150px]"
-            menuButtonClassName="bg-transparent! border-0! shadow-none! p-0!"
-            menuButtonContent={
-              <div className="flex items-center text-foreground">
+          <Popover
+            className="w-37.5"
+            trigger={
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                }}
+                className="flex items-center text-foreground"
+              >
                 <Ellipsis size={18} />
+              </button>
+            }
+            children={
+              <div>
+                {ellipsisData.map((item, index) => {
+                  return (
+                    <button
+                      key={index}
+                      onClick={item.onClick}
+                      className={`group relative flex w-full items-center gap-x-1 rounded-lg p-2 text-start text-sm text-foreground
+                  transition-colors duration-150
+                  data-focus:outline-hidden ${item.className}`}
+                    >
+                      <span className="shrink-0 transition-transform duration-150 group-hover:scale-110">
+                        {item.icon}
+                      </span>
+                      <span className="text-system">{t(`${item.title}`)}</span>
+                    </button>
+                  )
+                })}
               </div>
             }
-            menuItemContent={[
-              {
-                className: ``,
-                onClick: () => handelFormEdit(item),
-                title: 'Edit',
-                icon: <SquarePen size={18} />,
-              },
-
-              {
-                className: ``,
-                onClick: () => handelToggleImportant(item.id),
-                title: item.isImportant ? 'Not Important' : 'Important',
-                icon: item.isImportant ? (
-                  <StarOff size={18} />
-                ) : (
-                  <Star size={18} />
-                ),
-              },
-              {
-                className: `text-red-500`,
-                onClick: () => handelDeleteTask(item.id),
-                title: 'Delete',
-                icon: <Trash2 size={18} />,
-              },
-            ]}
           />
         </div>
       </div>

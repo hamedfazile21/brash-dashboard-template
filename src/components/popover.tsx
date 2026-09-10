@@ -100,7 +100,9 @@ export function Popover({
   ])
   const shouldCloseOnSelect = closeOn === 'select' || closeOn === 'both'
 
-  const handleContentClick = () => {
+  const handleContentClick = (e: Event) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (shouldCloseOnSelect) {
       setOpen(false)
     }
@@ -141,8 +143,8 @@ export function Popover({
             >
               <div
                 style={transitionStyles}
-                onClick={handleContentClick}
-                className={` rounded-lg border border-white/10 bg-surface/40 p-1.5
+                onClick={(e: any) => handleContentClick(e)}
+                className={` rounded-xl border border-white/10 bg-surface/40 p-1
                   backdrop-blur-xl backdrop-saturate-150
                   shadow-lg shadow-black/10 ring-1 ring-black/5
                   dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30
