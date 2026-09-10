@@ -1,36 +1,3 @@
-// import React from 'react'
-// import Tippy from '@tippyjs/react'
-// import type { Placement } from 'tippy.js'
-// import 'tippy.js/dist/tippy.css'
-
-// interface TooltipProps {
-//   placement?: Placement
-//   content: React.ReactNode
-//   children: React.ReactElement
-//   className?: string
-// }
-
-// export default function Tooltip({
-//   placement = 'top',
-//   content,
-//   children,
-//   className,
-// }: TooltipProps) {
-//   return (
-//     <Tippy
-//       className={className}
-//       placement={placement}
-//       animation={`custom-${placement}`}
-//       content={content}
-//       theme="dashboard"
-//       duration={[180, 120]}
-//       delay={[50, 0]}
-//     >
-//       <span>{children}</span>
-//     </Tippy>
-//   )
-// }
-
 import { cloneElement, isValidElement, useRef, useState } from 'react'
 import type { ReactElement, ReactNode } from 'react'
 import {
@@ -60,6 +27,9 @@ type Placement =
   | 'left'
   | 'right'
 
+export type TooltipVariant =
+  'primary' | 'secondary' | 'success' | 'danger' | 'info' | 'warning'
+
 interface TooltipProps {
   /** The trigger element — must accept a ref (a native element or forwardRef component) */
   children: ReactElement
@@ -69,6 +39,48 @@ interface TooltipProps {
   delay?: number
   disabled?: boolean
   className?: string
+  /** 'secondary' (default) is the neutral glass look. The rest render a
+   * solid colored bubble matching that semantic color. */
+  variant?: TooltipVariant
+}
+
+// Each variant is a pair: the bubble's own classes, and the arrow's fill
+// class (arrows can't inherit `background-color` the way a div can, so
+// they need their own explicit color).
+const variantClasses: Record<
+  TooltipVariant,
+  { bubble: string; arrow: string }
+> = {
+  secondary: {
+    bubble: `border border-white/10 bg-surface/40 text-foreground
+      backdrop-blur-xl backdrop-saturate-150 shadow-lg shadow-black/10 ring-1 ring-black/5
+      dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30`,
+    arrow: 'fill-surface/40 dark:fill-surface/35',
+  },
+  primary: {
+    bubble:
+      'bg-primary text-white dark:text-foreground shadow-lg shadow-primary/25',
+    arrow: 'fill-primary',
+  },
+  success: {
+    bubble:
+      'bg-success text-white dark:text-foreground shadow-lg shadow-success/25',
+    arrow: 'fill-success',
+  },
+  danger: {
+    bubble:
+      'bg-danger text-white dark:text-foreground shadow-lg shadow-danger/25',
+    arrow: 'fill-danger',
+  },
+  info: {
+    bubble: 'bg-info text-white dark:text-foreground shadow-lg shadow-info/25',
+    arrow: 'fill-info',
+  },
+  warning: {
+    bubble:
+      'bg-warning text-white dark:text-foreground shadow-lg shadow-warning/25',
+    arrow: 'fill-warning',
+  },
 }
 
 export function Tooltip({
@@ -78,6 +90,7 @@ export function Tooltip({
   delay = 150,
   disabled = false,
   className,
+  variant = 'secondary',
 }: TooltipProps) {
   const [open, setOpen] = useState(false)
   const arrowRef = useRef<SVGSVGElement>(null)
@@ -129,6 +142,8 @@ export function Tooltip({
 
   if (!isValidElement(children) || !content) return children
 
+  const { bubble, arrow } = variantClasses[variant]
+
   return (
     <>
       {cloneElement(
@@ -144,22 +159,19 @@ export function Tooltip({
           <div
             ref={refs.setFloating}
             style={floatingStyles}
-            className={`z-50 ${className}`}
+            className={`z-50 ${className ?? ''}`}
             {...getFloatingProps()}
           >
             <div
               style={transitionStyles}
-              className="rounded-lg border border-white/10 bg-surface/40 px-2.5 py-1.5
-                text-sm font-medium text-foreground backdrop-blur-xl backdrop-saturate-150
-                shadow-lg shadow-black/10 ring-1 ring-black/5
-                dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30"
+              className={`rounded-lg px-2.5 py-1.5 text-sm font-medium ${bubble}`}
             >
               {content}
             </div>
             <FloatingArrow
               ref={arrowRef}
               context={context}
-              className="fill-surface/40 dark:fill-surface/35"
+              className={arrow}
               width={10}
               height={5}
             />

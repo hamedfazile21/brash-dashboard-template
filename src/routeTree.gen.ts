@@ -27,6 +27,7 @@ import { Route as PageForgotPasswordForgotPasswordCoverIndexRouteImport } from '
 import { Route as PageForgotPasswordForgotPasswordBasicIndexRouteImport } from './routes/_page/_forgot-password/forgotPassword-basic/index'
 import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } from './routes/_page/_email-verification/emailVerification-cover/index'
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
+import { Route as LayoutElementTooltipsIndexRouteImport } from './routes/_layout/_element/tooltips/index'
 import { Route as LayoutElementPaginationIndexRouteImport } from './routes/_layout/_element/pagination/index'
 import { Route as LayoutElementLoadersIndexRouteImport } from './routes/_layout/_element/loaders/index'
 import { Route as LayoutElementButtonsIndexRouteImport } from './routes/_layout/_element/buttons/index'
@@ -135,6 +136,12 @@ const PageEmailVerificationEmailVerificationBasicIndexRoute =
     path: '/emailVerification-basic/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LayoutElementTooltipsIndexRoute =
+  LayoutElementTooltipsIndexRouteImport.update({
+    id: '/_element/tooltips/',
+    path: '/tooltips/',
+    getParentRoute: () => LayoutRouteRoute,
+  } as any)
 const LayoutElementPaginationIndexRoute =
   LayoutElementPaginationIndexRouteImport.update({
     id: '/_element/pagination/',
@@ -193,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/buttons/': typeof LayoutElementButtonsIndexRoute
   '/loaders/': typeof LayoutElementLoadersIndexRoute
   '/pagination/': typeof LayoutElementPaginationIndexRoute
+  '/tooltips/': typeof LayoutElementTooltipsIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -219,6 +227,7 @@ export interface FileRoutesByTo {
   '/buttons': typeof LayoutElementButtonsIndexRoute
   '/loaders': typeof LayoutElementLoadersIndexRoute
   '/pagination': typeof LayoutElementPaginationIndexRoute
+  '/tooltips': typeof LayoutElementTooltipsIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -247,6 +256,7 @@ export interface FileRoutesById {
   '/_layout/_element/buttons/': typeof LayoutElementButtonsIndexRoute
   '/_layout/_element/loaders/': typeof LayoutElementLoadersIndexRoute
   '/_layout/_element/pagination/': typeof LayoutElementPaginationIndexRoute
+  '/_layout/_element/tooltips/': typeof LayoutElementTooltipsIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/_page/_email-verification/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/_page/_forgot-password/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -275,6 +285,7 @@ export interface FileRouteTypes {
     | '/buttons/'
     | '/loaders/'
     | '/pagination/'
+    | '/tooltips/'
     | '/emailVerification-basic/'
     | '/emailVerification-cover/'
     | '/forgotPassword-basic/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/buttons'
     | '/loaders'
     | '/pagination'
+    | '/tooltips'
     | '/emailVerification-basic'
     | '/emailVerification-cover'
     | '/forgotPassword-basic'
@@ -328,6 +340,7 @@ export interface FileRouteTypes {
     | '/_layout/_element/buttons/'
     | '/_layout/_element/loaders/'
     | '/_layout/_element/pagination/'
+    | '/_layout/_element/tooltips/'
     | '/_page/_email-verification/emailVerification-basic/'
     | '/_page/_email-verification/emailVerification-cover/'
     | '/_page/_forgot-password/forgotPassword-basic/'
@@ -483,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageEmailVerificationEmailVerificationBasicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/_element/tooltips/': {
+      id: '/_layout/_element/tooltips/'
+      path: '/tooltips'
+      fullPath: '/tooltips/'
+      preLoaderRoute: typeof LayoutElementTooltipsIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_element/pagination/': {
       id: '/_layout/_element/pagination/'
       path: '/pagination'
@@ -549,6 +569,7 @@ interface LayoutRouteRouteChildren {
   LayoutElementButtonsIndexRoute: typeof LayoutElementButtonsIndexRoute
   LayoutElementLoadersIndexRoute: typeof LayoutElementLoadersIndexRoute
   LayoutElementPaginationIndexRoute: typeof LayoutElementPaginationIndexRoute
+  LayoutElementTooltipsIndexRoute: typeof LayoutElementTooltipsIndexRoute
 }
 
 const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
@@ -565,6 +586,7 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutElementButtonsIndexRoute: LayoutElementButtonsIndexRoute,
   LayoutElementLoadersIndexRoute: LayoutElementLoadersIndexRoute,
   LayoutElementPaginationIndexRoute: LayoutElementPaginationIndexRoute,
+  LayoutElementTooltipsIndexRoute: LayoutElementTooltipsIndexRoute,
 }
 
 const LayoutRouteRouteWithChildren = LayoutRouteRoute._addFileChildren(
