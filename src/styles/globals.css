@@ -375,6 +375,11 @@ button {
   background-size: 100%;
 }
 
+.checkbox-outline,
+.checkbox-rounded-full-outline {
+  @apply border-primary bg-transparent;
+}
+
 .checkbox-sm {
   @apply size-4;
 }

@@ -96,6 +96,7 @@ function DatePicker({
         onOpenChange={disabled ? undefined : setOpen}
         placement="bottom-start"
         showArrow={false}
+        closeOn='outside'
         trigger={
           <button
             type="button"

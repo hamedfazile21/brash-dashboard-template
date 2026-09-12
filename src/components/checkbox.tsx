@@ -6,6 +6,7 @@ interface props {
   isIndeterminate?: boolean
   reset?: React.ComponentProps<'input'>
   rounded?: boolean
+  outline?: boolean
   size?: 'sm' | 'md' | 'lg'
 }
 
@@ -14,13 +15,16 @@ const CheckBox: React.FC<props> = ({
   onChange,
   isIndeterminate,
   rounded,
+  outline,
   reset,
   size = 'md',
 }) => {
+  const shapeClass = rounded ? 'checkbox-rounded-full' : 'checkbox'
+
   return (
     <input
       type="checkbox"
-      className={`${rounded ? 'checkbox-rounded-full' : 'checkbox'} checkbox-${size}`}
+      className={`${shapeClass} ${outline ? `${shapeClass}-outline` : ''} checkbox-${size}`}
       checked={checked}
       ref={(element) => {
         if (element) {

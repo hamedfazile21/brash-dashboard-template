@@ -279,6 +279,10 @@ export const sidebar_data: SidebarItem[] = [
             title: 'Date Picker',
             href: '/date-picker',
           },
+          {
+            title: 'Checkbox & Radio',
+            href: '/checkbox-radio',
+          },
         ],
       },
     ],
