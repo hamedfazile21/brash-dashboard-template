@@ -27,6 +27,7 @@ import { Route as PageForgotPasswordForgotPasswordCoverIndexRouteImport } from '
 import { Route as PageForgotPasswordForgotPasswordBasicIndexRouteImport } from './routes/_page/_forgot-password/forgotPassword-basic/index'
 import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } from './routes/_page/_email-verification/emailVerification-cover/index'
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
+import { Route as LayoutFormSelectIndexRouteImport } from './routes/_layout/_form/select/index'
 import { Route as LayoutFormInputsIndexRouteImport } from './routes/_layout/_form/inputs/index'
 import { Route as LayoutElementTooltipsIndexRouteImport } from './routes/_layout/_element/tooltips/index'
 import { Route as LayoutElementPopoversIndexRouteImport } from './routes/_layout/_element/popovers/index'
@@ -138,6 +139,11 @@ const PageEmailVerificationEmailVerificationBasicIndexRoute =
     path: '/emailVerification-basic/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LayoutFormSelectIndexRoute = LayoutFormSelectIndexRouteImport.update({
+  id: '/_form/select/',
+  path: '/select/',
+  getParentRoute: () => LayoutRouteRoute,
+} as any)
 const LayoutFormInputsIndexRoute = LayoutFormInputsIndexRouteImport.update({
   id: '/_form/inputs/',
   path: '/inputs/',
@@ -216,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/popovers/': typeof LayoutElementPopoversIndexRoute
   '/tooltips/': typeof LayoutElementTooltipsIndexRoute
   '/inputs/': typeof LayoutFormInputsIndexRoute
+  '/select/': typeof LayoutFormSelectIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/popovers': typeof LayoutElementPopoversIndexRoute
   '/tooltips': typeof LayoutElementTooltipsIndexRoute
   '/inputs': typeof LayoutFormInputsIndexRoute
+  '/select': typeof LayoutFormSelectIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/_layout/_element/popovers/': typeof LayoutElementPopoversIndexRoute
   '/_layout/_element/tooltips/': typeof LayoutElementTooltipsIndexRoute
   '/_layout/_form/inputs/': typeof LayoutFormInputsIndexRoute
+  '/_layout/_form/select/': typeof LayoutFormSelectIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/_page/_email-verification/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/_page/_forgot-password/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -307,6 +316,7 @@ export interface FileRouteTypes {
     | '/popovers/'
     | '/tooltips/'
     | '/inputs/'
+    | '/select/'
     | '/emailVerification-basic/'
     | '/emailVerification-cover/'
     | '/forgotPassword-basic/'
@@ -336,6 +346,7 @@ export interface FileRouteTypes {
     | '/popovers'
     | '/tooltips'
     | '/inputs'
+    | '/select'
     | '/emailVerification-basic'
     | '/emailVerification-cover'
     | '/forgotPassword-basic'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/_layout/_element/popovers/'
     | '/_layout/_element/tooltips/'
     | '/_layout/_form/inputs/'
+    | '/_layout/_form/select/'
     | '/_page/_email-verification/emailVerification-basic/'
     | '/_page/_email-verification/emailVerification-cover/'
     | '/_page/_forgot-password/forgotPassword-basic/'
@@ -521,6 +533,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageEmailVerificationEmailVerificationBasicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/_form/select/': {
+      id: '/_layout/_form/select/'
+      path: '/select'
+      fullPath: '/select/'
+      preLoaderRoute: typeof LayoutFormSelectIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_form/inputs/': {
       id: '/_layout/_form/inputs/'
       path: '/inputs'
@@ -611,6 +630,7 @@ interface LayoutRouteRouteChildren {
   LayoutElementPopoversIndexRoute: typeof LayoutElementPopoversIndexRoute
   LayoutElementTooltipsIndexRoute: typeof LayoutElementTooltipsIndexRoute
   LayoutFormInputsIndexRoute: typeof LayoutFormInputsIndexRoute
+  LayoutFormSelectIndexRoute: typeof LayoutFormSelectIndexRoute
 }
 
 const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
@@ -630,6 +650,7 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutElementPopoversIndexRoute: LayoutElementPopoversIndexRoute,
   LayoutElementTooltipsIndexRoute: LayoutElementTooltipsIndexRoute,
   LayoutFormInputsIndexRoute: LayoutFormInputsIndexRoute,
+  LayoutFormSelectIndexRoute: LayoutFormSelectIndexRoute,
 }
 
 const LayoutRouteRouteWithChildren = LayoutRouteRoute._addFileChildren(

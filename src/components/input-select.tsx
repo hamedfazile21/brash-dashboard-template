@@ -28,6 +28,7 @@ interface SelectProps<
   error?: string
   required?: boolean
 }
+
 const glassClassNames: ClassNamesConfig<
   SelectOption,
   boolean,
@@ -50,7 +51,15 @@ const glassClassNames: ClassNamesConfig<
     `z-50 mt-2 rounded-xl border border-black/8 bg-surface/90 p-1 shadow-lg shadow-black/5
      backdrop-blur-xl backdrop-saturate-150
      dark:border-white/10 dark:bg-surface/80 dark:shadow-black/20`,
+
+  menuPortal: () => 'z-[9999]',
   menuList: () => 'space-y-0.5 max-h-60 overflow-y-auto scrollbar-thin',
+
+  groupHeading: () =>
+    'px-3 pb-1.5 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted first:pt-0.5',
+
+  group: () =>
+    'border-t border-borderColor/50 pt-1 first:border-t-0 first:pt-0',
   option: (state) =>
     `flex items-center justify-between rounded-lg px-3 py-2 text-sm cursor-pointer! transition-colors duration-150 opacity-100 ${
       state.isSelected
@@ -158,6 +167,9 @@ function InputSelect<
       <ReactSelect<Option, IsMulti, GroupBase<Option>>
         inputId={id}
         unstyled
+        menuPortalTarget={
+          typeof document !== 'undefined' ? document.body : undefined
+        }
         classNames={
           glassClassNames as ClassNamesConfig<
             Option,
