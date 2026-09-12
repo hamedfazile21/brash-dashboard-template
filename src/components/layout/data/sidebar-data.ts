@@ -281,7 +281,7 @@ export const sidebar_data: SidebarItem[] = [
           },
           {
             title: 'Checkbox & Radio',
-            href: '/checkbox-radio',
+            href: '/checkbox-and-radio',
           },
         ],
       },
