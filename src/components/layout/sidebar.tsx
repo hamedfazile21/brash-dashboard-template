@@ -90,7 +90,7 @@ const Sidebar = () => {
   const renderSubNavItem = (item: any) => {
     const titleMessage = getTruncatedTitle(item.title)
     return (
-      <div className="mt-1 flex flex-col gap-y-1 ">
+      <div className="flex flex-col gap-y-1">
         {sidebarStatus === 'collapsible-vertical' && (
           <p className="mb-1 flex items-center gap-x-3 px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
             {titleMessage !== item.title ? (
@@ -234,23 +234,24 @@ const Sidebar = () => {
         {hasChildren && sidebarStatus !== 'collapsible-vertical' && (
           <div
             className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-in-out ${
-              isOpen ? 'mt-1 grid-rows-[1fr]' : 'grid-rows-[0fr]'
+              isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
             }`}
           >
-            <div className="min-h-0">{renderSubNavItem(item)}</div>
+            <div className="min-h-0 mt-1">{renderSubNavItem(item)}</div>
           </div>
         )}
 
         {/* flyout submenu (collapsed sidebar) */}
         <FloatingPortal>
           <Transition
+            static
             show={isFlyoutOpen}
-            enter="transition duration-150 ease-out"
-            enterFrom="opacity-0 scale-95 -translate-x-1 rtl:translate-x-1 rtl:scale-95"
-            enterTo="opacity-100 scale-100 translate-x-0"
-            leave="transition duration-100 ease-in"
-            leaveFrom="opacity-100 scale-100 translate-x-0"
-            leaveTo="opacity-0 scale-95 -translate-x-1 rtl:translate-x-1"
+            enter="transition-opacity duration-150 ease-out"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-100 ease-in"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
             <div
               ref={refs.setFloating}
@@ -360,7 +361,7 @@ const Sidebar = () => {
       <div>
         <button
           onClick={handedToggleSidebar}
-          className={`hidden lg:block absolute bottom-3 ${sidebarStatus === 'vertical' ? "ltr:right-3 rtl:left-3" : "ltr:right-6 rtl:left-6"} rounded-full border border-borderColor bg-background p-2 text-foreground shadow-sm transition hover:bg-surface-hover hover:text-primary`}
+          className={`hidden lg:block absolute bottom-3 ${sidebarStatus === 'vertical' ? 'ltr:right-3 rtl:left-3' : 'ltr:right-6 rtl:left-6'} rounded-full border border-borderColor bg-background p-2 text-foreground shadow-sm transition hover:bg-surface-hover hover:text-primary`}
         >
           <ChevronFirst
             className={`transition-transform duration-300 ${sidebarStatus === 'collapsible-vertical' ? 'rotate-180' : 'rotate-0'}`}
