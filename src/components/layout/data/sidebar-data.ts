@@ -268,12 +268,12 @@ export const sidebar_data: SidebarItem[] = [
         href: '/forms',
         children: [
           {
-            title: 'Modals',
-            href: '/modals-',
+            title: 'Inputs',
+            href: '/inputs',
           },
           {
-            title: 'Tabs',
-            href: '/tabs-',
+            title: 'Select',
+            href: '/select',
           },
         ],
       },
