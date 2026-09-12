@@ -30,8 +30,12 @@ const Sidebar = () => {
   const { sidebarStatus, direction, themeMode } = useAppSelector(
     (state) => state.themeConfig,
   )
+  const [systemPrefersDark, setSystemPrefersDark] = useState(false)
   const navigate = useNavigate()
   const [submenuActiveTab, setSubmenuActiveTab] = useState<string>('')
+
+  const isDarkTheme =
+    themeMode === 'dark' || (themeMode === 'system' && systemPrefersDark)
 
   const getTruncatedTitle = (title: string) => {
     const limit = sidebarStatus === 'collapsible-vertical' ? 7 : 20
@@ -85,6 +89,18 @@ const Sidebar = () => {
 
     // Clean up listener on component unmount
     return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleThemeChange = (event: MediaQueryListEvent) => {
+      setSystemPrefersDark(event.matches)
+    }
+
+    setSystemPrefersDark(mediaQuery.matches)
+    mediaQuery.addEventListener('change', handleThemeChange)
+
+    return () => mediaQuery.removeEventListener('change', handleThemeChange)
   }, [])
 
   const renderSubNavItem = (item: any) => {
@@ -318,7 +334,7 @@ const Sidebar = () => {
       >
         {sidebarStatus === 'vertical' ? (
           <>
-            {themeMode === 'dark' ? (
+            {isDarkTheme ? (
               <img src={LogoDarkRow} className="w-32.5" />
             ) : (
               <img src={LogoLightRow} className="w-32.5" />
@@ -326,7 +342,7 @@ const Sidebar = () => {
           </>
         ) : (
           <>
-            {themeMode === 'dark' ? (
+            {isDarkTheme ? (
               <img src={LogoDark} className="size-10" />
             ) : (
               <img src={LogoLight} className="size-10" />
