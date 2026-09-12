@@ -275,6 +275,10 @@ export const sidebar_data: SidebarItem[] = [
             title: 'Select',
             href: '/select',
           },
+          {
+            title: 'Date Picker',
+            href: '/date-picker',
+          },
         ],
       },
     ],

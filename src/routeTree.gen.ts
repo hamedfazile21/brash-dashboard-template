@@ -29,6 +29,7 @@ import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } 
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
 import { Route as LayoutFormSelectIndexRouteImport } from './routes/_layout/_form/select/index'
 import { Route as LayoutFormInputsIndexRouteImport } from './routes/_layout/_form/inputs/index'
+import { Route as LayoutFormDatePickerIndexRouteImport } from './routes/_layout/_form/date-picker/index'
 import { Route as LayoutElementTooltipsIndexRouteImport } from './routes/_layout/_element/tooltips/index'
 import { Route as LayoutElementPopoversIndexRouteImport } from './routes/_layout/_element/popovers/index'
 import { Route as LayoutElementPaginationIndexRouteImport } from './routes/_layout/_element/pagination/index'
@@ -149,6 +150,12 @@ const LayoutFormInputsIndexRoute = LayoutFormInputsIndexRouteImport.update({
   path: '/inputs/',
   getParentRoute: () => LayoutRouteRoute,
 } as any)
+const LayoutFormDatePickerIndexRoute =
+  LayoutFormDatePickerIndexRouteImport.update({
+    id: '/_form/date-picker/',
+    path: '/date-picker/',
+    getParentRoute: () => LayoutRouteRoute,
+  } as any)
 const LayoutElementTooltipsIndexRoute =
   LayoutElementTooltipsIndexRouteImport.update({
     id: '/_element/tooltips/',
@@ -221,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/pagination/': typeof LayoutElementPaginationIndexRoute
   '/popovers/': typeof LayoutElementPopoversIndexRoute
   '/tooltips/': typeof LayoutElementTooltipsIndexRoute
+  '/date-picker/': typeof LayoutFormDatePickerIndexRoute
   '/inputs/': typeof LayoutFormInputsIndexRoute
   '/select/': typeof LayoutFormSelectIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
@@ -251,6 +259,7 @@ export interface FileRoutesByTo {
   '/pagination': typeof LayoutElementPaginationIndexRoute
   '/popovers': typeof LayoutElementPopoversIndexRoute
   '/tooltips': typeof LayoutElementTooltipsIndexRoute
+  '/date-picker': typeof LayoutFormDatePickerIndexRoute
   '/inputs': typeof LayoutFormInputsIndexRoute
   '/select': typeof LayoutFormSelectIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
@@ -283,6 +292,7 @@ export interface FileRoutesById {
   '/_layout/_element/pagination/': typeof LayoutElementPaginationIndexRoute
   '/_layout/_element/popovers/': typeof LayoutElementPopoversIndexRoute
   '/_layout/_element/tooltips/': typeof LayoutElementTooltipsIndexRoute
+  '/_layout/_form/date-picker/': typeof LayoutFormDatePickerIndexRoute
   '/_layout/_form/inputs/': typeof LayoutFormInputsIndexRoute
   '/_layout/_form/select/': typeof LayoutFormSelectIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/pagination/'
     | '/popovers/'
     | '/tooltips/'
+    | '/date-picker/'
     | '/inputs/'
     | '/select/'
     | '/emailVerification-basic/'
@@ -345,6 +356,7 @@ export interface FileRouteTypes {
     | '/pagination'
     | '/popovers'
     | '/tooltips'
+    | '/date-picker'
     | '/inputs'
     | '/select'
     | '/emailVerification-basic'
@@ -376,6 +388,7 @@ export interface FileRouteTypes {
     | '/_layout/_element/pagination/'
     | '/_layout/_element/popovers/'
     | '/_layout/_element/tooltips/'
+    | '/_layout/_form/date-picker/'
     | '/_layout/_form/inputs/'
     | '/_layout/_form/select/'
     | '/_page/_email-verification/emailVerification-basic/'
@@ -547,6 +560,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutFormInputsIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
+    '/_layout/_form/date-picker/': {
+      id: '/_layout/_form/date-picker/'
+      path: '/date-picker'
+      fullPath: '/date-picker/'
+      preLoaderRoute: typeof LayoutFormDatePickerIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_element/tooltips/': {
       id: '/_layout/_element/tooltips/'
       path: '/tooltips'
@@ -629,6 +649,7 @@ interface LayoutRouteRouteChildren {
   LayoutElementPaginationIndexRoute: typeof LayoutElementPaginationIndexRoute
   LayoutElementPopoversIndexRoute: typeof LayoutElementPopoversIndexRoute
   LayoutElementTooltipsIndexRoute: typeof LayoutElementTooltipsIndexRoute
+  LayoutFormDatePickerIndexRoute: typeof LayoutFormDatePickerIndexRoute
   LayoutFormInputsIndexRoute: typeof LayoutFormInputsIndexRoute
   LayoutFormSelectIndexRoute: typeof LayoutFormSelectIndexRoute
 }
@@ -649,6 +670,7 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutElementPaginationIndexRoute: LayoutElementPaginationIndexRoute,
   LayoutElementPopoversIndexRoute: LayoutElementPopoversIndexRoute,
   LayoutElementTooltipsIndexRoute: LayoutElementTooltipsIndexRoute,
+  LayoutFormDatePickerIndexRoute: LayoutFormDatePickerIndexRoute,
   LayoutFormInputsIndexRoute: LayoutFormInputsIndexRoute,
   LayoutFormSelectIndexRoute: LayoutFormSelectIndexRoute,
 }
