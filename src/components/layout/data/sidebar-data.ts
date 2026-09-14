@@ -200,6 +200,10 @@ export const sidebar_data: SidebarItem[] = [
             title: 'Cards',
             href: '/cards',
           },
+          {
+            title: 'Notifications',
+            href: '/notifications',
+          },
         ],
       },
       {

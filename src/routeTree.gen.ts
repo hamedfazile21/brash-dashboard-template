@@ -38,6 +38,7 @@ import { Route as LayoutElementPaginationIndexRouteImport } from './routes/_layo
 import { Route as LayoutElementLoadersIndexRouteImport } from './routes/_layout/_element/loaders/index'
 import { Route as LayoutElementButtonsIndexRouteImport } from './routes/_layout/_element/buttons/index'
 import { Route as LayoutComponentsTabsIndexRouteImport } from './routes/_layout/_components/tabs/index'
+import { Route as LayoutComponentsNotificationsIndexRouteImport } from './routes/_layout/_components/notifications/index'
 import { Route as LayoutComponentsModalsIndexRouteImport } from './routes/_layout/_components/modals/index'
 import { Route as LayoutComponentsCardsIndexRouteImport } from './routes/_layout/_components/cards/index'
 import { Route as LayoutComponentsAccordionsIndexRouteImport } from './routes/_layout/_components/accordions/index'
@@ -205,6 +206,12 @@ const LayoutComponentsTabsIndexRoute =
     path: '/tabs/',
     getParentRoute: () => LayoutRouteRoute,
   } as any)
+const LayoutComponentsNotificationsIndexRoute =
+  LayoutComponentsNotificationsIndexRouteImport.update({
+    id: '/_components/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => LayoutRouteRoute,
+  } as any)
 const LayoutComponentsModalsIndexRoute =
   LayoutComponentsModalsIndexRouteImport.update({
     id: '/_components/modals/',
@@ -236,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/accordions/': typeof LayoutComponentsAccordionsIndexRoute
   '/cards/': typeof LayoutComponentsCardsIndexRoute
   '/modals/': typeof LayoutComponentsModalsIndexRoute
+  '/notifications/': typeof LayoutComponentsNotificationsIndexRoute
   '/tabs/': typeof LayoutComponentsTabsIndexRoute
   '/buttons/': typeof LayoutElementButtonsIndexRoute
   '/loaders/': typeof LayoutElementLoadersIndexRoute
@@ -269,6 +277,7 @@ export interface FileRoutesByTo {
   '/accordions': typeof LayoutComponentsAccordionsIndexRoute
   '/cards': typeof LayoutComponentsCardsIndexRoute
   '/modals': typeof LayoutComponentsModalsIndexRoute
+  '/notifications': typeof LayoutComponentsNotificationsIndexRoute
   '/tabs': typeof LayoutComponentsTabsIndexRoute
   '/buttons': typeof LayoutElementButtonsIndexRoute
   '/loaders': typeof LayoutElementLoadersIndexRoute
@@ -304,6 +313,7 @@ export interface FileRoutesById {
   '/_layout/_components/accordions/': typeof LayoutComponentsAccordionsIndexRoute
   '/_layout/_components/cards/': typeof LayoutComponentsCardsIndexRoute
   '/_layout/_components/modals/': typeof LayoutComponentsModalsIndexRoute
+  '/_layout/_components/notifications/': typeof LayoutComponentsNotificationsIndexRoute
   '/_layout/_components/tabs/': typeof LayoutComponentsTabsIndexRoute
   '/_layout/_element/buttons/': typeof LayoutElementButtonsIndexRoute
   '/_layout/_element/loaders/': typeof LayoutElementLoadersIndexRoute
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/accordions/'
     | '/cards/'
     | '/modals/'
+    | '/notifications/'
     | '/tabs/'
     | '/buttons/'
     | '/loaders/'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/accordions'
     | '/cards'
     | '/modals'
+    | '/notifications'
     | '/tabs'
     | '/buttons'
     | '/loaders'
@@ -406,6 +418,7 @@ export interface FileRouteTypes {
     | '/_layout/_components/accordions/'
     | '/_layout/_components/cards/'
     | '/_layout/_components/modals/'
+    | '/_layout/_components/notifications/'
     | '/_layout/_components/tabs/'
     | '/_layout/_element/buttons/'
     | '/_layout/_element/loaders/'
@@ -648,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutComponentsTabsIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
+    '/_layout/_components/notifications/': {
+      id: '/_layout/_components/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications/'
+      preLoaderRoute: typeof LayoutComponentsNotificationsIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/_components/modals/': {
       id: '/_layout/_components/modals/'
       path: '/modals'
@@ -683,6 +703,7 @@ interface LayoutRouteRouteChildren {
   LayoutComponentsAccordionsIndexRoute: typeof LayoutComponentsAccordionsIndexRoute
   LayoutComponentsCardsIndexRoute: typeof LayoutComponentsCardsIndexRoute
   LayoutComponentsModalsIndexRoute: typeof LayoutComponentsModalsIndexRoute
+  LayoutComponentsNotificationsIndexRoute: typeof LayoutComponentsNotificationsIndexRoute
   LayoutComponentsTabsIndexRoute: typeof LayoutComponentsTabsIndexRoute
   LayoutElementButtonsIndexRoute: typeof LayoutElementButtonsIndexRoute
   LayoutElementLoadersIndexRoute: typeof LayoutElementLoadersIndexRoute
@@ -706,6 +727,8 @@ const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutComponentsAccordionsIndexRoute: LayoutComponentsAccordionsIndexRoute,
   LayoutComponentsCardsIndexRoute: LayoutComponentsCardsIndexRoute,
   LayoutComponentsModalsIndexRoute: LayoutComponentsModalsIndexRoute,
+  LayoutComponentsNotificationsIndexRoute:
+    LayoutComponentsNotificationsIndexRoute,
   LayoutComponentsTabsIndexRoute: LayoutComponentsTabsIndexRoute,
   LayoutElementButtonsIndexRoute: LayoutElementButtonsIndexRoute,
   LayoutElementLoadersIndexRoute: LayoutElementLoadersIndexRoute,

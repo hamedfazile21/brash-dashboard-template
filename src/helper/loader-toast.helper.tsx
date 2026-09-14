@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 interface LoaderToastOptions {
   id?: string | number
   duration?: number
+  onDismiss?: () => void
 }
 
 export function showLoaderToast(
@@ -32,6 +33,7 @@ export function showLoaderToast(
     {
       id: options.id,
       duration: options.duration ?? Infinity,
+      onDismiss: options.onDismiss,
       //   ariaProps: {
       //     role: 'status',
       //     'aria-live': 'polite',
