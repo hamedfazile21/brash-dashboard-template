@@ -6,7 +6,6 @@ import { sidebar_data, type SidebarChild } from './data/sidebar-data'
 import { useAppDispatch, useAppSelector } from '#/hooks/redux'
 import { toggleSidebar } from '#/features/theme/slice/theme-slice'
 import Tooltip from '../tooltip'
-import { Transition } from '@headlessui/react'
 import {
   LogoDark,
   LogoDarkRow,
@@ -19,6 +18,7 @@ import {
   FloatingPortal,
   offset,
   shift,
+  useTransitionStyles,
   useFloating,
 } from '@floating-ui/react'
 const Sidebar = () => {
@@ -131,7 +131,10 @@ const Sidebar = () => {
             <Link
               key={child.href}
               to={child.href}
-              onClick={() => setOpenItem(null)}
+              onClick={() => {
+                setOpenItem(null)
+                setSubmenuActiveTab('')
+              }}
               aria-current={isChildActive ? 'page' : undefined}
               className={`group relative flex items-center gap-x-2 rounded-lg px-3 py-2 text-sm transition-all duration-200 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
@@ -173,12 +176,19 @@ const Sidebar = () => {
     // sidebar's scroll-container clipping entirely, instead of relying
     // on CSS absolute/fixed positioning that gets clipped by any
     // scrollable ancestor.
-    const { refs, floatingStyles } = useFloating({
+    const { refs, floatingStyles, context } = useFloating({
       open: isFlyoutOpen,
       placement: direction === 'ltr' ? 'right-start' : 'left-start',
       whileElementsMounted: autoUpdate, // repositions on scroll/resize automatically
       middleware: [offset(8), flip(), shift({ padding: 8 })],
     })
+    const { isMounted, styles: transitionStyles } = useTransitionStyles(
+      context,
+      {
+        duration: { open: 150, close: 100 },
+        initial: { opacity: 0 },
+      },
+    )
 
     return (
       <div key={item.id} className="relative">
@@ -193,9 +203,16 @@ const Sidebar = () => {
         <button
           ref={refs.setReference}
           type="button"
-          onClick={() =>
-            hasChildren ? toggleItem(item.id) : navigate({ to: item.href })
-          }
+          onClick={() => {
+            if (hasChildren) {
+              toggleItem(item.id)
+              return
+            }
+
+            setOpenItem(null)
+            setSubmenuActiveTab('')
+            navigate({ to: item.href })
+          }}
           className={`group relative flex w-full items-center justify-between rounded-lg border border-transparent px-2.5 py-1.75 transition-all duration-200 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
           ${sidebarStatus === 'collapsible-vertical' && 'mb-1 min-h-14.5 flex-col items-center justify-center gap-y-1 p-1'}
@@ -236,14 +253,7 @@ const Sidebar = () => {
             />
           ) : null}
 
-          {hasChildren ? (
-            <ChevronRight
-              size={18}
-              className={`absolute rtl:-left-1.5 ltr:-right-1.5 -bottom-1.5  rotate-45 shrink-0 transition-color duration-200 ease-out ${
-                sidebarStatus !== 'collapsible-vertical' && 'hidden'
-              }`}
-            />
-          ) : null}
+          
         </button>
 
         {/* inline submenu (expanded sidebar) */}
@@ -259,24 +269,15 @@ const Sidebar = () => {
 
         {/* flyout submenu (collapsed sidebar) */}
         <FloatingPortal>
-          <Transition
-            static
-            show={isFlyoutOpen}
-            enter="transition-opacity duration-150 ease-out"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity duration-100 ease-in"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+          {isMounted && (
             <div
               ref={refs.setFloating}
-              style={floatingStyles}
-              className="card z-50 w-55 origin-top p-1.5! [contain:layout_paint] will-change-transform"
+              style={{ ...floatingStyles, ...transitionStyles }}
+              className="card z-50 w-55 origin-top p-1.5! contain-[layout_paint] will-change-transform"
             >
               {renderSubNavItem(item)}
             </div>
-          </Transition>
+          )}
         </FloatingPortal>
       </div>
     )
