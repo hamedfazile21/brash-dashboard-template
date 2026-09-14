@@ -17,6 +17,7 @@ import { Route as LayoutTaskManagementIndexRouteImport } from './routes/_layout/
 import { Route as LayoutTablesIndexRouteImport } from './routes/_layout/tables/index'
 import { Route as LayoutIconsIndexRouteImport } from './routes/_layout/icons/index'
 import { Route as LayoutChatIndexRouteImport } from './routes/_layout/chat/index'
+import { Route as LayoutChartsIndexRouteImport } from './routes/_layout/charts/index'
 import { Route as PageResetResetCoverIndexRouteImport } from './routes/_page/_reset/reset-cover/index'
 import { Route as PageResetResetBasicIndexRouteImport } from './routes/_page/_reset/reset-basic/index'
 import { Route as PageRegisterRegisterCoverIndexRouteImport } from './routes/_page/_register/register-cover/index'
@@ -79,6 +80,11 @@ const LayoutIconsIndexRoute = LayoutIconsIndexRouteImport.update({
 const LayoutChatIndexRoute = LayoutChatIndexRouteImport.update({
   id: '/chat/',
   path: '/chat/',
+  getParentRoute: () => LayoutRouteRoute,
+} as any)
+const LayoutChartsIndexRoute = LayoutChartsIndexRouteImport.update({
+  id: '/charts/',
+  path: '/charts/',
   getParentRoute: () => LayoutRouteRoute,
 } as any)
 const PageResetResetCoverIndexRoute =
@@ -220,6 +226,7 @@ const LayoutComponentsAccordionsIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
+  '/charts/': typeof LayoutChartsIndexRoute
   '/chat/': typeof LayoutChatIndexRoute
   '/icons/': typeof LayoutIconsIndexRoute
   '/tables/': typeof LayoutTablesIndexRoute
@@ -252,6 +259,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof LayoutIndexRoute
+  '/charts': typeof LayoutChartsIndexRoute
   '/chat': typeof LayoutChatIndexRoute
   '/icons': typeof LayoutIconsIndexRoute
   '/tables': typeof LayoutTablesIndexRoute
@@ -286,6 +294,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_layout': typeof LayoutRouteRouteWithChildren
   '/_layout/': typeof LayoutIndexRoute
+  '/_layout/charts/': typeof LayoutChartsIndexRoute
   '/_layout/chat/': typeof LayoutChatIndexRoute
   '/_layout/icons/': typeof LayoutIconsIndexRoute
   '/_layout/tables/': typeof LayoutTablesIndexRoute
@@ -320,6 +329,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/charts/'
     | '/chat/'
     | '/icons/'
     | '/tables/'
@@ -352,6 +362,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/charts'
     | '/chat'
     | '/icons'
     | '/tables'
@@ -385,6 +396,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_layout'
     | '/_layout/'
+    | '/_layout/charts/'
     | '/_layout/chat/'
     | '/_layout/icons/'
     | '/_layout/tables/'
@@ -487,6 +499,13 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat/'
       preLoaderRoute: typeof LayoutChatIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
+    '/_layout/charts/': {
+      id: '/_layout/charts/'
+      path: '/charts'
+      fullPath: '/charts/'
+      preLoaderRoute: typeof LayoutChartsIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
     '/_page/_reset/reset-cover/': {
@@ -655,6 +674,7 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteRouteChildren {
   LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutChartsIndexRoute: typeof LayoutChartsIndexRoute
   LayoutChatIndexRoute: typeof LayoutChatIndexRoute
   LayoutIconsIndexRoute: typeof LayoutIconsIndexRoute
   LayoutTablesIndexRoute: typeof LayoutTablesIndexRoute
@@ -677,6 +697,7 @@ interface LayoutRouteRouteChildren {
 
 const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
   LayoutIndexRoute: LayoutIndexRoute,
+  LayoutChartsIndexRoute: LayoutChartsIndexRoute,
   LayoutChatIndexRoute: LayoutChatIndexRoute,
   LayoutIconsIndexRoute: LayoutIconsIndexRoute,
   LayoutTablesIndexRoute: LayoutTablesIndexRoute,
