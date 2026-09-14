@@ -10,11 +10,6 @@ function Modals() {
 
   return (
     <div className="relative mx-auto flex w-full flex-col gap-y-8">
-      <img src={GlassBlob1} className="absolute size-100 right-0 top-0 -z-10" />
-      <img
-        src={GlassBlob2}
-        className="absolute left-0 bottom-0 size-100 -z-10"
-      />
 
       <div>
         <h1 className="text-xl font-semibold text-foreground">{t('Modals')}</h1>

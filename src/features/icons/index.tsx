@@ -24,9 +24,7 @@ function IconShowcase() {
   }
 
   return (
-    <div className='relative'>
-        <img src={GlassBlob1} className='absolute -z-10 size-[320px]' />
-        <img src={GlassBlob2} className='absolute bottom-0 ltr:right-0 rtl:left-0 -z-10 size-[320px]' />
+    <div className="relative">
       <div className="mb-8">
         <h1 className="text-xl font-semibold text-foreground">Icons</h1>
         <p className="mt-1 text-sm text-muted">

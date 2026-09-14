@@ -11,12 +11,6 @@ function AccordionShowcase() {
   const { t } = useTranslation()
   return (
     <div className="relative mx-auto flex w-full flex-col gap-y-8">
-      <img src={GlassBlob1} className="absolute size-100 left-0 top-0 -z-10" />
-
-      <img
-        src={GlassBlob2}
-        className="absolute right-0 bottom-0 size-100 -z-10"
-      />
       <div>
         <h1 className="text-xl font-semibold text-foreground">Accordion</h1>
 

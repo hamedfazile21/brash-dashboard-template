@@ -247,7 +247,7 @@ const Sidebar = () => {
           {hasChildren ? (
             <ChevronRight
               size={18}
-              className={`shrink-0 transition-transform duration-200 ease-out ${
+              className={`shrink-0 transition-transform duration-300 ease-in-out ${
                 sidebarStatus === 'collapsible-vertical' ? 'hidden' : ''
               } ${isOpen ? 'rotate-90' : 'ltr:rotate-0 rtl:rotate-180'}`}
             />
