@@ -111,12 +111,12 @@ const Header = () => {
         <HeaderSearchTrigger onOpen={() => setSearchOpen(true)} />
       </div>
       <div className="flex items-center gap-x-3">
-        <button
+        {/* <button
           className="btn btn-secondary btn-rounded-full"
           onClick={() => navigate({ to: '.' })}
         >
           <Settings size={18} />
-        </button>
+        </button> */}
 
         <Popover
           placement="bottom-end"
