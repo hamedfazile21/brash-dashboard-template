@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { EmptyChatIllustration } from '../../../../public/assets/illustration/EmptyChatIllustration'
+import { EmptyChatIllustration } from '../../../assets/illustration/EmptyChatIllustration'
 
 const NotActiveConversation = () => {
   const { t } = useTranslation()

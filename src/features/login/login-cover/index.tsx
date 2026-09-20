@@ -8,12 +8,12 @@ import {
   GlassBlob1,
   GlassBlob2,
   LoginCoverPNG,
-} from '../../../../public/assets'
+} from '../../../assets'
 import Input from '#/components/input'
 import CheckBox from '#/components/checkbox'
-import Github from '../../../../public/assets/media/github'
-import Google from '../../../../public/assets/media/google'
-import Linkedin from '../../../../public/assets/media/linkedin'
+import Github from '../../../assets/media/github'
+import Google from '../../../assets/media/google'
+import Linkedin from '../../../assets/media/linkedin'
 import { useTranslation } from 'react-i18next'
 import { showObjectToast } from '#/helper/toast-helper'
 

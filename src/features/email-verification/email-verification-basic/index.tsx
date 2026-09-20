@@ -1,6 +1,6 @@
 import { ArrowLeft, MailCheck } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
-import { GlassBlob, GlassBlob2, GlassBlob3 } from '../../../../public/assets'
+import { GlassBlob, GlassBlob2, GlassBlob3 } from '../../../assets'
 import { showObjectToast } from '#/helper/toast-helper'
 import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'

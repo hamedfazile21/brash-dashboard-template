@@ -5,7 +5,7 @@ import {
   Avatar30,
   Avatar4,
   Avatar5,
-} from '../../../../public/assets'
+} from '../../../assets'
 
 export type Priority = 'Low' | 'Medium' | 'High'
 export type TodoStatus = 'complete' | 'pending' | 'trashed'

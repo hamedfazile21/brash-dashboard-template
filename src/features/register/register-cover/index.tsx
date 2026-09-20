@@ -6,10 +6,10 @@ import {
   GlassBlob1,
   GlassBlob2,
   RegisterCoverPNG,
-} from '../../../../public/assets'
-import Github from '../../../../public/assets/media/github'
-import Google from '../../../../public/assets/media/google'
-import Linkedin from '../../../../public/assets/media/linkedin'
+} from '../../../assets'
+import Github from '../../../assets/media/github'
+import Google from '../../../assets/media/google'
+import Linkedin from '../../../assets/media/linkedin'
 import { Link } from '@tanstack/react-router'
 import CheckBox from '#/components/checkbox'
 import Input from '#/components/input'

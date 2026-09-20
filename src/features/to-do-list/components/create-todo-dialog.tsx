@@ -40,9 +40,9 @@ const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
 
   const assigneeOption = Array.from({ length: 30 }).map((_, index) => {
     return {
-      value: `/public/assets/avatar/memo_${index + 1}.png`,
+      value: `/assets/avatar/memo_${index + 1}.png`,
       label: `User-${index + 1}`,
-      avatarUrl: `/public/assets/avatar/memo_${index + 1}.png`,
+      avatarUrl: `/assets/avatar/memo_${index + 1}.png`,
     }
   })
 
@@ -55,7 +55,7 @@ const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
 
   // const initial
 
-  const { Field, handleSubmit, reset , setFieldValue } = useForm({
+  const { Field, handleSubmit, reset, setFieldValue } = useForm({
     defaultValues: {
       assignee: '',
       description: '',

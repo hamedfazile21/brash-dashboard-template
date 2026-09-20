@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowLeft, Mail, MailCheck } from 'lucide-react'
 import Input from '#/components/input'
-import { ForgotPasswordSVG, GlassBlob } from '../../../../public/assets'
+import { ForgotPasswordSVG, GlassBlob } from '../../../assets'
 import { Link } from '@tanstack/react-router'
 import { showObjectToast } from '#/helper/toast-helper'
 import { useTranslation } from 'react-i18next'

@@ -5,7 +5,7 @@ import IconAccordions from './components/icon-accordions'
 import PlusMinusAccordions from './components/plusMinus-accordions'
 import GhostAccordions from './components/ghost-accordions'
 import { useTranslation } from 'react-i18next'
-import { GlassBlob1, GlassBlob2 } from '../../../../public/assets'
+import { GlassBlob1, GlassBlob2 } from '../../../assets'
 
 function AccordionShowcase() {
   const { t } = useTranslation()

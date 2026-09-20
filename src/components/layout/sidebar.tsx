@@ -6,12 +6,7 @@ import { sidebar_data, type SidebarChild } from './data/sidebar-data'
 import { useAppDispatch, useAppSelector } from '#/hooks/redux'
 import { toggleSidebar } from '#/features/theme/slice/theme-slice'
 import Tooltip from '../tooltip'
-import {
-  LogoDark,
-  LogoDarkRow,
-  LogoLight,
-  LogoLightRow,
-} from '../../../public/assets'
+import { LogoDark, LogoDarkRow, LogoLight, LogoLightRow } from '../../assets'
 import {
   autoUpdate,
   flip,
@@ -252,8 +247,6 @@ const Sidebar = () => {
               } ${isOpen ? 'rotate-90' : 'ltr:rotate-0 rtl:rotate-180'}`}
             />
           ) : null}
-
-          
         </button>
 
         {/* inline submenu (expanded sidebar) */}

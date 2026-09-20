@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Lock } from 'lucide-react'
 import Input from '#/components/input'
-import {
-  Avatar13,
-  GlassBlob,
-  GlassBlob1,
-  GlassBlob2,
-} from '../../../public/assets'
+import { Avatar13, GlassBlob, GlassBlob1, GlassBlob2 } from '../../assets'
 import { useTranslation } from 'react-i18next'
 import { useForm } from '@tanstack/react-form'
 import { showObjectToast } from '#/helper/toast-helper'

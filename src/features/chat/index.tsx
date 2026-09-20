@@ -20,7 +20,7 @@ import ConversationItem from './components/conversation-item'
 import ContactPanel from './components/contact-panel'
 import NotActiveConversation from './components/not-active-conversation'
 import EmptyMessagesConversation from './components/empty-messages-conversation'
-import { GlassBlob } from '../../../public/assets'
+import { GlassBlob } from '../../assets'
 
 export default function Chat() {
   const { t } = useTranslation()

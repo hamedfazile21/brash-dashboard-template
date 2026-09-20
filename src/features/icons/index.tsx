@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { categories } from './data/icons'
 import { Check, Copy, ExternalLink, Search } from 'lucide-react'
-import { GlassBlob, GlassBlob1, GlassBlob2 } from '../../../public/assets'
+import { GlassBlob, GlassBlob1, GlassBlob2 } from '../../assets'
 
 function IconShowcase() {
   const [search, setSearch] = useState('')

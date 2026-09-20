@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, MailCheck, ShieldCheck } from 'lucide-react'
-import { EmailValidationSVG, GlassBlob } from '../../../../public/assets'
+import { EmailValidationSVG, GlassBlob } from '../../../assets'
 import { showObjectToast } from '#/helper/toast-helper'
 import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'

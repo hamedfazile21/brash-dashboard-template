@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { KeyRound, ShieldCheck } from 'lucide-react'
 import Input from '#/components/input'
-import { GlassBlob, GlassBlob1, GlassBlob2 } from '../../../../public/assets'
+import { GlassBlob, GlassBlob1, GlassBlob2 } from '../../../assets'
 import { showObjectToast } from '#/helper/toast-helper'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@tanstack/react-router'

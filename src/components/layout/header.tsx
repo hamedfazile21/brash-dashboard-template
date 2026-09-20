@@ -18,7 +18,7 @@ import {
   toggleTheme,
 } from '#/features/theme/slice/theme-slice'
 import type { ThemeMode } from '#/features/theme/slice/theme-types'
-import { AfghanistanFlag, EnglishFlag, UserPNG } from '../../../public/assets'
+import { AfghanistanFlag, EnglishFlag, UserPNG } from '../../assets'
 import i18n from '#/app/i18n'
 import { useNavigate } from '@tanstack/react-router'
 import { HeaderSearchTrigger, useHeaderSearch } from './header-search-trigger'
