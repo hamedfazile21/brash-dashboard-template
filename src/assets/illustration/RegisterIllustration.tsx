@@ -143,7 +143,7 @@ export function RegisterIllustrationComponent({
                     transform="translate(0.602 0.234)"
                     fill="#090814"
                   />
-                  <g transform="translate(3.047 1.015)" clip-path="url(#a-35)">
+                  <g transform="translate(3.047 1.015)" clipPath="url(#a-35)">
                     <g transform="translate(0 24.588)">
                       <path
                         d="M77.763,145.717,65.091,147.83l-4.224-20.064,10.208-4.224Z"
