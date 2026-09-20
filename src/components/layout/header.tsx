@@ -27,9 +27,9 @@ const Header = () => {
   const { searchOpen, setSearchOpen } = useHeaderSearch()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const {
-    themeConfig: { themeMode, direction, language },
-  } = useAppSelector((state) => state)
+  const { themeMode, direction, language } = useAppSelector(
+    (state) => state.themeConfig,
+  )
   const { t } = useTranslation()
   const handelChangeTheme = (theme: ThemeMode) => {
     dispatch(toggleTheme(theme))
