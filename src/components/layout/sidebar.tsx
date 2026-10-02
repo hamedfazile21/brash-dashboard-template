@@ -321,7 +321,7 @@ const Sidebar = () => {
   return (
     <div
       ref={sidebarRef}
-      className={`sticky top-0 h-screen shrink-0 overflow-hidden transition-all duration-300 ${sidebarStatus === 'vertical' ? 'w-75' : 'w-22 p-0!'} ltr:border-r rtl:border-l border-borderColor`}
+      className={`scrollbar-hover-zone sticky top-0 h-screen shrink-0 overflow-hidden transition-all duration-300 ${sidebarStatus === 'vertical' ? 'w-75' : 'w-22 p-0!'} ltr:border-r rtl:border-l border-borderColor`}
     >
       <div
         className={`flex h-14 items-center ${sidebarStatus === 'collapsible-vertical' && 'justify-center'}  border-b border-borderColor bg-surface/40 px-3 py-1 backdrop-blur-xl backdrop-saturate-150`}
@@ -345,7 +345,7 @@ const Sidebar = () => {
         )}
       </div>
 
-      <div className="h-[calc(100vh-3.5rem)] overflow-y-auto overflow-x-hidden p-2 pb-13">
+      <div className="scrollbar-hover-reveal h-[calc(100vh-3.5rem)] overflow-y-auto overflow-x-hidden p-2 pb-13">
         <div className="flex flex-col">
           {sidebar_data.map((item, index) => {
             if (item.type === 'group') {

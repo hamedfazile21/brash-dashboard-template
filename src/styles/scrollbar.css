@@ -127,3 +127,30 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ==========================================================================
+   Hover-reveal scrollbar (sidebar)
+   The track keeps its space so content never shifts; only the thumb fades in
+   while the pointer is anywhere over the sidebar.
+   ========================================================================== */
+.scrollbar-hover-reveal {
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbar-hover-reveal::-webkit-scrollbar-thumb,
+.dark .scrollbar-hover-reveal::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.scrollbar-hover-zone:hover .scrollbar-hover-reveal {
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+.scrollbar-hover-zone:hover .scrollbar-hover-reveal::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+}
+
+.scrollbar-hover-zone:hover
+  .scrollbar-hover-reveal::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
