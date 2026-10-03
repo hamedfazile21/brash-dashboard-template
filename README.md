@@ -14,6 +14,7 @@ Light &amp; dark mode, full RTL support, English/Persian localization, and 15+ r
   <img alt="TanStack Router" src="https://img.shields.io/badge/TanStack-Router-FF4154?style=flat-square" />
   <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
   <img alt="Redux Toolkit" src="https://img.shields.io/badge/Redux_Toolkit-2-764ABC?style=flat-square&logo=redux&logoColor=white" />
+  <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green?style=flat-square" />
 </p>
 
 </div>
@@ -214,7 +215,7 @@ Issues and pull requests are welcome. Please run `npm run format` and `npm run b
 
 ## License
 
-No license has been specified for this repository yet. Add a license file before publishing or distributing the template.
+Released under the [MIT License](LICENSE) — free to use in personal and commercial projects. Keep the copyright notice when redistributing.
 
 <div align="center">
 
