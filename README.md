@@ -76,8 +76,8 @@ Most dashboard starters hand you a pile of pages and leave the hard parts — th
 **Requirements:** Node.js 20+ and npm 9+ (developed on Node 22).
 
 ```bash
-git clone git@github.com:hamedfazile21/dashboard-template.git
-cd dashboard-template
+git clone git@github.com:hamedfazile21/brash-dashboard-template.git
+cd brash-dashboard-template
 npm install
 npm run dev
 ```
