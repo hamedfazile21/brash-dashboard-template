@@ -10,22 +10,45 @@ import {
 } from '@headlessui/react'
 import { X } from 'lucide-react'
 
+/** One scale for both tables below, so a size always exists in each. */
+export type DialogSize =
+  'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full'
+
 /** Max-width steps for centered/top dialogs */
-const sizeClasses = {
+const sizeClasses: Record<DialogSize, string> = {
   sm: 'max-w-sm',
   md: 'max-w-md',
   lg: 'max-w-lg',
   xl: 'max-w-xl',
+  '2xl': 'max-w-2xl',
+  '3xl': 'max-w-3xl',
+  '4xl': 'max-w-4xl',
+  '5xl': 'max-w-5xl',
+  // The panel is already `w-full`; lifting the cap lets it fill everything the
+  // wrapper's own padding leaves.
+  full: 'max-w-none',
 }
 
 /** Width steps for left/right side panels — a "size" here means the
  * panel's actual width, not a max-width, since side panels are always
- * full-height and flush to one edge. */
-const sideSizeClasses = {
-  sm: 'w-80',
-  md: 'w-96',
-  lg: 'w-[28rem]',
-  xl: 'w-[32rem]',
+ * full-height and flush to one edge.
+ *
+ * `sm`–`xl` keep the gentler 4rem rhythm they have always had. From `2xl` up
+ * they match the rem values of the `max-w-*` step of the same name above, so
+ * the two scales agree about what a size means once they get wide.
+ *
+ * `max-w-full` on every step is what stops a panel wider than the phone it is
+ * on from pushing the page sideways. */
+const sideSizeClasses: Record<DialogSize, string> = {
+  sm: 'w-80 max-w-full',
+  md: 'w-96 max-w-full',
+  lg: 'w-[28rem] max-w-full',
+  xl: 'w-[32rem] max-w-full',
+  '2xl': 'w-[42rem] max-w-full',
+  '3xl': 'w-[48rem] max-w-full',
+  '4xl': 'w-[56rem] max-w-full',
+  '5xl': 'w-[64rem] max-w-full',
+  full: 'w-full',
 }
 
 /** Each variant is a pair of Tailwind class strings for the panel's
@@ -82,7 +105,7 @@ type Position = 'center' | 'top' | 'left' | 'right'
 
 const wrapperPositionClasses: Record<Position, string> = {
   center: 'items-center justify-center p-4',
-  top: 'items-start justify-center pt-20 p-4',
+  top: 'items-start justify-center',
   left: 'items-stretch justify-start',
   right: 'items-stretch justify-end',
 }
@@ -94,7 +117,7 @@ interface DialogProps {
   description?: string
   children: ReactNode
   footer?: ReactNode
-  size?: keyof typeof sizeClasses
+  size?: DialogSize
   /** 'center'/'top' are centered modals. 'left'/'right' are full-height
    * slide-in side panels (a "drawer" or "sheet"). */
   position?: Position
@@ -192,7 +215,7 @@ export function Dialog({
             leaveTo={closed}
           >
             <DialogPanel
-              className={`card flex flex-col p-0 ${
+              className={`card flex max-h-full flex-col overflow-hidden p-0 ${
                 isSide
                   ? `h-full ${sideSizeClasses[size]} ${
                       position === 'left' ? 'rounded-l-none' : 'rounded-r-none'
@@ -233,8 +256,12 @@ export function Dialog({
                 </div>
               )}
 
-              {/* Content — the only scrollable region, matters most for
-                  tall side panels but harmless for centered dialogs too */}
+              {/* Content — the only scrollable region. The panel is capped at
+                  `max-h-full` (the wrapper is `fixed inset-0`, so that is the
+                  viewport less the wrapper's own padding), which is what gives
+                  this `flex-1` something to overflow. Without the cap the panel
+                  grows to fit and the wrapper scrolls the header and footer
+                  away with it. */}
               <div
                 className={`flex-1 overflow-y-auto ${isSide ? 'p-4' : 'p-1.5'}`}
               >
@@ -245,7 +272,7 @@ export function Dialog({
               {footer && (
                 <div
                   className={`flex shrink-0 justify-end gap-x-2 border-t border-white/10 dark:border-white/8 ${
-                    isSide ? 'p-4' : 'p-6 pt-4'
+                    isSide ? 'p-4' : 'py-4'
                   }`}
                 >
                   {footer}
