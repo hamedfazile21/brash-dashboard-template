@@ -186,7 +186,7 @@ const Sidebar = () => {
     )
 
     return (
-      <div key={item.id} className="relative">
+      <div key={item.id} className="relative mt-1">
         {/* <Tooltip
           className={sidebarStatus !== 'vertical' ? '' : 'hidden'}
           content={t(item.title)}
@@ -256,7 +256,7 @@ const Sidebar = () => {
               isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
             }`}
           >
-            <div className="min-h-0 mt-1">{renderSubNavItem(item)}</div>
+            <div className="min-h-0">{renderSubNavItem(item)}</div>
           </div>
         )}
 

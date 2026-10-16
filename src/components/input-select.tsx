@@ -37,7 +37,7 @@ const glassClassNames: ClassNamesConfig<
   control: (state) =>
     `glass-solid flex rounded-md px-2 py-1 text-sm transition-all duration-200 cursor-pointer ${
       state.isFocused ? 'border-primary/50 ring-2 ring-primary/30' : ''
-    }`,
+    } ${state.isDisabled && 'bg-surface-hover'}`,
   placeholder: () => 'text-muted',
   singleValue: () => 'text-foreground',
   input: () => 'text-foreground',
@@ -52,7 +52,10 @@ const glassClassNames: ClassNamesConfig<
      backdrop-blur-xl backdrop-saturate-150
      dark:border-white/10 dark:bg-surface/80 dark:shadow-black/20`,
 
-  menuPortal: () => 'z-[9999]',
+  // No z-index here: react-select writes the portal's `zIndex` inline, which
+  // no class can beat. It is set through the `styles` prop instead — see the
+  // note on it below.
+  menuPortal: () => '',
   menuList: () => 'space-y-0.5 max-h-60 overflow-y-auto scrollbar-thin',
 
   groupHeading: () =>
@@ -147,6 +150,7 @@ function InputSelect<
   id,
   components: customComponents,
   required = false,
+  styles,
   ...props
 }: SelectProps<Option, IsMulti>) {
   const { t } = useTranslation()
@@ -177,6 +181,18 @@ function InputSelect<
             GroupBase<Option>
           >
         }
+        /*
+          The menu is portalled to `<body>`, so it has to out-stack whatever it
+          is rendered over — a Headless UI dialog sits at `z-50`, and
+          `menuPortalCSS` is the one style function react-select still runs
+          under `unstyled`, writing `zIndex: 1` inline. A class cannot beat an
+          inline style, so the override has to be inline too. A caller's own
+          `styles` still win, key by key.
+        */
+        styles={{
+          menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          ...styles,
+        }}
         components={{
           DropdownIndicator: DropdownIndicator as any,
           ClearIndicator: ClearIndicator as any,

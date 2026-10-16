@@ -1,12 +1,8 @@
 TODO for version 1.5
 
 
-TODO: fix the input style problem in model it goes under the modal 
 TODO: fix the number filed to hide the increase and decrease icons
 TODO: Add dialog more sizes
 TODO: Solve the dialog scroll problem
 TODO: Solve the datepicker problems , selected date , dilative days
 TODO: Add settings
-TODO: Handel the padding sidebar problem
-TODO: Solve disable style in select
-TODO: 
