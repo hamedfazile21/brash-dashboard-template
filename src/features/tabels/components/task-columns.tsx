@@ -40,7 +40,9 @@ export const columns = [
       return <span>{t('Task')}</span>
     },
     cell: (info) => (
-      <span className="text-system font-medium">{info.getValue()}</span>
+      <span className="text-system font-medium whitespace-nowrap">
+        {info.getValue()}
+      </span>
     ),
     footer: (info) => info.column.id,
   }),
@@ -82,11 +84,11 @@ export const columns = [
       const task = info.row.original
 
       return (
-        <div className="flex items-center gap-x-2 px-2">
-          <span className="text-xs px-2 font-medium border border-dashed border-borderColor rounded-xl">
+        <div className="flex min-w-60 items-center gap-x-2 px-2">
+          <span className="shrink-0 whitespace-nowrap text-xs px-2 font-medium border border-dashed border-borderColor rounded-xl">
             {task.label}
           </span>
-          <span className="font-medium text-system text-foreground">
+          <span className="line-clamp-2 font-medium text-system text-foreground">
             {info.getValue()}
           </span>
         </div>
@@ -138,7 +140,7 @@ export const columns = [
     },
     cell: (info) => {
       return (
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-2 whitespace-nowrap">
           <span className="text-muted">{priorityIcon[info.getValue()]}</span>
           <span className="text-system font-medium">{info.getValue()}</span>
         </div>
@@ -187,7 +189,7 @@ export const columns = [
     },
     cell: (info) => {
       return (
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-2 whitespace-nowrap">
           <span className="text-muted">
             {statusIcon[info.getValue() as keyof typeof statusIcon]}
           </span>

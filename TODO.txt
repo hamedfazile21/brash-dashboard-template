@@ -1,4 +1,0 @@
-TODO for version 1.5
-
-TODO: Solve the datepicker problems , selected date , dilative days
-TODO: Add settings

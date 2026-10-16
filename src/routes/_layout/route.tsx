@@ -10,7 +10,7 @@ function AppLayoutComponent() {
   return (
     <div className="flex min-h-screen items-start">
       <Sidebar />
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <Header />
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto w-full p-6">

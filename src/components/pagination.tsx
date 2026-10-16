@@ -138,7 +138,7 @@ export function Pagination({
     disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent`
 
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full flex-wrap items-center justify-between gap-3">
       {perPage && setPerPage && (
         <div className="flex w-fit items-center gap-x-2">
           <Popover
@@ -176,7 +176,7 @@ export function Pagination({
               })}
             </div>
           </Popover>
-          <span className="text-sm font-medium text-foreground">
+          <span className="text-sm font-medium text-foreground whitespace-nowrap">
             {t('Rows per page')}
           </span>
         </div>
@@ -186,7 +186,7 @@ export function Pagination({
         aria-label="Pagination"
         className={`flex items-center ${grouped ? '' : 'gap-x-1'} ${className}`}
       >
-        <span className="text-sm font-medium text-foreground me-2">
+        <span className="text-sm font-medium text-foreground me-2 whitespace-nowrap">
           {t('Page')} {currentPage} {t('of')} {totalPages}
         </span>
 

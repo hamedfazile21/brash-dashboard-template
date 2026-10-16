@@ -76,26 +76,26 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
   }
 
   return (
-    <div className="flex items-center justify-between border-b border-borderColor p-4">
-      <div className="flex items-center gap-x-2">
-        <div className="relative w-64">
-          <Input
-            onChange={(e) => setSearchValue(e.target.value)}
-            value={searchValue}
-            className="py-1.5! pr-9"
-            type="text"
-            placeholder={t('Search Task ...')}
-            aria-busy={isSearching}
+    <div className="flex flex-wrap items-center gap-2 border-b border-borderColor p-4">
+      <div className="relative w-full sm:w-64">
+        <Input
+          onChange={(e) => setSearchValue(e.target.value)}
+          value={searchValue}
+          className="py-1.5! pr-9"
+          type="text"
+          placeholder={t('Search Task ...')}
+          aria-busy={isSearching}
+        />
+        {isSearching && (
+          <LoaderCircle
+            size={16}
+            aria-label="Searching"
+            className="pointer-events-none absolute top-1/2 ltr:right-3 rtl:left-3 -translate-y-1/2 animate-spin text-muted"
           />
-          {isSearching && (
-            <LoaderCircle
-              size={16}
-              aria-label="Searching"
-              className="pointer-events-none absolute top-1/2 ltr:right-3 rtl:left-3 -translate-y-1/2 animate-spin text-muted"
-            />
-          )}
-        </div>
+        )}
+      </div>
 
+      <div className="flex flex-wrap items-center gap-2">
         <Popover
           className="w-48 p-1!"
           trigger={
@@ -309,7 +309,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
           <div className="">
             <button
               onClick={removeFilters}
-              className="text-system font-medium ms-5 flex items-center gap-x-1"
+              className="text-system font-medium ms-2 flex items-center gap-x-1"
             >
               <span>{t('Reset')}</span>
               <X size={17} />
@@ -321,15 +321,18 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
       <Popover
         className="w-38 p-1!"
         trigger={
-          <button className="btn btn-secondary py-1.5! border-dashed">
+          <button
+            aria-label={t('View')}
+            className="btn btn-secondary ms-auto py-1.5! border-dashed"
+          >
             <span>
               <SlidersHorizontal size={17} className="text-muted" />
             </span>
-            <span className="font-medium">{t('View')}</span>
+            <span className="hidden font-medium sm:inline">{t('View')}</span>
           </button>
         }
 
-        placement="bottom-start"
+        placement="bottom-end"
         closeOn="outside"
       >
         <div className="flex flex-col gap-y-1 ">

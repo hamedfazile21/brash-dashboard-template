@@ -39,7 +39,7 @@ const TableBulkAction: FC<props> = ({
       leaveFrom="opacity-100 translate-y-0 scale-100"
       leaveTo="opacity-0 translate-y-2 scale-95"
     >
-      <div className="fixed bottom-4 ltr:left-[55%] rtl:right-[55%] z-40 w-full max-w-xs -translate-x-1/2 px-4">
+      <div className="fixed bottom-4 z-40 w-full max-w-xs px-4 ltr:left-1/2 ltr:-translate-x-1/2 rtl:right-1/2 rtl:translate-x-1/2 lg:ltr:left-[55%] lg:rtl:right-[55%]">
         <div className="card flex items-center gap-x-1 rounded-xl px-2! py-1.5!">
           {/* Count + clear */}
           <div className="flex items-center gap-x-2 pl-2 pr-3">
