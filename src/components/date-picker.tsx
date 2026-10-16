@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { DayPicker } from '@daypicker/react'
 import type { DateRange } from '@daypicker/react'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -43,11 +43,23 @@ const calendarClassNames = {
   day: 'w-9 h-9 flex items-center justify-center p-0 text-sm',
   day_button:
     'size-9 rounded-full flex items-center justify-center text-foreground transition-colors duration-150 hover:bg-surface-hover',
-  today: 'font-semibold text-primary',
+  // These four land on the day *cell*, while `day_button` above is the button
+  // inside it — and that sets its own `text-foreground`, which beats a colour
+  // inherited from the parent. So anything recolouring a day has to reach the
+  // button with `[&>button]:`, the way `selected` already did.
+  //
+  // `today` marks itself with a ring rather than a colour, so that a day which
+  // is both today and selected does not come down to which `text-*` utility
+  // Tailwind happened to emit last.
+  today:
+    '[&>button]:font-semibold [&>button]:ring-1 [&>button]:ring-inset [&>button]:ring-primary/40',
   selected:
     '[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary',
-  outside: 'text-muted/40',
-  disabled: 'text-muted/30 pointer-events-none',
+  outside: '[&>button]:text-muted/40',
+  // Struck through as well as dimmed: an unavailable date should read as
+  // crossed off, not merely as low contrast.
+  disabled:
+    'pointer-events-none [&>button]:text-muted/40 [&>button]:line-through',
   hidden: 'invisible',
 }
 
@@ -68,6 +80,20 @@ function DatePicker({
   const generatedId = useId()
   const inputId = id ?? generatedId
   const [open, setOpen] = useState(false)
+
+  /**
+   * The month on show. Controlled rather than left to DayPicker, so every
+   * open starts on the selected date's month instead of today — and so
+   * browsing away and closing without picking does not leave the calendar
+   * somewhere else next time.
+   *
+   * `undefined` is DayPicker's own default, which is the current month.
+   */
+  const [month, setMonth] = useState<Date | undefined>(value)
+
+  useEffect(() => {
+    if (open) setMonth(value)
+  }, [open, value])
 
   const formattedValue = value
     ? new Intl.DateTimeFormat(undefined, {
@@ -96,7 +122,7 @@ function DatePicker({
         onOpenChange={disabled ? undefined : setOpen}
         placement="bottom-start"
         showArrow={false}
-        closeOn='outside'
+        closeOn="outside"
         trigger={
           <button
             type="button"
@@ -104,7 +130,7 @@ function DatePicker({
             disabled={disabled}
             aria-invalid={!!error}
             aria-describedby={error ? `${inputId}-error` : undefined}
-            className={`input flex w-full items-center justify-between text-left ${
+            className={`input flex w-full items-center justify-between text-left disabled:cursor-not-allowed disabled:bg-surface-hover! ${
               error ? 'border-red-500 focus:ring-red-500/30' : ''
             } ${!formattedValue ? 'text-muted' : ''}`}
           >
@@ -116,6 +142,8 @@ function DatePicker({
         <DayPicker
           mode="single"
           selected={value}
+          month={month}
+          onMonthChange={setMonth}
           onSelect={(date) => {
             onChange(date)
             setOpen(false)
