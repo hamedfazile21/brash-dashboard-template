@@ -309,6 +309,19 @@ button {
     focus:border-primary/50 focus:ring-2 focus:ring-primary/30;
 }
 
+/* No spinner on number inputs: the step buttons crowd a field this size, and
+   they are not how anyone enters a measurement or a price. */
+.input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.input[type='number']::-webkit-outer-spin-button,
+.input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .card {
   @apply glass relative rounded-xl p-4 transition-all duration-200 ease-out text-foreground;
 }
