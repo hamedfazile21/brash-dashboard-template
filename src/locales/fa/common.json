@@ -156,5 +156,23 @@
   "people already joined": "نفر تاکنون پیوسته‌اند",
   "Smart reports": "گزارش‌های هوشمند",
   "New": "جدید",
-  "Launch readiness": "آمادگی راه‌اندازی"
+  "Launch readiness": "آمادگی راه‌اندازی",
+
+  "Settings": "تنظیمات",
+  "Manage your account settings and preferences": "تنظیمات حساب و ترجیحات خود را مدیریت کنید",
+  "Profile": "پروفایل",
+  "Your photo, name and bio": "عکس، نام و بیوگرافی شما",
+  "Account": "حساب کاربری",
+  "Email, password and security": "ایمیل، رمز عبور و امنیت",
+  "Notifications": "اعلان‌ها",
+  "Choose what you hear about": "انتخاب کنید از چه چیزهایی باخبر شوید",
+  "Appearance": "ظاهر",
+  "Theme, language and layout": "پوسته، زبان و چیدمان",
+  "Billing": "صورتحساب",
+  "Plan, payment and invoices": "طرح، پرداخت و فاکتورها",
+  "This information will be displayed publicly": "این اطلاعات به صورت عمومی نمایش داده می‌شود",
+  "Update your email, password and security options": "ایمیل، رمز عبور و گزینه‌های امنیتی خود را به‌روزرسانی کنید",
+  "Choose how and when you get notified": "انتخاب کنید چگونه و چه زمانی مطلع شوید",
+  "Customize the theme, language and layout": "پوسته، زبان و چیدمان را شخصی‌سازی کنید",
+  "Manage your plan, payment method and invoices": "طرح، روش پرداخت و فاکتورهای خود را مدیریت کنید"
 }

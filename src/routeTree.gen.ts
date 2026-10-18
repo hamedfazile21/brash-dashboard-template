@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteRouteImport } from './routes/_layout/route'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutSettingsRouteRouteImport } from './routes/_layout/settings/route'
 import { Route as PageLockScreenIndexRouteImport } from './routes/_page/lock-screen/index'
 import { Route as LayoutToDoListIndexRouteImport } from './routes/_layout/to-do-list/index'
 import { Route as LayoutTaskManagementIndexRouteImport } from './routes/_layout/task-management/index'
 import { Route as LayoutTablesIndexRouteImport } from './routes/_layout/tables/index'
+import { Route as LayoutSettingsIndexRouteImport } from './routes/_layout/settings/index'
 import { Route as LayoutIconsIndexRouteImport } from './routes/_layout/icons/index'
 import { Route as LayoutChatIndexRouteImport } from './routes/_layout/chat/index'
 import { Route as LayoutChartsIndexRouteImport } from './routes/_layout/charts/index'
@@ -32,6 +34,11 @@ import { Route as PageForgotPasswordForgotPasswordCoverIndexRouteImport } from '
 import { Route as PageForgotPasswordForgotPasswordBasicIndexRouteImport } from './routes/_page/_forgot-password/forgotPassword-basic/index'
 import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } from './routes/_page/_email-verification/emailVerification-cover/index'
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
+import { Route as LayoutSettingsProfileIndexRouteImport } from './routes/_layout/settings/profile/index'
+import { Route as LayoutSettingsNotificationsIndexRouteImport } from './routes/_layout/settings/notifications/index'
+import { Route as LayoutSettingsBillingIndexRouteImport } from './routes/_layout/settings/billing/index'
+import { Route as LayoutSettingsAppearanceIndexRouteImport } from './routes/_layout/settings/appearance/index'
+import { Route as LayoutSettingsAccountIndexRouteImport } from './routes/_layout/settings/account/index'
 import { Route as LayoutFormSelectIndexRouteImport } from './routes/_layout/_form/select/index'
 import { Route as LayoutFormInputsIndexRouteImport } from './routes/_layout/_form/inputs/index'
 import { Route as LayoutFormDatePickerIndexRouteImport } from './routes/_layout/_form/date-picker/index'
@@ -56,6 +63,11 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRouteRoute,
 } as any)
+const LayoutSettingsRouteRoute = LayoutSettingsRouteRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => LayoutRouteRoute,
+} as any)
 const PageLockScreenIndexRoute = PageLockScreenIndexRouteImport.update({
   id: '/_page/lock-screen/',
   path: '/lock-screen/',
@@ -76,6 +88,11 @@ const LayoutTablesIndexRoute = LayoutTablesIndexRouteImport.update({
   id: '/tables/',
   path: '/tables/',
   getParentRoute: () => LayoutRouteRoute,
+} as any)
+const LayoutSettingsIndexRoute = LayoutSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LayoutSettingsRouteRoute,
 } as any)
 const LayoutIconsIndexRoute = LayoutIconsIndexRouteImport.update({
   id: '/icons/',
@@ -176,6 +193,36 @@ const PageEmailVerificationEmailVerificationBasicIndexRoute =
     path: '/emailVerification-basic/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LayoutSettingsProfileIndexRoute =
+  LayoutSettingsProfileIndexRouteImport.update({
+    id: '/profile/',
+    path: '/profile/',
+    getParentRoute: () => LayoutSettingsRouteRoute,
+  } as any)
+const LayoutSettingsNotificationsIndexRoute =
+  LayoutSettingsNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => LayoutSettingsRouteRoute,
+  } as any)
+const LayoutSettingsBillingIndexRoute =
+  LayoutSettingsBillingIndexRouteImport.update({
+    id: '/billing/',
+    path: '/billing/',
+    getParentRoute: () => LayoutSettingsRouteRoute,
+  } as any)
+const LayoutSettingsAppearanceIndexRoute =
+  LayoutSettingsAppearanceIndexRouteImport.update({
+    id: '/appearance/',
+    path: '/appearance/',
+    getParentRoute: () => LayoutSettingsRouteRoute,
+  } as any)
+const LayoutSettingsAccountIndexRoute =
+  LayoutSettingsAccountIndexRouteImport.update({
+    id: '/account/',
+    path: '/account/',
+    getParentRoute: () => LayoutSettingsRouteRoute,
+  } as any)
 const LayoutFormSelectIndexRoute = LayoutFormSelectIndexRouteImport.update({
   id: '/_form/select/',
   path: '/select/',
@@ -261,9 +308,11 @@ const LayoutComponentsAccordionsIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
+  '/settings': typeof LayoutSettingsRouteRouteWithChildren
   '/charts/': typeof LayoutChartsIndexRoute
   '/chat/': typeof LayoutChatIndexRoute
   '/icons/': typeof LayoutIconsIndexRoute
+  '/settings/': typeof LayoutSettingsIndexRoute
   '/tables/': typeof LayoutTablesIndexRoute
   '/task-management/': typeof LayoutTaskManagementIndexRoute
   '/to-do-list/': typeof LayoutToDoListIndexRoute
@@ -282,6 +331,11 @@ export interface FileRoutesByFullPath {
   '/date-picker/': typeof LayoutFormDatePickerIndexRoute
   '/inputs/': typeof LayoutFormInputsIndexRoute
   '/select/': typeof LayoutFormSelectIndexRoute
+  '/settings/account/': typeof LayoutSettingsAccountIndexRoute
+  '/settings/appearance/': typeof LayoutSettingsAppearanceIndexRoute
+  '/settings/billing/': typeof LayoutSettingsBillingIndexRoute
+  '/settings/notifications/': typeof LayoutSettingsNotificationsIndexRoute
+  '/settings/profile/': typeof LayoutSettingsProfileIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -302,6 +356,7 @@ export interface FileRoutesByTo {
   '/charts': typeof LayoutChartsIndexRoute
   '/chat': typeof LayoutChatIndexRoute
   '/icons': typeof LayoutIconsIndexRoute
+  '/settings': typeof LayoutSettingsIndexRoute
   '/tables': typeof LayoutTablesIndexRoute
   '/task-management': typeof LayoutTaskManagementIndexRoute
   '/to-do-list': typeof LayoutToDoListIndexRoute
@@ -320,6 +375,11 @@ export interface FileRoutesByTo {
   '/date-picker': typeof LayoutFormDatePickerIndexRoute
   '/inputs': typeof LayoutFormInputsIndexRoute
   '/select': typeof LayoutFormSelectIndexRoute
+  '/settings/account': typeof LayoutSettingsAccountIndexRoute
+  '/settings/appearance': typeof LayoutSettingsAppearanceIndexRoute
+  '/settings/billing': typeof LayoutSettingsBillingIndexRoute
+  '/settings/notifications': typeof LayoutSettingsNotificationsIndexRoute
+  '/settings/profile': typeof LayoutSettingsProfileIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -338,10 +398,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_layout': typeof LayoutRouteRouteWithChildren
+  '/_layout/settings': typeof LayoutSettingsRouteRouteWithChildren
   '/_layout/': typeof LayoutIndexRoute
   '/_layout/charts/': typeof LayoutChartsIndexRoute
   '/_layout/chat/': typeof LayoutChatIndexRoute
   '/_layout/icons/': typeof LayoutIconsIndexRoute
+  '/_layout/settings/': typeof LayoutSettingsIndexRoute
   '/_layout/tables/': typeof LayoutTablesIndexRoute
   '/_layout/task-management/': typeof LayoutTaskManagementIndexRoute
   '/_layout/to-do-list/': typeof LayoutToDoListIndexRoute
@@ -360,6 +422,11 @@ export interface FileRoutesById {
   '/_layout/_form/date-picker/': typeof LayoutFormDatePickerIndexRoute
   '/_layout/_form/inputs/': typeof LayoutFormInputsIndexRoute
   '/_layout/_form/select/': typeof LayoutFormSelectIndexRoute
+  '/_layout/settings/account/': typeof LayoutSettingsAccountIndexRoute
+  '/_layout/settings/appearance/': typeof LayoutSettingsAppearanceIndexRoute
+  '/_layout/settings/billing/': typeof LayoutSettingsBillingIndexRoute
+  '/_layout/settings/notifications/': typeof LayoutSettingsNotificationsIndexRoute
+  '/_layout/settings/profile/': typeof LayoutSettingsProfileIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/_page/_email-verification/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/_page/_forgot-password/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -379,9 +446,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/settings'
     | '/charts/'
     | '/chat/'
     | '/icons/'
+    | '/settings/'
     | '/tables/'
     | '/task-management/'
     | '/to-do-list/'
@@ -400,6 +469,11 @@ export interface FileRouteTypes {
     | '/date-picker/'
     | '/inputs/'
     | '/select/'
+    | '/settings/account/'
+    | '/settings/appearance/'
+    | '/settings/billing/'
+    | '/settings/notifications/'
+    | '/settings/profile/'
     | '/emailVerification-basic/'
     | '/emailVerification-cover/'
     | '/forgotPassword-basic/'
@@ -420,6 +494,7 @@ export interface FileRouteTypes {
     | '/charts'
     | '/chat'
     | '/icons'
+    | '/settings'
     | '/tables'
     | '/task-management'
     | '/to-do-list'
@@ -438,6 +513,11 @@ export interface FileRouteTypes {
     | '/date-picker'
     | '/inputs'
     | '/select'
+    | '/settings/account'
+    | '/settings/appearance'
+    | '/settings/billing'
+    | '/settings/notifications'
+    | '/settings/profile'
     | '/emailVerification-basic'
     | '/emailVerification-cover'
     | '/forgotPassword-basic'
@@ -455,10 +535,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_layout'
+    | '/_layout/settings'
     | '/_layout/'
     | '/_layout/charts/'
     | '/_layout/chat/'
     | '/_layout/icons/'
+    | '/_layout/settings/'
     | '/_layout/tables/'
     | '/_layout/task-management/'
     | '/_layout/to-do-list/'
@@ -477,6 +559,11 @@ export interface FileRouteTypes {
     | '/_layout/_form/date-picker/'
     | '/_layout/_form/inputs/'
     | '/_layout/_form/select/'
+    | '/_layout/settings/account/'
+    | '/_layout/settings/appearance/'
+    | '/_layout/settings/billing/'
+    | '/_layout/settings/notifications/'
+    | '/_layout/settings/profile/'
     | '/_page/_email-verification/emailVerification-basic/'
     | '/_page/_email-verification/emailVerification-cover/'
     | '/_page/_forgot-password/forgotPassword-basic/'
@@ -528,6 +615,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
+    '/_layout/settings': {
+      id: '/_layout/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof LayoutSettingsRouteRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_page/lock-screen/': {
       id: '/_page/lock-screen/'
       path: '/lock-screen'
@@ -555,6 +649,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tables/'
       preLoaderRoute: typeof LayoutTablesIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
+    }
+    '/_layout/settings/': {
+      id: '/_layout/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof LayoutSettingsIndexRouteImport
+      parentRoute: typeof LayoutSettingsRouteRoute
     }
     '/_layout/icons/': {
       id: '/_layout/icons/'
@@ -675,6 +776,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageEmailVerificationEmailVerificationBasicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/settings/profile/': {
+      id: '/_layout/settings/profile/'
+      path: '/profile'
+      fullPath: '/settings/profile/'
+      preLoaderRoute: typeof LayoutSettingsProfileIndexRouteImport
+      parentRoute: typeof LayoutSettingsRouteRoute
+    }
+    '/_layout/settings/notifications/': {
+      id: '/_layout/settings/notifications/'
+      path: '/notifications'
+      fullPath: '/settings/notifications/'
+      preLoaderRoute: typeof LayoutSettingsNotificationsIndexRouteImport
+      parentRoute: typeof LayoutSettingsRouteRoute
+    }
+    '/_layout/settings/billing/': {
+      id: '/_layout/settings/billing/'
+      path: '/billing'
+      fullPath: '/settings/billing/'
+      preLoaderRoute: typeof LayoutSettingsBillingIndexRouteImport
+      parentRoute: typeof LayoutSettingsRouteRoute
+    }
+    '/_layout/settings/appearance/': {
+      id: '/_layout/settings/appearance/'
+      path: '/appearance'
+      fullPath: '/settings/appearance/'
+      preLoaderRoute: typeof LayoutSettingsAppearanceIndexRouteImport
+      parentRoute: typeof LayoutSettingsRouteRoute
+    }
+    '/_layout/settings/account/': {
+      id: '/_layout/settings/account/'
+      path: '/account'
+      fullPath: '/settings/account/'
+      preLoaderRoute: typeof LayoutSettingsAccountIndexRouteImport
+      parentRoute: typeof LayoutSettingsRouteRoute
+    }
     '/_layout/_form/select/': {
       id: '/_layout/_form/select/'
       path: '/select'
@@ -776,7 +912,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LayoutSettingsRouteRouteChildren {
+  LayoutSettingsIndexRoute: typeof LayoutSettingsIndexRoute
+  LayoutSettingsAccountIndexRoute: typeof LayoutSettingsAccountIndexRoute
+  LayoutSettingsAppearanceIndexRoute: typeof LayoutSettingsAppearanceIndexRoute
+  LayoutSettingsBillingIndexRoute: typeof LayoutSettingsBillingIndexRoute
+  LayoutSettingsNotificationsIndexRoute: typeof LayoutSettingsNotificationsIndexRoute
+  LayoutSettingsProfileIndexRoute: typeof LayoutSettingsProfileIndexRoute
+}
+
+const LayoutSettingsRouteRouteChildren: LayoutSettingsRouteRouteChildren = {
+  LayoutSettingsIndexRoute: LayoutSettingsIndexRoute,
+  LayoutSettingsAccountIndexRoute: LayoutSettingsAccountIndexRoute,
+  LayoutSettingsAppearanceIndexRoute: LayoutSettingsAppearanceIndexRoute,
+  LayoutSettingsBillingIndexRoute: LayoutSettingsBillingIndexRoute,
+  LayoutSettingsNotificationsIndexRoute: LayoutSettingsNotificationsIndexRoute,
+  LayoutSettingsProfileIndexRoute: LayoutSettingsProfileIndexRoute,
+}
+
+const LayoutSettingsRouteRouteWithChildren =
+  LayoutSettingsRouteRoute._addFileChildren(LayoutSettingsRouteRouteChildren)
+
 interface LayoutRouteRouteChildren {
+  LayoutSettingsRouteRoute: typeof LayoutSettingsRouteRouteWithChildren
   LayoutIndexRoute: typeof LayoutIndexRoute
   LayoutChartsIndexRoute: typeof LayoutChartsIndexRoute
   LayoutChatIndexRoute: typeof LayoutChatIndexRoute
@@ -801,6 +959,7 @@ interface LayoutRouteRouteChildren {
 }
 
 const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
+  LayoutSettingsRouteRoute: LayoutSettingsRouteRouteWithChildren,
   LayoutIndexRoute: LayoutIndexRoute,
   LayoutChartsIndexRoute: LayoutChartsIndexRoute,
   LayoutChatIndexRoute: LayoutChatIndexRoute,

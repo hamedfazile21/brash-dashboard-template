@@ -20,6 +20,7 @@ import {
   ServerCrash,
   Wrench,
   Rocket,
+  Settings,
 } from 'lucide-react'
 
 export type SidebarChild = {
@@ -47,6 +48,13 @@ export const sidebar_data: SidebarItem[] = [
         title: 'Dashboard',
         icon: ChartNoAxesCombined,
         href: '/',
+        children: [],
+      },
+      {
+        id: 'settings',
+        title: 'Settings',
+        icon: Settings,
+        href: '/settings',
         children: [],
       },
     ],

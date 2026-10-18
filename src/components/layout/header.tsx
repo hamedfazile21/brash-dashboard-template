@@ -113,7 +113,7 @@ const Header = () => {
       <div className="flex items-center gap-x-3">
         <button
           className="btn btn-secondary btn-rounded-full"
-          onClick={() => navigate({ to: '.' })}
+          onClick={() => navigate({ to: '/settings' })}
         >
           <Settings size={18} />
         </button>
