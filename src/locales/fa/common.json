@@ -104,5 +104,14 @@
   "Go back": "بازگشت",
   "Back to dashboard": "بازگشت به داشبورد",
   "Or try one of these": "یا یکی از این‌ها را امتحان کنید",
-  "Charts": "نمودارها"
+  "Charts": "نمودارها",
+
+  "Internal server error": "خطای داخلی سرور",
+  "Something went wrong on our end. We're working to fix it — please try again in a moment.": "مشکلی از سمت ما پیش آمده است. در حال رفع آن هستیم — لطفاً چند لحظه دیگر دوباره تلاش کنید.",
+  "Try again": "تلاش مجدد",
+  "Error details": "جزئیات خطا",
+  "Status": "وضعیت",
+  "Request ID": "شناسه درخواست",
+  "Time": "زمان",
+  "If the problem persists, share these details with support.": "اگر مشکل ادامه داشت، این جزئیات را با پشتیبانی به اشتراک بگذارید."
 }

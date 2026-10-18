@@ -16,7 +16,8 @@ import {
   Table,
   RectangleEllipsis,
   Palette,
-  X,
+  Compass,
+  ServerCrash,
 } from 'lucide-react'
 
 export type SidebarChild = {
@@ -184,9 +185,16 @@ export const sidebar_data: SidebarItem[] = [
     children: [
       {
         id: 'not-found',
-        title: 'Not Found & 400',
-        icon: X,
+        title: 'Not Found & 404',
+        icon: Compass,
         href: '/not-found',
+        children: [],
+      },
+      {
+        id: 'internal-server-error',
+        title: 'Internal Server Error & 500',
+        icon: ServerCrash,
+        href: '/internal-server-error',
         children: [],
       },
     ],
