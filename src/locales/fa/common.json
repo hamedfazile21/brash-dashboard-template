@@ -99,15 +99,10 @@
   "English": "انگلیسی",
   "Farsi": "فارسی",
 
-  "Page not found": "صفحه پیدا نشد",
-  "Looks like you've wandered off the map. The page you're looking for doesn't exist or has been moved.": "به نظر می‌رسد راه را گم کرده‌اید. صفحه‌ای که به دنبال آن هستید وجود ندارد یا جابه‌جا شده است.",
   "Go back": "بازگشت",
   "Back to dashboard": "بازگشت به داشبورد",
-  "Or try one of these": "یا یکی از این‌ها را امتحان کنید",
   "Charts": "نمودارها",
 
-  "Internal server error": "خطای داخلی سرور",
-  "Something went wrong on our end. We're working to fix it — please try again in a moment.": "مشکلی از سمت ما پیش آمده است. در حال رفع آن هستیم — لطفاً چند لحظه دیگر دوباره تلاش کنید.",
   "Try again": "تلاش مجدد",
   "Error details": "جزئیات خطا",
   "Status": "وضعیت",
@@ -128,5 +123,17 @@
   "you@example.com": "you@example.com",
   "Notify me": "به من اطلاع بده",
   "We'll let you know when we're back": "وقتی برگشتیم به شما اطلاع می‌دهیم",
-  "Check again": "بررسی مجدد"
+  "Check again": "بررسی مجدد",
+
+  "Error 404": "خطای ۴۰۴",
+  "Lost in space": "در فضا گم شدید",
+  "The page you're looking for drifted out of orbit. It may have been moved, renamed, or never existed.": "صفحه‌ای که دنبالش هستید از مدار خارج شده است. ممکن است جابه‌جا شده، تغییر نام داده یا اصلاً وجود نداشته باشد.",
+  "Popular destinations": "مقصدهای پرطرفدار",
+  "Overview & stats": "نمای کلی و آمار",
+  "Messages & contacts": "پیام‌ها و مخاطبین",
+  "Visual reports": "گزارش‌های تصویری",
+  "Tasks for today": "کارهای امروز",
+  "Error 500": "خطای ۵۰۰",
+  "Something broke on our side": "مشکلی از سمت ما پیش آمد",
+  "It's not you, it's us. Our servers hit an unexpected error — we've been notified and are already on it.": "مشکل از شما نیست، از ماست. سرورهای ما با خطای غیرمنتظره‌ای مواجه شدند — به ما اطلاع داده شده و در حال رفع آن هستیم."
 }
