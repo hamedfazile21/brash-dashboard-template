@@ -113,5 +113,20 @@
   "Status": "وضعیت",
   "Request ID": "شناسه درخواست",
   "Time": "زمان",
-  "If the problem persists, share these details with support.": "اگر مشکل ادامه داشت، این جزئیات را با پشتیبانی به اشتراک بگذارید."
+  "If the problem persists, share these details with support.": "اگر مشکل ادامه داشت، این جزئیات را با پشتیبانی به اشتراک بگذارید.",
+
+  "Scheduled maintenance": "نگهداری برنامه‌ریزی‌شده",
+  "We'll be back soon": "به زودی برمی‌گردیم",
+  "We're upgrading our systems to serve you better. Thanks for your patience — everything will be up and running shortly.": "در حال ارتقای سیستم‌ها برای ارائه خدمات بهتر هستیم. از صبر شما سپاسگزاریم — همه چیز به زودی دوباره در دسترس خواهد بود.",
+  "Hours": "ساعت",
+  "Minutes": "دقیقه",
+  "Seconds": "ثانیه",
+  "Progress": "پیشرفت",
+  "Get notified when we're back": "وقتی برگشتیم به من اطلاع بده",
+  "Email is required": "ایمیل الزامی است",
+  "Enter a valid email": "یک ایمیل معتبر وارد کنید",
+  "you@example.com": "you@example.com",
+  "Notify me": "به من اطلاع بده",
+  "We'll let you know when we're back": "وقتی برگشتیم به شما اطلاع می‌دهیم",
+  "Check again": "بررسی مجدد"
 }

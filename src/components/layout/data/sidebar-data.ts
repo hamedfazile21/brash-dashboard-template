@@ -18,6 +18,7 @@ import {
   Palette,
   Compass,
   ServerCrash,
+  Wrench,
 } from 'lucide-react'
 
 export type SidebarChild = {
@@ -197,6 +198,14 @@ export const sidebar_data: SidebarItem[] = [
         href: '/internal-server-error',
         children: [],
       },
+      {
+        id: 'maintenance',
+        title: 'Maintenance',
+        icon: Wrench,
+        href: '/maintenance',
+        children: [],
+      },
+      //maintenance
     ],
   },
   {

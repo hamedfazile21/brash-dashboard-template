@@ -19,6 +19,7 @@ import { Route as LayoutIconsIndexRouteImport } from './routes/_layout/icons/ind
 import { Route as LayoutChatIndexRouteImport } from './routes/_layout/chat/index'
 import { Route as LayoutChartsIndexRouteImport } from './routes/_layout/charts/index'
 import { Route as PageUtilityPageNotFoundIndexRouteImport } from './routes/_page/_utility-page/not-found/index'
+import { Route as PageUtilityPageMaintenanceIndexRouteImport } from './routes/_page/_utility-page/maintenance/index'
 import { Route as PageUtilityPageInternalServerErrorIndexRouteImport } from './routes/_page/_utility-page/internal-server-error/index'
 import { Route as PageResetResetCoverIndexRouteImport } from './routes/_page/_reset/reset-cover/index'
 import { Route as PageResetResetBasicIndexRouteImport } from './routes/_page/_reset/reset-basic/index'
@@ -94,6 +95,12 @@ const PageUtilityPageNotFoundIndexRoute =
   PageUtilityPageNotFoundIndexRouteImport.update({
     id: '/_page/_utility-page/not-found/',
     path: '/not-found/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PageUtilityPageMaintenanceIndexRoute =
+  PageUtilityPageMaintenanceIndexRouteImport.update({
+    id: '/_page/_utility-page/maintenance/',
+    path: '/maintenance/',
     getParentRoute: () => rootRouteImport,
   } as any)
 const PageUtilityPageInternalServerErrorIndexRoute =
@@ -279,6 +286,7 @@ export interface FileRoutesByFullPath {
   '/reset-basic/': typeof PageResetResetBasicIndexRoute
   '/reset-cover/': typeof PageResetResetCoverIndexRoute
   '/internal-server-error/': typeof PageUtilityPageInternalServerErrorIndexRoute
+  '/maintenance/': typeof PageUtilityPageMaintenanceIndexRoute
   '/not-found/': typeof PageUtilityPageNotFoundIndexRoute
 }
 export interface FileRoutesByTo {
@@ -315,6 +323,7 @@ export interface FileRoutesByTo {
   '/reset-basic': typeof PageResetResetBasicIndexRoute
   '/reset-cover': typeof PageResetResetCoverIndexRoute
   '/internal-server-error': typeof PageUtilityPageInternalServerErrorIndexRoute
+  '/maintenance': typeof PageUtilityPageMaintenanceIndexRoute
   '/not-found': typeof PageUtilityPageNotFoundIndexRoute
 }
 export interface FileRoutesById {
@@ -353,6 +362,7 @@ export interface FileRoutesById {
   '/_page/_reset/reset-basic/': typeof PageResetResetBasicIndexRoute
   '/_page/_reset/reset-cover/': typeof PageResetResetCoverIndexRoute
   '/_page/_utility-page/internal-server-error/': typeof PageUtilityPageInternalServerErrorIndexRoute
+  '/_page/_utility-page/maintenance/': typeof PageUtilityPageMaintenanceIndexRoute
   '/_page/_utility-page/not-found/': typeof PageUtilityPageNotFoundIndexRoute
 }
 export interface FileRouteTypes {
@@ -391,6 +401,7 @@ export interface FileRouteTypes {
     | '/reset-basic/'
     | '/reset-cover/'
     | '/internal-server-error/'
+    | '/maintenance/'
     | '/not-found/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -427,6 +438,7 @@ export interface FileRouteTypes {
     | '/reset-basic'
     | '/reset-cover'
     | '/internal-server-error'
+    | '/maintenance'
     | '/not-found'
   id:
     | '__root__'
@@ -464,6 +476,7 @@ export interface FileRouteTypes {
     | '/_page/_reset/reset-basic/'
     | '/_page/_reset/reset-cover/'
     | '/_page/_utility-page/internal-server-error/'
+    | '/_page/_utility-page/maintenance/'
     | '/_page/_utility-page/not-found/'
   fileRoutesById: FileRoutesById
 }
@@ -481,6 +494,7 @@ export interface RootRouteChildren {
   PageResetResetBasicIndexRoute: typeof PageResetResetBasicIndexRoute
   PageResetResetCoverIndexRoute: typeof PageResetResetCoverIndexRoute
   PageUtilityPageInternalServerErrorIndexRoute: typeof PageUtilityPageInternalServerErrorIndexRoute
+  PageUtilityPageMaintenanceIndexRoute: typeof PageUtilityPageMaintenanceIndexRoute
   PageUtilityPageNotFoundIndexRoute: typeof PageUtilityPageNotFoundIndexRoute
 }
 
@@ -554,6 +568,13 @@ declare module '@tanstack/react-router' {
       path: '/not-found'
       fullPath: '/not-found/'
       preLoaderRoute: typeof PageUtilityPageNotFoundIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_page/_utility-page/maintenance/': {
+      id: '/_page/_utility-page/maintenance/'
+      path: '/maintenance'
+      fullPath: '/maintenance/'
+      preLoaderRoute: typeof PageUtilityPageMaintenanceIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_page/_utility-page/internal-server-error/': {
@@ -806,6 +827,7 @@ const rootRouteChildren: RootRouteChildren = {
   PageResetResetCoverIndexRoute: PageResetResetCoverIndexRoute,
   PageUtilityPageInternalServerErrorIndexRoute:
     PageUtilityPageInternalServerErrorIndexRoute,
+  PageUtilityPageMaintenanceIndexRoute: PageUtilityPageMaintenanceIndexRoute,
   PageUtilityPageNotFoundIndexRoute: PageUtilityPageNotFoundIndexRoute,
 }
 export const routeTree = rootRouteImport
