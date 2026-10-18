@@ -86,6 +86,15 @@
   --animate-float: float 6s ease-in-out infinite;
   --animate-twinkle: twinkle 3s ease-in-out infinite;
   --animate-blink: blink 1s steps(2, start) infinite;
+  --animate-grow: grow 2.4s ease-in-out infinite alternate;
+  @keyframes grow {
+    from {
+      transform: scaleY(0.35);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
   @keyframes float {
     0%,
     100% {

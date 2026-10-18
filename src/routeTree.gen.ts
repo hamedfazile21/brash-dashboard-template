@@ -21,6 +21,7 @@ import { Route as LayoutChartsIndexRouteImport } from './routes/_layout/charts/i
 import { Route as PageUtilityPageNotFoundIndexRouteImport } from './routes/_page/_utility-page/not-found/index'
 import { Route as PageUtilityPageMaintenanceIndexRouteImport } from './routes/_page/_utility-page/maintenance/index'
 import { Route as PageUtilityPageInternalServerErrorIndexRouteImport } from './routes/_page/_utility-page/internal-server-error/index'
+import { Route as PageUtilityPageComingSoonIndexRouteImport } from './routes/_page/_utility-page/coming-soon/index'
 import { Route as PageResetResetCoverIndexRouteImport } from './routes/_page/_reset/reset-cover/index'
 import { Route as PageResetResetBasicIndexRouteImport } from './routes/_page/_reset/reset-basic/index'
 import { Route as PageRegisterRegisterCoverIndexRouteImport } from './routes/_page/_register/register-cover/index'
@@ -107,6 +108,12 @@ const PageUtilityPageInternalServerErrorIndexRoute =
   PageUtilityPageInternalServerErrorIndexRouteImport.update({
     id: '/_page/_utility-page/internal-server-error/',
     path: '/internal-server-error/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PageUtilityPageComingSoonIndexRoute =
+  PageUtilityPageComingSoonIndexRouteImport.update({
+    id: '/_page/_utility-page/coming-soon/',
+    path: '/coming-soon/',
     getParentRoute: () => rootRouteImport,
   } as any)
 const PageResetResetCoverIndexRoute =
@@ -285,6 +292,7 @@ export interface FileRoutesByFullPath {
   '/register-cover/': typeof PageRegisterRegisterCoverIndexRoute
   '/reset-basic/': typeof PageResetResetBasicIndexRoute
   '/reset-cover/': typeof PageResetResetCoverIndexRoute
+  '/coming-soon/': typeof PageUtilityPageComingSoonIndexRoute
   '/internal-server-error/': typeof PageUtilityPageInternalServerErrorIndexRoute
   '/maintenance/': typeof PageUtilityPageMaintenanceIndexRoute
   '/not-found/': typeof PageUtilityPageNotFoundIndexRoute
@@ -322,6 +330,7 @@ export interface FileRoutesByTo {
   '/register-cover': typeof PageRegisterRegisterCoverIndexRoute
   '/reset-basic': typeof PageResetResetBasicIndexRoute
   '/reset-cover': typeof PageResetResetCoverIndexRoute
+  '/coming-soon': typeof PageUtilityPageComingSoonIndexRoute
   '/internal-server-error': typeof PageUtilityPageInternalServerErrorIndexRoute
   '/maintenance': typeof PageUtilityPageMaintenanceIndexRoute
   '/not-found': typeof PageUtilityPageNotFoundIndexRoute
@@ -361,6 +370,7 @@ export interface FileRoutesById {
   '/_page/_register/register-cover/': typeof PageRegisterRegisterCoverIndexRoute
   '/_page/_reset/reset-basic/': typeof PageResetResetBasicIndexRoute
   '/_page/_reset/reset-cover/': typeof PageResetResetCoverIndexRoute
+  '/_page/_utility-page/coming-soon/': typeof PageUtilityPageComingSoonIndexRoute
   '/_page/_utility-page/internal-server-error/': typeof PageUtilityPageInternalServerErrorIndexRoute
   '/_page/_utility-page/maintenance/': typeof PageUtilityPageMaintenanceIndexRoute
   '/_page/_utility-page/not-found/': typeof PageUtilityPageNotFoundIndexRoute
@@ -400,6 +410,7 @@ export interface FileRouteTypes {
     | '/register-cover/'
     | '/reset-basic/'
     | '/reset-cover/'
+    | '/coming-soon/'
     | '/internal-server-error/'
     | '/maintenance/'
     | '/not-found/'
@@ -437,6 +448,7 @@ export interface FileRouteTypes {
     | '/register-cover'
     | '/reset-basic'
     | '/reset-cover'
+    | '/coming-soon'
     | '/internal-server-error'
     | '/maintenance'
     | '/not-found'
@@ -475,6 +487,7 @@ export interface FileRouteTypes {
     | '/_page/_register/register-cover/'
     | '/_page/_reset/reset-basic/'
     | '/_page/_reset/reset-cover/'
+    | '/_page/_utility-page/coming-soon/'
     | '/_page/_utility-page/internal-server-error/'
     | '/_page/_utility-page/maintenance/'
     | '/_page/_utility-page/not-found/'
@@ -493,6 +506,7 @@ export interface RootRouteChildren {
   PageRegisterRegisterCoverIndexRoute: typeof PageRegisterRegisterCoverIndexRoute
   PageResetResetBasicIndexRoute: typeof PageResetResetBasicIndexRoute
   PageResetResetCoverIndexRoute: typeof PageResetResetCoverIndexRoute
+  PageUtilityPageComingSoonIndexRoute: typeof PageUtilityPageComingSoonIndexRoute
   PageUtilityPageInternalServerErrorIndexRoute: typeof PageUtilityPageInternalServerErrorIndexRoute
   PageUtilityPageMaintenanceIndexRoute: typeof PageUtilityPageMaintenanceIndexRoute
   PageUtilityPageNotFoundIndexRoute: typeof PageUtilityPageNotFoundIndexRoute
@@ -582,6 +596,13 @@ declare module '@tanstack/react-router' {
       path: '/internal-server-error'
       fullPath: '/internal-server-error/'
       preLoaderRoute: typeof PageUtilityPageInternalServerErrorIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_page/_utility-page/coming-soon/': {
+      id: '/_page/_utility-page/coming-soon/'
+      path: '/coming-soon'
+      fullPath: '/coming-soon/'
+      preLoaderRoute: typeof PageUtilityPageComingSoonIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_page/_reset/reset-cover/': {
@@ -825,6 +846,7 @@ const rootRouteChildren: RootRouteChildren = {
   PageRegisterRegisterCoverIndexRoute: PageRegisterRegisterCoverIndexRoute,
   PageResetResetBasicIndexRoute: PageResetResetBasicIndexRoute,
   PageResetResetCoverIndexRoute: PageResetResetCoverIndexRoute,
+  PageUtilityPageComingSoonIndexRoute: PageUtilityPageComingSoonIndexRoute,
   PageUtilityPageInternalServerErrorIndexRoute:
     PageUtilityPageInternalServerErrorIndexRoute,
   PageUtilityPageMaintenanceIndexRoute: PageUtilityPageMaintenanceIndexRoute,

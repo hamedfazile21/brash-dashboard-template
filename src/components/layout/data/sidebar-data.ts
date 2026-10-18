@@ -19,6 +19,7 @@ import {
   Compass,
   ServerCrash,
   Wrench,
+  Rocket,
 } from 'lucide-react'
 
 export type SidebarChild = {
@@ -203,6 +204,13 @@ export const sidebar_data: SidebarItem[] = [
         title: 'Maintenance',
         icon: Wrench,
         href: '/maintenance',
+        children: [],
+      },
+      {
+        id: 'coming-soon',
+        title: 'Coming Soon',
+        icon: Rocket,
+        href: '/coming-soon',
         children: [],
       },
       //maintenance

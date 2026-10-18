@@ -135,5 +135,26 @@
   "Tasks for today": "کارهای امروز",
   "Error 500": "خطای ۵۰۰",
   "Something broke on our side": "مشکلی از سمت ما پیش آمد",
-  "It's not you, it's us. Our servers hit an unexpected error — we've been notified and are already on it.": "مشکل از شما نیست، از ماست. سرورهای ما با خطای غیرمنتظره‌ای مواجه شدند — به ما اطلاع داده شده و در حال رفع آن هستیم."
+  "It's not you, it's us. Our servers hit an unexpected error — we've been notified and are already on it.": "مشکل از شما نیست، از ماست. سرورهای ما با خطای غیرمنتظره‌ای مواجه شدند — به ما اطلاع داده شده و در حال رفع آن هستیم.",
+
+  "Days": "روز",
+  "Estimated time remaining": "زمان تقریبی باقی‌مانده",
+  "Backing up data": "پشتیبان‌گیری از داده‌ها",
+  "Migrating database": "انتقال پایگاه داده",
+  "Deploying new services": "استقرار سرویس‌های جدید",
+  "Running health checks": "بررسی سلامت سیستم",
+  "Done": "انجام شد",
+  "Running": "در حال اجرا",
+  "Queued": "در صف",
+  "Your data is safe": "داده‌های شما امن است",
+  "Launching soon": "به زودی راه‌اندازی می‌شود",
+  "Something new is": "چیزی جدید",
+  "on the way": "در راه است",
+  "We're putting the finishing touches on a faster, smarter experience. Join the waitlist and be the first to try it.": "در حال تکمیل آخرین جزئیات یک تجربه سریع‌تر و هوشمندتر هستیم. به لیست انتظار بپیوندید و اولین نفری باشید که آن را امتحان می‌کند.",
+  "Join waitlist": "پیوستن به لیست انتظار",
+  "You're on the waitlist!": "شما به لیست انتظار اضافه شدید!",
+  "people already joined": "نفر تاکنون پیوسته‌اند",
+  "Smart reports": "گزارش‌های هوشمند",
+  "New": "جدید",
+  "Launch readiness": "آمادگی راه‌اندازی"
 }
