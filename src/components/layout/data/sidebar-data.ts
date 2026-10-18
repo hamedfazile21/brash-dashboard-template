@@ -16,6 +16,7 @@ import {
   Table,
   RectangleEllipsis,
   Palette,
+  X,
 } from 'lucide-react'
 
 export type SidebarChild = {
@@ -169,6 +170,23 @@ export const sidebar_data: SidebarItem[] = [
         icon: Lock,
         href: '/lock-screen',
         type: 'simple',
+        children: [],
+      },
+    ],
+  },
+
+  // Utility pages
+
+  {
+    id: 'utility_pages',
+    title: 'Utility pages',
+    type: 'group',
+    children: [
+      {
+        id: 'not-found',
+        title: 'Not Found & 400',
+        icon: X,
+        href: '/not-found',
         children: [],
       },
     ],

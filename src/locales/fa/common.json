@@ -97,5 +97,12 @@
   "Mailbox": "صندوق پیام‌ها",
   "Projects": "پروژه ها",
   "English": "انگلیسی",
-  "Farsi": "فارسی"
+  "Farsi": "فارسی",
+
+  "Page not found": "صفحه پیدا نشد",
+  "Looks like you've wandered off the map. The page you're looking for doesn't exist or has been moved.": "به نظر می‌رسد راه را گم کرده‌اید. صفحه‌ای که به دنبال آن هستید وجود ندارد یا جابه‌جا شده است.",
+  "Go back": "بازگشت",
+  "Back to dashboard": "بازگشت به داشبورد",
+  "Or try one of these": "یا یکی از این‌ها را امتحان کنید",
+  "Charts": "نمودارها"
 }

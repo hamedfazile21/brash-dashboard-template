@@ -18,6 +18,8 @@ import { Route as LayoutTablesIndexRouteImport } from './routes/_layout/tables/i
 import { Route as LayoutIconsIndexRouteImport } from './routes/_layout/icons/index'
 import { Route as LayoutChatIndexRouteImport } from './routes/_layout/chat/index'
 import { Route as LayoutChartsIndexRouteImport } from './routes/_layout/charts/index'
+import { Route as PageUtilityPageNotFoundIndexRouteImport } from './routes/_page/_utility-page/not-found/index'
+import { Route as PageUtilityPageInternalServerErrorIndexRouteImport } from './routes/_page/_utility-page/internal-server-error/index'
 import { Route as PageResetResetCoverIndexRouteImport } from './routes/_page/_reset/reset-cover/index'
 import { Route as PageResetResetBasicIndexRouteImport } from './routes/_page/_reset/reset-basic/index'
 import { Route as PageRegisterRegisterCoverIndexRouteImport } from './routes/_page/_register/register-cover/index'
@@ -88,6 +90,18 @@ const LayoutChartsIndexRoute = LayoutChartsIndexRouteImport.update({
   path: '/charts/',
   getParentRoute: () => LayoutRouteRoute,
 } as any)
+const PageUtilityPageNotFoundIndexRoute =
+  PageUtilityPageNotFoundIndexRouteImport.update({
+    id: '/_page/_utility-page/not-found/',
+    path: '/not-found/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PageUtilityPageInternalServerErrorIndexRoute =
+  PageUtilityPageInternalServerErrorIndexRouteImport.update({
+    id: '/_page/_utility-page/internal-server-error/',
+    path: '/internal-server-error/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PageResetResetCoverIndexRoute =
   PageResetResetCoverIndexRouteImport.update({
     id: '/_page/_reset/reset-cover/',
@@ -264,6 +278,8 @@ export interface FileRoutesByFullPath {
   '/register-cover/': typeof PageRegisterRegisterCoverIndexRoute
   '/reset-basic/': typeof PageResetResetBasicIndexRoute
   '/reset-cover/': typeof PageResetResetCoverIndexRoute
+  '/internal-server-error/': typeof PageUtilityPageInternalServerErrorIndexRoute
+  '/not-found/': typeof PageUtilityPageNotFoundIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof LayoutIndexRoute
@@ -298,6 +314,8 @@ export interface FileRoutesByTo {
   '/register-cover': typeof PageRegisterRegisterCoverIndexRoute
   '/reset-basic': typeof PageResetResetBasicIndexRoute
   '/reset-cover': typeof PageResetResetCoverIndexRoute
+  '/internal-server-error': typeof PageUtilityPageInternalServerErrorIndexRoute
+  '/not-found': typeof PageUtilityPageNotFoundIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -334,6 +352,8 @@ export interface FileRoutesById {
   '/_page/_register/register-cover/': typeof PageRegisterRegisterCoverIndexRoute
   '/_page/_reset/reset-basic/': typeof PageResetResetBasicIndexRoute
   '/_page/_reset/reset-cover/': typeof PageResetResetCoverIndexRoute
+  '/_page/_utility-page/internal-server-error/': typeof PageUtilityPageInternalServerErrorIndexRoute
+  '/_page/_utility-page/not-found/': typeof PageUtilityPageNotFoundIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -370,6 +390,8 @@ export interface FileRouteTypes {
     | '/register-cover/'
     | '/reset-basic/'
     | '/reset-cover/'
+    | '/internal-server-error/'
+    | '/not-found/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -404,6 +426,8 @@ export interface FileRouteTypes {
     | '/register-cover'
     | '/reset-basic'
     | '/reset-cover'
+    | '/internal-server-error'
+    | '/not-found'
   id:
     | '__root__'
     | '/_layout'
@@ -439,6 +463,8 @@ export interface FileRouteTypes {
     | '/_page/_register/register-cover/'
     | '/_page/_reset/reset-basic/'
     | '/_page/_reset/reset-cover/'
+    | '/_page/_utility-page/internal-server-error/'
+    | '/_page/_utility-page/not-found/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -454,6 +480,8 @@ export interface RootRouteChildren {
   PageRegisterRegisterCoverIndexRoute: typeof PageRegisterRegisterCoverIndexRoute
   PageResetResetBasicIndexRoute: typeof PageResetResetBasicIndexRoute
   PageResetResetCoverIndexRoute: typeof PageResetResetCoverIndexRoute
+  PageUtilityPageInternalServerErrorIndexRoute: typeof PageUtilityPageInternalServerErrorIndexRoute
+  PageUtilityPageNotFoundIndexRoute: typeof PageUtilityPageNotFoundIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -520,6 +548,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/charts/'
       preLoaderRoute: typeof LayoutChartsIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
+    }
+    '/_page/_utility-page/not-found/': {
+      id: '/_page/_utility-page/not-found/'
+      path: '/not-found'
+      fullPath: '/not-found/'
+      preLoaderRoute: typeof PageUtilityPageNotFoundIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_page/_utility-page/internal-server-error/': {
+      id: '/_page/_utility-page/internal-server-error/'
+      path: '/internal-server-error'
+      fullPath: '/internal-server-error/'
+      preLoaderRoute: typeof PageUtilityPageInternalServerErrorIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_page/_reset/reset-cover/': {
       id: '/_page/_reset/reset-cover/'
@@ -762,6 +804,9 @@ const rootRouteChildren: RootRouteChildren = {
   PageRegisterRegisterCoverIndexRoute: PageRegisterRegisterCoverIndexRoute,
   PageResetResetBasicIndexRoute: PageResetResetBasicIndexRoute,
   PageResetResetCoverIndexRoute: PageResetResetCoverIndexRoute,
+  PageUtilityPageInternalServerErrorIndexRoute:
+    PageUtilityPageInternalServerErrorIndexRoute,
+  PageUtilityPageNotFoundIndexRoute: PageUtilityPageNotFoundIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
