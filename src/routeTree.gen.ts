@@ -34,11 +34,7 @@ import { Route as PageForgotPasswordForgotPasswordCoverIndexRouteImport } from '
 import { Route as PageForgotPasswordForgotPasswordBasicIndexRouteImport } from './routes/_page/_forgot-password/forgotPassword-basic/index'
 import { Route as PageEmailVerificationEmailVerificationCoverIndexRouteImport } from './routes/_page/_email-verification/emailVerification-cover/index'
 import { Route as PageEmailVerificationEmailVerificationBasicIndexRouteImport } from './routes/_page/_email-verification/emailVerification-basic/index'
-import { Route as LayoutSettingsProfileIndexRouteImport } from './routes/_layout/settings/profile/index'
-import { Route as LayoutSettingsNotificationsIndexRouteImport } from './routes/_layout/settings/notifications/index'
-import { Route as LayoutSettingsBillingIndexRouteImport } from './routes/_layout/settings/billing/index'
 import { Route as LayoutSettingsAppearanceIndexRouteImport } from './routes/_layout/settings/appearance/index'
-import { Route as LayoutSettingsAccountIndexRouteImport } from './routes/_layout/settings/account/index'
 import { Route as LayoutFormSelectIndexRouteImport } from './routes/_layout/_form/select/index'
 import { Route as LayoutFormInputsIndexRouteImport } from './routes/_layout/_form/inputs/index'
 import { Route as LayoutFormDatePickerIndexRouteImport } from './routes/_layout/_form/date-picker/index'
@@ -193,34 +189,10 @@ const PageEmailVerificationEmailVerificationBasicIndexRoute =
     path: '/emailVerification-basic/',
     getParentRoute: () => rootRouteImport,
   } as any)
-const LayoutSettingsProfileIndexRoute =
-  LayoutSettingsProfileIndexRouteImport.update({
-    id: '/profile/',
-    path: '/profile/',
-    getParentRoute: () => LayoutSettingsRouteRoute,
-  } as any)
-const LayoutSettingsNotificationsIndexRoute =
-  LayoutSettingsNotificationsIndexRouteImport.update({
-    id: '/notifications/',
-    path: '/notifications/',
-    getParentRoute: () => LayoutSettingsRouteRoute,
-  } as any)
-const LayoutSettingsBillingIndexRoute =
-  LayoutSettingsBillingIndexRouteImport.update({
-    id: '/billing/',
-    path: '/billing/',
-    getParentRoute: () => LayoutSettingsRouteRoute,
-  } as any)
 const LayoutSettingsAppearanceIndexRoute =
   LayoutSettingsAppearanceIndexRouteImport.update({
     id: '/appearance/',
     path: '/appearance/',
-    getParentRoute: () => LayoutSettingsRouteRoute,
-  } as any)
-const LayoutSettingsAccountIndexRoute =
-  LayoutSettingsAccountIndexRouteImport.update({
-    id: '/account/',
-    path: '/account/',
     getParentRoute: () => LayoutSettingsRouteRoute,
   } as any)
 const LayoutFormSelectIndexRoute = LayoutFormSelectIndexRouteImport.update({
@@ -331,11 +303,7 @@ export interface FileRoutesByFullPath {
   '/date-picker/': typeof LayoutFormDatePickerIndexRoute
   '/inputs/': typeof LayoutFormInputsIndexRoute
   '/select/': typeof LayoutFormSelectIndexRoute
-  '/settings/account/': typeof LayoutSettingsAccountIndexRoute
   '/settings/appearance/': typeof LayoutSettingsAppearanceIndexRoute
-  '/settings/billing/': typeof LayoutSettingsBillingIndexRoute
-  '/settings/notifications/': typeof LayoutSettingsNotificationsIndexRoute
-  '/settings/profile/': typeof LayoutSettingsProfileIndexRoute
   '/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -375,11 +343,7 @@ export interface FileRoutesByTo {
   '/date-picker': typeof LayoutFormDatePickerIndexRoute
   '/inputs': typeof LayoutFormInputsIndexRoute
   '/select': typeof LayoutFormSelectIndexRoute
-  '/settings/account': typeof LayoutSettingsAccountIndexRoute
   '/settings/appearance': typeof LayoutSettingsAppearanceIndexRoute
-  '/settings/billing': typeof LayoutSettingsBillingIndexRoute
-  '/settings/notifications': typeof LayoutSettingsNotificationsIndexRoute
-  '/settings/profile': typeof LayoutSettingsProfileIndexRoute
   '/emailVerification-basic': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/emailVerification-cover': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/forgotPassword-basic': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -422,11 +386,7 @@ export interface FileRoutesById {
   '/_layout/_form/date-picker/': typeof LayoutFormDatePickerIndexRoute
   '/_layout/_form/inputs/': typeof LayoutFormInputsIndexRoute
   '/_layout/_form/select/': typeof LayoutFormSelectIndexRoute
-  '/_layout/settings/account/': typeof LayoutSettingsAccountIndexRoute
   '/_layout/settings/appearance/': typeof LayoutSettingsAppearanceIndexRoute
-  '/_layout/settings/billing/': typeof LayoutSettingsBillingIndexRoute
-  '/_layout/settings/notifications/': typeof LayoutSettingsNotificationsIndexRoute
-  '/_layout/settings/profile/': typeof LayoutSettingsProfileIndexRoute
   '/_page/_email-verification/emailVerification-basic/': typeof PageEmailVerificationEmailVerificationBasicIndexRoute
   '/_page/_email-verification/emailVerification-cover/': typeof PageEmailVerificationEmailVerificationCoverIndexRoute
   '/_page/_forgot-password/forgotPassword-basic/': typeof PageForgotPasswordForgotPasswordBasicIndexRoute
@@ -469,11 +429,7 @@ export interface FileRouteTypes {
     | '/date-picker/'
     | '/inputs/'
     | '/select/'
-    | '/settings/account/'
     | '/settings/appearance/'
-    | '/settings/billing/'
-    | '/settings/notifications/'
-    | '/settings/profile/'
     | '/emailVerification-basic/'
     | '/emailVerification-cover/'
     | '/forgotPassword-basic/'
@@ -513,11 +469,7 @@ export interface FileRouteTypes {
     | '/date-picker'
     | '/inputs'
     | '/select'
-    | '/settings/account'
     | '/settings/appearance'
-    | '/settings/billing'
-    | '/settings/notifications'
-    | '/settings/profile'
     | '/emailVerification-basic'
     | '/emailVerification-cover'
     | '/forgotPassword-basic'
@@ -559,11 +511,7 @@ export interface FileRouteTypes {
     | '/_layout/_form/date-picker/'
     | '/_layout/_form/inputs/'
     | '/_layout/_form/select/'
-    | '/_layout/settings/account/'
     | '/_layout/settings/appearance/'
-    | '/_layout/settings/billing/'
-    | '/_layout/settings/notifications/'
-    | '/_layout/settings/profile/'
     | '/_page/_email-verification/emailVerification-basic/'
     | '/_page/_email-verification/emailVerification-cover/'
     | '/_page/_forgot-password/forgotPassword-basic/'
@@ -776,39 +724,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageEmailVerificationEmailVerificationBasicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_layout/settings/profile/': {
-      id: '/_layout/settings/profile/'
-      path: '/profile'
-      fullPath: '/settings/profile/'
-      preLoaderRoute: typeof LayoutSettingsProfileIndexRouteImport
-      parentRoute: typeof LayoutSettingsRouteRoute
-    }
-    '/_layout/settings/notifications/': {
-      id: '/_layout/settings/notifications/'
-      path: '/notifications'
-      fullPath: '/settings/notifications/'
-      preLoaderRoute: typeof LayoutSettingsNotificationsIndexRouteImport
-      parentRoute: typeof LayoutSettingsRouteRoute
-    }
-    '/_layout/settings/billing/': {
-      id: '/_layout/settings/billing/'
-      path: '/billing'
-      fullPath: '/settings/billing/'
-      preLoaderRoute: typeof LayoutSettingsBillingIndexRouteImport
-      parentRoute: typeof LayoutSettingsRouteRoute
-    }
     '/_layout/settings/appearance/': {
       id: '/_layout/settings/appearance/'
       path: '/appearance'
       fullPath: '/settings/appearance/'
       preLoaderRoute: typeof LayoutSettingsAppearanceIndexRouteImport
-      parentRoute: typeof LayoutSettingsRouteRoute
-    }
-    '/_layout/settings/account/': {
-      id: '/_layout/settings/account/'
-      path: '/account'
-      fullPath: '/settings/account/'
-      preLoaderRoute: typeof LayoutSettingsAccountIndexRouteImport
       parentRoute: typeof LayoutSettingsRouteRoute
     }
     '/_layout/_form/select/': {
@@ -914,20 +834,12 @@ declare module '@tanstack/react-router' {
 
 interface LayoutSettingsRouteRouteChildren {
   LayoutSettingsIndexRoute: typeof LayoutSettingsIndexRoute
-  LayoutSettingsAccountIndexRoute: typeof LayoutSettingsAccountIndexRoute
   LayoutSettingsAppearanceIndexRoute: typeof LayoutSettingsAppearanceIndexRoute
-  LayoutSettingsBillingIndexRoute: typeof LayoutSettingsBillingIndexRoute
-  LayoutSettingsNotificationsIndexRoute: typeof LayoutSettingsNotificationsIndexRoute
-  LayoutSettingsProfileIndexRoute: typeof LayoutSettingsProfileIndexRoute
 }
 
 const LayoutSettingsRouteRouteChildren: LayoutSettingsRouteRouteChildren = {
   LayoutSettingsIndexRoute: LayoutSettingsIndexRoute,
-  LayoutSettingsAccountIndexRoute: LayoutSettingsAccountIndexRoute,
   LayoutSettingsAppearanceIndexRoute: LayoutSettingsAppearanceIndexRoute,
-  LayoutSettingsBillingIndexRoute: LayoutSettingsBillingIndexRoute,
-  LayoutSettingsNotificationsIndexRoute: LayoutSettingsNotificationsIndexRoute,
-  LayoutSettingsProfileIndexRoute: LayoutSettingsProfileIndexRoute,
 }
 
 const LayoutSettingsRouteRouteWithChildren =

@@ -208,7 +208,7 @@ const Sidebar = () => {
             setSubmenuActiveTab('')
             navigate({ to: item.href })
           }}
-          className={`group relative btn w-full! items-start! justify-between!
+          className={`group relative btn w-full! items-center! justify-between!
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
           ${sidebarStatus === 'collapsible-vertical' && 'mb-1 min-h-14.5 flex-col items-center justify-center gap-y-1 p-1'}
           ${hasChildren ? 'cursor-pointer' : 'cursor-default'}
