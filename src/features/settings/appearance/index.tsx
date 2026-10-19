@@ -217,8 +217,8 @@ function AppearanceSettings() {
       </SettingsSection>
 
       <SettingsSection
-        title="Spacing"
-        description="Adjust the padding inside cards and buttons"
+        title="Size & spacing"
+        description="Adjust the text size and the padding inside cards and buttons"
       >
         <SpacingSettings />
       </SettingsSection>
@@ -338,7 +338,7 @@ function AppearanceSettings() {
           </p>
           <p className="text-sm text-muted">
             {t(
-              'Restore the theme, accent color, glass, spacing and layout to their defaults',
+              'Restore the theme, accent color, glass, sizing and layout to their defaults',
             )}
           </p>
         </div>

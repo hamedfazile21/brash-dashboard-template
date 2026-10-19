@@ -101,7 +101,7 @@ const Sidebar = () => {
   const renderSubNavItem = (item: any) => {
     const titleMessage = getTruncatedTitle(item.title)
     return (
-      <div className="flex flex-col gap-y-1">
+      <div className="flex flex-col gap-y-1 mt-1">
         {sidebarStatus === 'collapsible-vertical' && (
           <p className="mb-1 flex items-center gap-x-3 px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
             {titleMessage !== item.title ? (
@@ -131,12 +131,12 @@ const Sidebar = () => {
                 setSubmenuActiveTab('')
               }}
               aria-current={isChildActive ? 'page' : undefined}
-              className={`group relative flex items-center gap-x-2 rounded-lg px-3 py-2 text-sm transition-all duration-200 ease-out
+              className={`group relative btn w-full! font-normal! items-start! justify-start! transition-all duration-200 ease-out
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
           ${
             isChildActive
-              ? 'bg-primary/10 font-medium text-primary'
-              : 'text-muted hover:bg-surface-hover hover:text-primary'
+              ? 'bg-primary/10! font-medium! text-primary!'
+              : 'text-muted! hover:bg-surface-hover! hover:text-primary!'
           }`}
             >
               <Dot
@@ -208,11 +208,11 @@ const Sidebar = () => {
             setSubmenuActiveTab('')
             navigate({ to: item.href })
           }}
-          className={`group relative flex w-full items-center justify-between rounded-lg border border-transparent px-2.5 py-1.75 transition-all duration-200 ease-out
+          className={`group relative btn w-full! items-start! justify-between!
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
           ${sidebarStatus === 'collapsible-vertical' && 'mb-1 min-h-14.5 flex-col items-center justify-center gap-y-1 p-1'}
           ${hasChildren ? 'cursor-pointer' : 'cursor-default'}
-          ${isParentActive ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-surface hover:text-primary'}`}
+          ${isParentActive ? 'bg-primary/10! text-primary!' : 'text-foreground! hover:bg-surface! hover:text-primary!'}`}
         >
           <div
             className={`flex ${

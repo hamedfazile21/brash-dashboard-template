@@ -46,7 +46,14 @@ export function initializeSystemLanguage() {
   }
 }
 
-type CssVarMap<TKey extends string> = Record<TKey, { name: string; unit: string }>
+type CssVar = {
+  name: string
+  unit: string
+  /** A second token kept in sync, for values CSS can't derive itself */
+  linked?: { name: string; value: (value: number) => string }
+}
+
+type CssVarMap<TKey extends string> = Record<TKey, CssVar>
 
 export const glassVars: CssVarMap<GlassSetting> = {
   bgOpacity: { name: '--glass-bg-opacity', unit: '' },
@@ -57,6 +64,12 @@ export const glassVars: CssVarMap<GlassSetting> = {
 }
 
 export const spacingVars: CssVarMap<SpacingSetting> = {
+  fontSize: {
+    name: '--font-size',
+    unit: 'px',
+    // Unitless ratio for icon zoom — CSS can't divide px by px everywhere yet
+    linked: { name: '--font-scale', value: (v) => String(v / 16) },
+  },
   cardPadding: { name: '--card-padding', unit: 'px' },
   btnPadding: { name: '--btn-padding', unit: 'px' },
 }
@@ -69,10 +82,16 @@ export function applyCssVars<TKey extends string>(
   const style = document.documentElement.style
 
   for (const key of Object.keys(vars) as TKey[]) {
-    const { name, unit } = vars[key]
+    const { name, unit, linked } = vars[key]
     const value = settings[key]
-    if (value === undefined) style.removeProperty(name)
-    else style.setProperty(name, `${value}${unit}`)
+
+    if (value === undefined) {
+      style.removeProperty(name)
+      if (linked) style.removeProperty(linked.name)
+    } else {
+      style.setProperty(name, `${value}${unit}`)
+      if (linked) style.setProperty(linked.name, linked.value(value))
+    }
   }
 }
 

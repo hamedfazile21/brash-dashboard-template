@@ -70,7 +70,18 @@
   --color-primary-foreground: var(--color-primary-foreground);
   --font-inter: 'Inter', sans-serif;
   --font-shabnam: 'Shabnam', sans-serif;
-  --text-system: 14px;
+  /* Text sizes as multiples of --font-size (theme.css), so one value
+     scales all typography. Line heights stay Tailwind's unitless defaults. */
+  --text-system: calc(var(--font-size) * 0.875);
+  --text-xs: calc(var(--font-size) * 0.75);
+  --text-sm: calc(var(--font-size) * 0.875);
+  --text-base: var(--font-size);
+  --text-lg: calc(var(--font-size) * 1.125);
+  --text-xl: calc(var(--font-size) * 1.25);
+  --text-2xl: calc(var(--font-size) * 1.5);
+  --text-3xl: calc(var(--font-size) * 1.875);
+  --text-4xl: calc(var(--font-size) * 2.25);
+  --text-5xl: calc(var(--font-size) * 3);
   --color-borderColor: var(--border);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted-foreground);
@@ -140,6 +151,13 @@
   html {
     @apply font-inter rtl:font-shabnam;
   }
+
+  /* Lucide icons grow and shrink with the font size. zoom (unlike scale)
+     resizes the layout box too, so icons never overlap their text. In the
+     base layer so it applies on top of size props and size-* classes alike. */
+  svg.lucide {
+    zoom: var(--font-scale);
+  }
 }
 * {
   /* @apply text-foreground */
@@ -155,6 +173,7 @@ body,
 
 body {
   margin: 0;
+  font-size: var(--font-size);
   background: var(--background);
 }
 

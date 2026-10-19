@@ -8,6 +8,6 @@ export type GlassSetting =
 /** Only the values the user changed — anything missing uses theme.css */
 export type GlassSettings = Partial<Record<GlassSetting, number>>
 
-export type SpacingSetting = 'cardPadding' | 'btnPadding'
+export type SpacingSetting = 'fontSize' | 'cardPadding' | 'btnPadding'
 /** Only the values the user changed — anything missing uses theme.css */
 export type SpacingSettings = Partial<Record<SpacingSetting, number>>

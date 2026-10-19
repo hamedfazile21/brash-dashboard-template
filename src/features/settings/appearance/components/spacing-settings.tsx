@@ -18,6 +18,14 @@ const sliders: {
   format: (value: number) => string
 }[] = [
   {
+    key: 'fontSize',
+    title: 'Font size',
+    min: 12,
+    max: 20,
+    step: 1,
+    format: (v) => `${v}px`,
+  },
+  {
     key: 'cardPadding',
     title: 'Card padding',
     min: 8,
@@ -36,9 +44,15 @@ const sliders: {
 ]
 
 const presets: { title: string; settings: SpacingSettingsType }[] = [
-  { title: 'Compact', settings: { cardPadding: 12, btnPadding: 6 } },
+  {
+    title: 'Compact',
+    settings: { fontSize: 14, cardPadding: 12, btnPadding: 6 },
+  },
   { title: 'Default', settings: {} },
-  { title: 'Spacious', settings: { cardPadding: 24, btnPadding: 10 } },
+  {
+    title: 'Spacious',
+    settings: { fontSize: 17, cardPadding: 24, btnPadding: 10 },
+  },
 ]
 
 function isSamePreset(a: SpacingSettingsType, b: SpacingSettingsType) {
@@ -63,7 +77,7 @@ function SpacingSettings() {
             </span>
           </div>
           <p className="card-body">
-            {t('Padding here follows your card and button settings.')}
+            {t('Text and padding here follow your sizing settings.')}
           </p>
           <div className="card-footer">
             <button type="button" className="btn btn-secondary btn-sm">
