@@ -18,6 +18,7 @@ import {
   changeMainWidth,
   changePrimaryColor,
   setGlass,
+  setSpacing,
   toggleSidebar,
   toggleTheme,
 } from '#/features/theme/slice/theme-slice'
@@ -30,6 +31,7 @@ import type {
 import SettingsSection from '../components/settings-section'
 import GlassSettings from './components/glass-settings'
 import OptionCard from './components/option-card'
+import SpacingSettings from './components/spacing-settings'
 import {
   SidebarPreview,
   ThemePreview,
@@ -115,6 +117,7 @@ function AppearanceSettings() {
     dispatch(toggleTheme('system'))
     dispatch(changePrimaryColor(null))
     dispatch(setGlass({}))
+    dispatch(setSpacing({}))
     dispatch(toggleSidebar('vertical'))
     dispatch(changeMainWidth('full'))
   }
@@ -238,6 +241,13 @@ function AppearanceSettings() {
       </SettingsSection>
 
       <SettingsSection
+        title="Spacing"
+        description="Adjust the padding inside cards and buttons"
+      >
+        <SpacingSettings />
+      </SettingsSection>
+
+      <SettingsSection
         title="Layout"
         description="Control the sidebar and how wide the content can grow"
       >
@@ -352,7 +362,7 @@ function AppearanceSettings() {
           </p>
           <p className="text-sm text-muted">
             {t(
-              'Restore the theme, accent color, glass and layout to their defaults',
+              'Restore the theme, accent color, glass, spacing and layout to their defaults',
             )}
           </p>
         </div>

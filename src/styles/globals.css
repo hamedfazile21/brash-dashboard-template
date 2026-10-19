@@ -179,27 +179,28 @@ button {
 }
 
 .btn {
-  @apply inline-flex w-fit items-center justify-center gap-x-1.5 rounded-md p-2 text-sm font-semibold
+  @apply inline-flex w-fit items-center justify-center gap-x-1.5 rounded-md p-(--btn-padding) text-sm font-semibold
     text-foreground outline-none transition-all duration-200 ease-out
     disabled:pointer-events-none disabled:opacity-50
     focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
 
 /* ---- Sizes ----
-   .btn's own p-2/text-sm acts as the implicit "md" default (unchanged,
+   .btn's own padding/text-sm acts as the implicit "md" default (unchanged,
    so every existing `className="btn btn-primary"` usage stays correct).
    .btn-md is a harmless explicit alias for when you want to say it
-   directly; .btn-sm/.btn-lg override the base padding/font-size. */
+   directly; .btn-sm/.btn-lg override the base padding/font-size.
+   All padding derives from --btn-padding in theme.css. */
 .btn-sm {
-  @apply gap-x-1 px-2.5 py-1.5 text-xs;
+  @apply gap-x-1 px-[calc(var(--btn-padding)*1.25)] py-[calc(var(--btn-padding)*0.75)] text-xs;
 }
 
 .btn-md {
-  @apply gap-x-1.5 p-2 text-sm;
+  @apply gap-x-1.5 p-(--btn-padding) text-sm;
 }
 
 .btn-lg {
-  @apply gap-x-2 px-4 py-2.5 text-base;
+  @apply gap-x-2 px-[calc(var(--btn-padding)*2)] py-[calc(var(--btn-padding)*1.25)] text-base;
 }
 
 /* ---- Solid variants ---- */
@@ -379,7 +380,7 @@ button {
 }
 
 .card {
-  @apply glass relative rounded-xl p-4 transition-all duration-200 ease-out text-foreground;
+  @apply glass relative rounded-xl p-(--card-padding) transition-all duration-200 ease-out text-foreground;
 }
 
 .card-hover {

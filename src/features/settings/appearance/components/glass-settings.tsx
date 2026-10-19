@@ -1,4 +1,3 @@
-import { RotateCcw } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '#/hooks/redux'
 import { changeGlass, setGlass } from '#/features/theme/slice/theme-slice'
@@ -6,7 +5,8 @@ import type {
   GlassSetting,
   GlassSettings as GlassSettingsType,
 } from '#/features/theme/slice/theme-types'
-import { glassVars } from '#/features/theme/theme'
+import { glassVars, readCssVarDefault } from '#/features/theme/theme'
+import SettingSlider from './setting-slider'
 
 const sliders: {
   key: GlassSetting
@@ -82,18 +82,6 @@ const presets: { title: string; settings: GlassSettingsType }[] = [
   },
 ]
 
-/** Value from theme.css for the active theme — inline overrides are read separately */
-function readCssDefault(key: GlassSetting) {
-  const html = document.documentElement
-  const inline = html.style.getPropertyValue(glassVars[key].name)
-  html.style.removeProperty(glassVars[key].name)
-  const value = parseFloat(
-    getComputedStyle(html).getPropertyValue(glassVars[key].name),
-  )
-  if (inline) html.style.setProperty(glassVars[key].name, inline)
-  return value
-}
-
 function isSamePreset(a: GlassSettingsType, b: GlassSettingsType) {
   const keys = Object.keys(glassVars) as GlassSetting[]
   return keys.every((key) => a[key] === b[key])
@@ -152,62 +140,17 @@ function GlassSettings() {
           })}
         </div>
 
-        {sliders.map(({ key, title, min, max, step, format }) => {
-          const overridden = glass[key] !== undefined
-          const value = glass[key] ?? readCssDefault(key)
-
-          return (
-            <div key={key} className="flex flex-col gap-y-2">
-              <div className="flex items-center justify-between gap-x-2">
-                <label
-                  htmlFor={`glass-${key}`}
-                  className="text-sm font-medium text-foreground"
-                >
-                  {t(title)}
-                </label>
-                <span className="flex items-center gap-x-1.5">
-                  {overridden && (
-                    <button
-                      type="button"
-                      title={t('Reset')}
-                      aria-label={t('Reset')}
-                      onClick={() =>
-                        dispatch(changeGlass({ key, value: null }))
-                      }
-                      className="rounded-md p-1 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
-                    >
-                      <RotateCcw size={12} />
-                    </button>
-                  )}
-                  <span
-                    className={`min-w-12 rounded-md px-1.5 py-0.5 text-center font-mono text-xs tabular-nums ${
-                      overridden
-                        ? 'bg-primary/10 text-primary'
-                        : 'bg-surface-hover text-muted'
-                    }`}
-                  >
-                    {format(value)}
-                  </span>
-                </span>
-              </div>
-              <input
-                id={`glass-${key}`}
-                type="range"
-                min={min}
-                max={max}
-                step={step}
-                value={value}
-                onChange={(e) =>
-                  dispatch(changeGlass({ key, value: Number(e.target.value) }))
-                }
-                className="range"
-                style={{
-                  ['--range-progress' as string]: `${((value - min) / (max - min)) * 100}%`,
-                }}
-              />
-            </div>
-          )
-        })}
+        {sliders.map(({ key, ...slider }) => (
+          <SettingSlider
+            key={key}
+            id={`glass-${key}`}
+            {...slider}
+            value={glass[key] ?? readCssVarDefault(glassVars[key].name)}
+            overridden={glass[key] !== undefined}
+            onChange={(value) => dispatch(changeGlass({ key, value }))}
+            onReset={() => dispatch(changeGlass({ key, value: null }))}
+          />
+        ))}
       </div>
     </div>
   )

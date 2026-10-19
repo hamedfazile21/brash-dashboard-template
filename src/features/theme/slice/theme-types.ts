@@ -7,3 +7,7 @@ export type GlassSetting =
   'bgOpacity' | 'borderOpacity' | 'blur' | 'saturate' | 'shadowOpacity'
 /** Only the values the user changed — anything missing uses theme.css */
 export type GlassSettings = Partial<Record<GlassSetting, number>>
+
+export type SpacingSetting = 'cardPadding' | 'btnPadding'
+/** Only the values the user changed — anything missing uses theme.css */
+export type SpacingSettings = Partial<Record<SpacingSetting, number>>

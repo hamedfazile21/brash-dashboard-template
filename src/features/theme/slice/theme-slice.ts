@@ -4,12 +4,19 @@ import type {
   GlassSetting,
   GlassSettings,
   Language,
+  SpacingSetting,
+  SpacingSettings,
   MainWidth,
   SidebarStatusType,
   ThemeMode,
 } from './theme-types'
 import i18n from '#/app/i18n'
-import { applyGlassSettings, getStoredGlassSettings } from '../theme'
+import {
+  applyCssVars,
+  getStoredOverrides,
+  glassVars,
+  spacingVars,
+} from '../theme'
 
 interface ThemeState {
   themeMode: ThemeMode
@@ -19,6 +26,7 @@ interface ThemeState {
   mainWidth: MainWidth
   primaryColor: string | null
   glass: GlassSettings
+  spacing: SpacingSettings
 }
 
 const initialState: ThemeState = {
@@ -29,7 +37,8 @@ const initialState: ThemeState = {
   language: (localStorage.getItem('system-language') as Language) || 'english',
   mainWidth: (localStorage.getItem('main-width') as MainWidth) || 'full',
   primaryColor: localStorage.getItem('primary-color'),
-  glass: getStoredGlassSettings(),
+  glass: getStoredOverrides<GlassSettings>('glass-settings'),
+  spacing: getStoredOverrides<SpacingSettings>('spacing-settings'),
 }
 
 const themeSlice = createSlice({
@@ -117,16 +126,37 @@ const themeSlice = createSlice({
       if (value === null) delete glass[key]
       else glass[key] = value
 
-      applyGlassSettings(glass)
+      applyCssVars(glassVars, glass)
       localStorage.setItem('glass-settings', JSON.stringify(glass))
       state.glass = glass
     },
 
     /** Replaces every override at once — {} restores the theme.css look */
     setGlass(state, action: PayloadAction<GlassSettings>) {
-      applyGlassSettings(action.payload)
+      applyCssVars(glassVars, action.payload)
       localStorage.setItem('glass-settings', JSON.stringify(action.payload))
       state.glass = action.payload
+    },
+
+    changeSpacing(
+      state,
+      action: PayloadAction<{ key: SpacingSetting; value: number | null }>,
+    ) {
+      const { key, value } = action.payload
+      const spacing = { ...state.spacing }
+
+      if (value === null) delete spacing[key]
+      else spacing[key] = value
+
+      applyCssVars(spacingVars, spacing)
+      localStorage.setItem('spacing-settings', JSON.stringify(spacing))
+      state.spacing = spacing
+    },
+
+    setSpacing(state, action: PayloadAction<SpacingSettings>) {
+      applyCssVars(spacingVars, action.payload)
+      localStorage.setItem('spacing-settings', JSON.stringify(action.payload))
+      state.spacing = action.payload
     },
   },
 })
@@ -141,6 +171,8 @@ export const {
   changePrimaryColor,
   changeGlass,
   setGlass,
+  changeSpacing,
+  setSpacing,
 } = themeSlice.actions
 
 export default themeSlice.reducer

@@ -1,5 +1,5 @@
 import {
-  initializeGlass,
+  initializeCssVarOverrides,
   initializeSystemDir,
   initializeSystemLanguage,
   initializeTheme,
@@ -11,7 +11,7 @@ export async function startup() {
 
   initializeThemePrimaryColor()
 
-  initializeGlass()
+  initializeCssVarOverrides()
 
   initializeSystemDir()
 

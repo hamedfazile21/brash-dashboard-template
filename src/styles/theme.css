@@ -19,6 +19,10 @@
   --glass-saturate: 150%;
   --glass-shadow-opacity: 0.05;
 
+  /* Spacing — btn sizes scale from --btn-padding (sm ×0.75/1.25, lg ×1.25/2) */
+  --card-padding: 16px; /* = p-4 */
+  --btn-padding: 8px; /* = p-2 */
+
   --danger: #ef4444; /* red-500 */
   --info: #3b82f6; /* blue-500 */
   --success: #22c55e; /* green-500 */

@@ -122,8 +122,8 @@ const Header = () => {
           placement="bottom-end"
           className="w-40 "
           trigger={
-            <button className="btn btn-secondary btn-rounded-full p-1! flex items-center gap-x-2 ">
-              <span className="rounded-full bg-surface-hover size-6.75 flex items-center justify-center  ">
+            <button className="btn btn-secondary btn-rounded-full flex items-center gap-x-2 ">
+              <span className="">
                 {themeMode === 'light' ? (
                   <Sun size={18} />
                 ) : themeMode === 'dark' ? (
