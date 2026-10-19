@@ -1,5 +1,5 @@
 import i18n from '#/app/i18n'
-import type { Language } from './slice/theme-types'
+import type { GlassSetting, GlassSettings, Language } from './slice/theme-types'
 
 export function initializeTheme() {
   const theme = localStorage.getItem('theme-mode') ?? 'system'
@@ -38,4 +38,35 @@ export function initializeSystemLanguage() {
   if (language === 'farsi') {
     i18n.changeLanguage('fa')
   }
+}
+
+export const glassVars: Record<GlassSetting, { name: string; unit: string }> = {
+  bgOpacity: { name: '--glass-bg-opacity', unit: '' },
+  borderOpacity: { name: '--glass-border-opacity', unit: '' },
+  blur: { name: '--glass-blur', unit: 'px' },
+  saturate: { name: '--glass-saturate', unit: '%' },
+  shadowOpacity: { name: '--glass-shadow-opacity', unit: '' },
+}
+
+/** Sets overridden glass tokens on <html> and clears the rest */
+export function applyGlassSettings(settings: GlassSettings) {
+  const style = document.documentElement.style
+
+  for (const [key, { name, unit }] of Object.entries(glassVars)) {
+    const value = settings[key as GlassSetting]
+    if (value === undefined) style.removeProperty(name)
+    else style.setProperty(name, `${value}${unit}`)
+  }
+}
+
+export function getStoredGlassSettings(): GlassSettings {
+  try {
+    return JSON.parse(localStorage.getItem('glass-settings') ?? '{}')
+  } catch {
+    return {}
+  }
+}
+
+export function initializeGlass() {
+  applyGlassSettings(getStoredGlassSettings())
 }

@@ -1,4 +1,5 @@
 import {
+  initializeGlass,
   initializeSystemDir,
   initializeSystemLanguage,
   initializeTheme,
@@ -9,6 +10,8 @@ export async function startup() {
   initializeTheme()
 
   initializeThemePrimaryColor()
+
+  initializeGlass()
 
   initializeSystemDir()
 

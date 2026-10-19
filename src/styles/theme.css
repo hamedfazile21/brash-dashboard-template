@@ -13,11 +13,11 @@
   /* Borders */
   --border: rgb(219, 219, 219);
 
-  --glass-bg-opacity: 0.4;
-  --glass-border-opacity: 0.1;
+  --glass-bg-opacity: 0.6;
+  --glass-border-opacity: 0.08;
   --glass-blur: 24px; /* = Tailwind's backdrop-blur-xl */
   --glass-saturate: 150%;
-  --glass-shadow-opacity: 0.1;
+  --glass-shadow-opacity: 0.05;
 
   --danger: #ef4444; /* red-500 */
   --info: #3b82f6; /* blue-500 */
@@ -42,9 +42,9 @@
   /* Borders */
   --border: rgb(31, 38, 47);
 
-  --glass-bg-opacity: 0.55;
-  --glass-border-opacity: 0.08;
-  --glass-shadow-opacity: 0.25;
+  --glass-bg-opacity: 0.35;
+  --glass-border-opacity: 0.1;
+  --glass-shadow-opacity: 0.2;
 
   --danger: #f87171; /* red-400 — lighter, less harsh on dark glass */
   --info: #60a5fa; /* blue-400 */

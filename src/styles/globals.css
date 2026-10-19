@@ -162,17 +162,20 @@ button {
   @apply cursor-pointer;
 }
 
+/* Driven by the --glass-* tokens in theme.css (overridable from Settings → Appearance) */
 @utility glass {
-  @apply relative border border-black/8 bg-surface/60
-    backdrop-blur-xl backdrop-saturate-150
-    shadow-md shadow-black/5
+  @apply relative border
+    border-[rgb(0_0_0/var(--glass-border-opacity))]
+    bg-[color-mix(in_srgb,var(--surface)_calc(var(--glass-bg-opacity)*100%),transparent)]
+    backdrop-blur-(--glass-blur) backdrop-saturate-(--glass-saturate)
+    shadow-[0_4px_6px_-1px_rgb(0_0_0/var(--glass-shadow-opacity)),0_2px_4px_-2px_rgb(0_0_0/var(--glass-shadow-opacity))]
     inset-ring-1 inset-ring-white/40
-    dark:border-white/10 dark:bg-surface/35 dark:shadow-black/20 dark:inset-ring-white/5;
+    dark:border-[rgb(255_255_255/var(--glass-border-opacity))] dark:inset-ring-white/5;
 }
 
 @utility glass-solid {
   @apply border border-borderColor bg-surface/50
-    backdrop-blur-xl backdrop-saturate-150;
+    backdrop-blur-(--glass-blur) backdrop-saturate-(--glass-saturate);
 }
 
 .btn {
@@ -505,6 +508,59 @@ button {
     var(--color-primary) 0 34%,
     transparent 37%
   );
+}
+
+/* Range slider. Set --range-progress (0%–100%) inline to fill the track
+   up to the thumb, e.g. style={{ '--range-progress': '40%' }}. */
+.range {
+  --range-progress: 50%;
+  --range-fill-dir: to right;
+
+  @apply h-1.5 w-full cursor-pointer appearance-none rounded-full outline-none
+    transition-[background] duration-150
+    disabled:cursor-not-allowed disabled:opacity-50;
+
+  background: linear-gradient(
+    var(--range-fill-dir),
+    var(--color-primary) var(--range-progress),
+    var(--surface-hover) var(--range-progress)
+  );
+}
+
+[dir='rtl'] .range {
+  --range-fill-dir: to left;
+}
+
+.range::-webkit-slider-thumb {
+  @apply size-4.5 appearance-none rounded-full border-2 border-primary bg-white
+    shadow-md shadow-black/15 transition-all duration-150 ease-out;
+}
+
+.range::-moz-range-thumb {
+  @apply size-4.5 rounded-full border-2 border-primary bg-white
+    shadow-md shadow-black/15 transition-all duration-150 ease-out;
+}
+
+.range::-moz-range-track {
+  @apply h-1.5 rounded-full bg-transparent;
+}
+
+.range:hover::-webkit-slider-thumb {
+  @apply scale-110;
+}
+
+.range:hover::-moz-range-thumb {
+  @apply scale-110;
+}
+
+.range:active::-webkit-slider-thumb,
+.range:focus-visible::-webkit-slider-thumb {
+  @apply scale-110 ring-4 ring-primary/25;
+}
+
+.range:active::-moz-range-thumb,
+.range:focus-visible::-moz-range-thumb {
+  @apply scale-110 ring-4 ring-primary/25;
 }
 
 /* ==========================================================================

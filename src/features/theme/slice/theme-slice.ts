@@ -1,12 +1,24 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { Language, SidebarStatusType, ThemeMode } from './theme-types'
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type {
+  GlassSetting,
+  GlassSettings,
+  Language,
+  MainWidth,
+  SidebarStatusType,
+  ThemeMode,
+} from './theme-types'
 import i18n from '#/app/i18n'
+import { applyGlassSettings, getStoredGlassSettings } from '../theme'
 
 interface ThemeState {
   themeMode: ThemeMode
   direction: 'ltr' | 'rtl'
   sidebarStatus: SidebarStatusType
   language: Language
+  mainWidth: MainWidth
+  primaryColor: string | null
+  glass: GlassSettings
 }
 
 const initialState: ThemeState = {
@@ -15,6 +27,9 @@ const initialState: ThemeState = {
   sidebarStatus:
     (localStorage.getItem('sidebar-status') as SidebarStatusType) || 'vertical',
   language: (localStorage.getItem('system-language') as Language) || 'english',
+  mainWidth: (localStorage.getItem('main-width') as MainWidth) || 'full',
+  primaryColor: localStorage.getItem('primary-color'),
+  glass: getStoredGlassSettings(),
 }
 
 const themeSlice = createSlice({
@@ -69,10 +84,63 @@ const themeSlice = createSlice({
       localStorage.setItem('sidebar-status', action.payload)
       state.sidebarStatus = action.payload
     },
+
+    changeMainWidth(state, action: PayloadAction<MainWidth>) {
+      localStorage.setItem('main-width', action.payload)
+      state.mainWidth = action.payload
+    },
+
+    /** null falls back to the default primary defined in theme.css */
+    changePrimaryColor(state, action: PayloadAction<string | null>) {
+      const color = action.payload
+      const html = document.documentElement
+
+      if (color) {
+        html.style.setProperty('--color-primary', color)
+        localStorage.setItem('primary-color', color)
+      } else {
+        html.style.removeProperty('--color-primary')
+        localStorage.removeItem('primary-color')
+      }
+
+      state.primaryColor = color
+    },
+
+    /** value null drops the override so theme.css applies again */
+    changeGlass(
+      state,
+      action: PayloadAction<{ key: GlassSetting; value: number | null }>,
+    ) {
+      const { key, value } = action.payload
+      const glass = { ...state.glass }
+
+      if (value === null) delete glass[key]
+      else glass[key] = value
+
+      applyGlassSettings(glass)
+      localStorage.setItem('glass-settings', JSON.stringify(glass))
+      state.glass = glass
+    },
+
+    /** Replaces every override at once — {} restores the theme.css look */
+    setGlass(state, action: PayloadAction<GlassSettings>) {
+      applyGlassSettings(action.payload)
+      localStorage.setItem('glass-settings', JSON.stringify(action.payload))
+      state.glass = action.payload
+    },
   },
 })
 
-export const { setTheme, toggleTheme, changeDirection, toggleSidebar , changeLanguage } =
-  themeSlice.actions
+export const {
+  setTheme,
+  toggleTheme,
+  changeDirection,
+  toggleSidebar,
+  changeLanguage,
+  changeMainWidth,
+  changePrimaryColor,
+  changeGlass,
+  setGlass,
+} = themeSlice.actions
 
 export default themeSlice.reducer
