@@ -4,7 +4,6 @@ import {
   Moon,
   PanelLeft,
   PanelLeftClose,
-  Pipette,
   RotateCcw,
   Sun,
 } from 'lucide-react'
@@ -29,6 +28,7 @@ import type {
   ThemeMode,
 } from '#/features/theme/slice/theme-types'
 import SettingsSection from '../components/settings-section'
+import CustomColorPicker from './components/custom-color-picker'
 import GlassSettings from './components/glass-settings'
 import OptionCard from './components/option-card'
 import SpacingSettings from './components/spacing-settings'
@@ -182,34 +182,10 @@ function AppearanceSettings() {
 
             <span className="mx-1 h-6 w-px bg-borderColor" />
 
-            {/* Custom color — native picker behind a rainbow swatch */}
-            <label
-              title={t('Custom')}
-              className={`relative flex size-9 cursor-pointer items-center justify-center rounded-full text-white ring-offset-2 ring-offset-background transition-all duration-200 hover:scale-110 focus-within:ring-2 focus-within:ring-foreground ${
-                isCustomColor ? 'scale-110 ring-2' : ''
-              }`}
-              style={{
-                background: isCustomColor
-                  ? primaryColor
-                  : 'conic-gradient(from 180deg, #f43f5e, #f59e0b, #22c55e, #06b6d4, #6366f1, #d946ef, #f43f5e)',
-                ['--tw-ring-color' as string]: isCustomColor
-                  ? primaryColor
-                  : 'var(--color-primary)',
-              }}
-            >
-              {isCustomColor ? (
-                <Check size={16} strokeWidth={3} />
-              ) : (
-                <Pipette size={15} strokeWidth={2.5} className="drop-shadow" />
-              )}
-              <input
-                type="color"
-                aria-label={t('Custom')}
-                value={isCustomColor ? primaryColor : '#3b82f6'}
-                onChange={(e) => dispatch(changePrimaryColor(e.target.value))}
-                className="absolute inset-0 cursor-pointer opacity-0"
-              />
-            </label>
+            <CustomColorPicker
+              customColor={isCustomColor ? primaryColor : null}
+              onConfirm={(color) => dispatch(changePrimaryColor(color))}
+            />
           </div>
 
           {/* Live sample of the accent on real components */}

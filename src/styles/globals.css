@@ -564,6 +564,27 @@ button {
   @apply scale-110 ring-4 ring-primary/25;
 }
 
+/* react-colorful — wrap the picker in .color-picker */
+.color-picker .react-colorful {
+  @apply h-44 w-full gap-y-3;
+}
+
+.color-picker .react-colorful__saturation {
+  @apply rounded-lg border-b-0;
+}
+
+.color-picker .react-colorful__hue {
+  @apply h-3 rounded-full;
+}
+
+.color-picker .react-colorful__pointer {
+  @apply size-4.5 border-2 border-white shadow-md shadow-black/30;
+}
+
+.color-picker .react-colorful__interactive:focus .react-colorful__pointer {
+  @apply scale-110 ring-4 ring-white/40;
+}
+
 /* ==========================================================================
    Table — add to global.css
    Matches the header/row/footer styling already used by hand in

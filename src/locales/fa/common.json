@@ -225,5 +225,8 @@
   "Padding here follows your card and button settings.": "فاصله‌های اینجا از تنظیمات کارت و دکمه شما پیروی می‌کنند.",
   "Cancel": "لغو",
   "Create": "ایجاد",
-  "Small and large buttons scale from the same value.": "دکمه‌های کوچک و بزرگ از همین مقدار مقیاس می‌گیرند."
+  "Small and large buttons scale from the same value.": "دکمه‌های کوچک و بزرگ از همین مقدار مقیاس می‌گیرند.",
+  "Apply": "اعمال",
+  "Hex color": "کد رنگ هگز",
+  "Current → New": "فعلی ← جدید"
 }
