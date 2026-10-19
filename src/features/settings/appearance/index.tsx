@@ -18,6 +18,7 @@ import {
   changePrimaryColor,
   setGlass,
   setSpacing,
+  setDarkPreset,
   toggleSidebar,
   toggleTheme,
 } from '#/features/theme/slice/theme-slice'
@@ -27,8 +28,10 @@ import type {
   SidebarStatusType,
   ThemeMode,
 } from '#/features/theme/slice/theme-types'
+import { darkPresets } from '#/features/theme/theme'
 import SettingsSection from '../components/settings-section'
 import CustomColorPicker from './components/custom-color-picker'
+import DarkPaletteSettings from './components/dark-palette-settings'
 import GlassSettings from './components/glass-settings'
 import OptionCard from './components/option-card'
 import SpacingSettings from './components/spacing-settings'
@@ -99,8 +102,19 @@ const languageOptions: {
 function AppearanceSettings() {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  const { themeMode, primaryColor, sidebarStatus, mainWidth, language } =
-    useAppSelector((state) => state.themeConfig)
+  const {
+    themeMode,
+    primaryColor,
+    sidebarStatus,
+    mainWidth,
+    language,
+    darkPalette,
+  } = useAppSelector((state) => state.themeConfig)
+
+  const darkTokens = {
+    ...darkPresets[darkPalette.preset],
+    ...darkPalette.overrides,
+  }
 
   const isCustomColor =
     primaryColor !== null &&
@@ -118,6 +132,7 @@ function AppearanceSettings() {
     dispatch(changePrimaryColor(null))
     dispatch(setGlass({}))
     dispatch(setSpacing({}))
+    dispatch(setDarkPreset('slate'))
     dispatch(toggleSidebar('vertical'))
     dispatch(changeMainWidth('full'))
   }
@@ -137,13 +152,20 @@ function AppearanceSettings() {
               key={value}
               selected={themeMode === value}
               onSelect={() => dispatch(toggleTheme(value))}
-              preview={<ThemePreview mode={value} />}
+              preview={<ThemePreview mode={value} darkTokens={darkTokens} />}
               icon={<Icon size={16} />}
               label={t(title)}
               hint={value === 'system' ? t('Auto') : undefined}
             />
           ))}
         </div>
+      </SettingsSection>
+
+      <SettingsSection
+        title="Dark palette"
+        description="Choose the colors used in dark mode"
+      >
+        <DarkPaletteSettings />
       </SettingsSection>
 
       <SettingsSection
@@ -338,7 +360,7 @@ function AppearanceSettings() {
           </p>
           <p className="text-sm text-muted">
             {t(
-              'Restore the theme, accent color, glass, sizing and layout to their defaults',
+              'Restore the theme, colors, glass, sizing and layout to their defaults',
             )}
           </p>
         </div>

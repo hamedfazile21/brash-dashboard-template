@@ -1,8 +1,11 @@
 import i18n from '#/app/i18n'
 import type {
+  DarkPalette,
+  DarkPreset,
   GlassSetting,
   GlassSettings,
   Language,
+  PaletteToken,
   SpacingSetting,
   SpacingSettings,
 } from './slice/theme-types'
@@ -119,4 +122,84 @@ export function initializeCssVarOverrides() {
     spacingVars,
     getStoredOverrides<SpacingSettings>('spacing-settings'),
   )
+  applyDarkPalette(getStoredDarkPalette())
+}
+
+export const paletteTokenVars: Record<PaletteToken, string> = {
+  background: '--background',
+  surface: '--surface',
+  surfaceHover: '--surface-hover',
+  border: '--border',
+  foreground: '--foreground',
+  mutedForeground: '--muted-foreground',
+}
+
+/** slate mirrors the .dark block in theme.css — it's the "no override" preset */
+export const darkPresets: Record<DarkPreset, Record<PaletteToken, string>> = {
+  slate: {
+    background: '#020618',
+    surface: '#1e293b',
+    surfaceHover: '#334155',
+    border: '#1f262f',
+    foreground: '#f8fafc',
+    mutedForeground: '#94a3b8',
+  },
+  zinc: {
+    background: '#09090b',
+    surface: '#18181b',
+    surfaceHover: '#27272a',
+    border: '#232326',
+    foreground: '#fafafa',
+    mutedForeground: '#a1a1aa',
+  },
+  midnight: {
+    background: '#0b1120',
+    surface: '#131d33',
+    surfaceHover: '#1e2b47',
+    border: '#1a2339',
+    foreground: '#e6edf7',
+    mutedForeground: '#8b9bb8',
+  },
+  oled: {
+    background: '#000000',
+    surface: '#111113',
+    surfaceHover: '#1d1d20',
+    border: '#1f1f23',
+    foreground: '#f5f5f5',
+    mutedForeground: '#9a9aa0',
+  },
+}
+
+export const defaultDarkPalette: DarkPalette = {
+  preset: 'slate',
+  overrides: {},
+}
+
+/**
+ * Dark colors can't go inline on <html> like the other overrides — they'd
+ * leak into light mode. Instead a <style> tag re-declares them under
+ * :root.dark, which outranks theme.css's .dark block.
+ */
+export function applyDarkPalette({ preset, overrides }: DarkPalette) {
+  const values =
+    preset === 'slate' ? overrides : { ...darkPresets[preset], ...overrides }
+  const declarations = (Object.keys(values) as PaletteToken[])
+    .map((token) => `${paletteTokenVars[token]}: ${values[token]};`)
+    .join(' ')
+
+  let tag = document.getElementById('dark-palette')
+  if (!declarations) {
+    tag?.remove()
+    return
+  }
+  if (!tag) {
+    tag = document.createElement('style')
+    tag.id = 'dark-palette'
+    document.head.appendChild(tag)
+  }
+  tag.textContent = `:root.dark { ${declarations} }`
+}
+
+export function getStoredDarkPalette(): DarkPalette {
+  return { ...defaultDarkPalette, ...getStoredOverrides('dark-palette') }
 }

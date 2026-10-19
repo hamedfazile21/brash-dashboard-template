@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type {
+  DarkPalette,
+  DarkPreset,
   GlassSetting,
   GlassSettings,
   Language,
+  PaletteToken,
   SpacingSetting,
   SpacingSettings,
   MainWidth,
@@ -13,6 +16,8 @@ import type {
 import i18n from '#/app/i18n'
 import {
   applyCssVars,
+  applyDarkPalette,
+  getStoredDarkPalette,
   getStoredOverrides,
   glassVars,
   spacingVars,
@@ -27,6 +32,7 @@ interface ThemeState {
   primaryColor: string | null
   glass: GlassSettings
   spacing: SpacingSettings
+  darkPalette: DarkPalette
 }
 
 const initialState: ThemeState = {
@@ -39,6 +45,7 @@ const initialState: ThemeState = {
   primaryColor: localStorage.getItem('primary-color'),
   glass: getStoredOverrides<GlassSettings>('glass-settings'),
   spacing: getStoredOverrides<SpacingSettings>('spacing-settings'),
+  darkPalette: getStoredDarkPalette(),
 }
 
 const themeSlice = createSlice({
@@ -158,6 +165,31 @@ const themeSlice = createSlice({
       localStorage.setItem('spacing-settings', JSON.stringify(action.payload))
       state.spacing = action.payload
     },
+
+    /** Picking a preset drops any per-token customizations */
+    setDarkPreset(state, action: PayloadAction<DarkPreset>) {
+      const palette: DarkPalette = { preset: action.payload, overrides: {} }
+      applyDarkPalette(palette)
+      localStorage.setItem('dark-palette', JSON.stringify(palette))
+      state.darkPalette = palette
+    },
+
+    /** value null drops the override so the preset's color applies again */
+    changeDarkToken(
+      state,
+      action: PayloadAction<{ token: PaletteToken; value: string | null }>,
+    ) {
+      const { token, value } = action.payload
+      const overrides = { ...state.darkPalette.overrides }
+
+      if (value === null) delete overrides[token]
+      else overrides[token] = value
+
+      const palette: DarkPalette = { ...state.darkPalette, overrides }
+      applyDarkPalette(palette)
+      localStorage.setItem('dark-palette', JSON.stringify(palette))
+      state.darkPalette = palette
+    },
   },
 })
 
@@ -173,6 +205,8 @@ export const {
   setGlass,
   changeSpacing,
   setSpacing,
+  setDarkPreset,
+  changeDarkToken,
 } = themeSlice.actions
 
 export default themeSlice.reducer

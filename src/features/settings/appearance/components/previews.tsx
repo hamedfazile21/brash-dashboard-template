@@ -1,4 +1,7 @@
-import type { MainWidth } from '#/features/theme/slice/theme-types'
+import type {
+  MainWidth,
+  PaletteToken,
+} from '#/features/theme/slice/theme-types'
 
 /*
  * Miniature dashboards drawn with plain divs. Theme previews use fixed
@@ -20,14 +23,19 @@ const lightPalette: Palette = {
   text: 'rgb(203 213 225)',
 }
 
-const darkPalette: Palette = {
-  background: 'oklch(0.129 0.042 264.695)',
-  surface: 'rgb(30 41 59)',
-  line: 'rgb(51 65 85)',
-  text: 'rgb(71 85 105)',
+/** Maps real dark tokens onto the preview's simplified palette */
+export function paletteFromTokens(
+  tokens: Record<PaletteToken, string>,
+): Palette {
+  return {
+    background: tokens.background,
+    surface: tokens.surface,
+    line: tokens.surfaceHover,
+    text: `color-mix(in srgb, ${tokens.mutedForeground} 45%, ${tokens.surface})`,
+  }
 }
 
-function MiniDashboard({ palette }: { palette: Palette }) {
+export function MiniDashboard({ palette }: { palette: Palette }) {
   const { background, surface, line, text } = palette
 
   return (
@@ -100,7 +108,16 @@ function MiniDashboard({ palette }: { palette: Palette }) {
   )
 }
 
-export function ThemePreview({ mode }: { mode: 'light' | 'dark' | 'system' }) {
+export function ThemePreview({
+  mode,
+  darkTokens,
+}: {
+  mode: 'light' | 'dark' | 'system'
+  /** The active dark palette, so the Dark/System cards match it */
+  darkTokens: Record<PaletteToken, string>
+}) {
+  const darkPalette = paletteFromTokens(darkTokens)
+
   if (mode !== 'system') {
     return (
       <div className="aspect-16/10 w-full">
