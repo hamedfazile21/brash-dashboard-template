@@ -197,7 +197,7 @@ export function Dialog({
           leaveTo="opacity-0"
         >
           <div
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
             aria-hidden="true"
           />
         </TransitionChild>
@@ -215,25 +215,28 @@ export function Dialog({
             leaveFrom={openState}
             leaveTo={closed}
           >
+            {/* `!` on padding/radius/shadow: .card is unlayered CSS, so plain
+                utilities would lose to it */}
             <DialogPanel
-              className={`card flex max-h-full flex-col overflow-hidden p-0 ${
+              className={`card flex max-h-full flex-col overflow-hidden bg-background/95! p-0! dark:bg-surface/40! shadow-[0_24px_64px_-16px_rgb(0_0_0/0.3)]! ${
                 isSide
-                  ? `h-full ${sideSizeClasses[size]} ${
-                      position === 'left' ? 'rounded-l-none' : 'rounded-r-none'
+                  ? // Round only the inner edge; logical sides keep this right in RTL
+                    `h-full rounded-none! ${sideSizeClasses[size]} ${
+                      position === 'left' ? 'rounded-e-2xl!' : 'rounded-s-2xl!'
                     }`
-                  : `w-full ${sizeClasses[size]}`
+                  : `w-full rounded-2xl! ${sizeClasses[size]}`
               }`}
             >
               {/* Header — shrink-0 so it never gets squeezed by scrollable content */}
               {(title || showCloseButton) && (
                 <div
-                  className={`flex shrink-0 items-start justify-between gap-x-4 border-b border-white/10 p-4 dark:border-white/8 ${
-                    !isSide ? 'p-1.5!' : ''
+                  className={`flex shrink-0 items-start justify-between gap-x-4 px-5 pt-5 ${
+                    title ? 'border-b border-borderColor pb-4' : 'pb-0'
                   }`}
                 >
-                  <div>
+                  <div className="min-w-0">
                     {title && (
-                      <DialogTitle className="text-base font-semibold text-foreground">
+                      <DialogTitle className="text-lg font-semibold tracking-tight text-foreground">
                         {title}
                       </DialogTitle>
                     )}
@@ -249,7 +252,7 @@ export function Dialog({
                       type="button"
                       onClick={onClose}
                       aria-label="Close"
-                      className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
+                      className="-me-1.5 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
                     >
                       <X size={18} />
                     </button>
@@ -263,19 +266,11 @@ export function Dialog({
                   this `flex-1` something to overflow. Without the cap the panel
                   grows to fit and the wrapper scrolls the header and footer
                   away with it. */}
-              <div
-                className={`flex-1 overflow-y-auto ${isSide ? 'p-4' : 'p-1.5'}`}
-              >
-                {children}
-              </div>
+              <div className="flex-1 overflow-y-auto p-5">{children}</div>
 
               {/* Footer — shrink-0, stays pinned to the bottom */}
               {footer && (
-                <div
-                  className={`flex shrink-0 justify-end gap-x-2 border-t border-white/10 dark:border-white/8 ${
-                    isSide ? 'p-4' : 'py-4'
-                  }`}
-                >
+                <div className="flex shrink-0 items-center justify-end gap-x-2 border-t border-borderColor bg-surface-hover/30 px-5 py-3.5">
                   {footer}
                 </div>
               )}

@@ -83,158 +83,157 @@ const CreateTodoDialog: React.FC<props> = ({ open, onClose, currentRow }) => {
       position="top"
       closeOnOutsideClick={false}
       size={'lg'}
+      footer={
+        <>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={closeDialog}
+          >
+            {t('Cancel')}
+          </button>
+          <button type="submit" form={formId} className="btn btn-primary">
+            {t(currentRow ? 'Save changes' : 'Create task')}
+          </button>
+        </>
+      }
     >
-      <div className="card-body">
-        <form
-          id={formId}
-          className="space-y-3"
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleSubmit()
-          }}
-        >
-          <div className="flex flex-col gap-y-1.5">
-            <Field
-              name="title"
-              validators={{
-                onSubmit: ({ value }) =>
-                  !value.trim() && t('Title is required'),
-              }}
-              children={(field) => (
-                <div className="flex flex-col gap-y-1.5">
-                  <Input
-                    label={t('Title')}
-                    required
-                    placeholder={t('What needs to be done?')}
-                    id={field.name}
-                    type="text"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    error={
-                      field.state.meta.isTouched
-                        ? field.state.meta.errors.join(', ')
-                        : undefined
-                    }
-                  />
-                </div>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col gap-y-1.5">
-            <Field
-              name="assignee"
-              validators={{
-                onSubmit: ({ value }) => !value && t('Assignee is required'),
-              }}
-              children={(field) => (
-                <div className="flex flex-col gap-y-1.5">
-                  <InputSelect
-                    options={assigneeOptions}
-                    required
-                    label={t('Assignee')}
-                    components={{ Option: OptionWithAvatar }}
-                    value={
-                      assigneeOptions.find(
-                        (opt) => opt.value === field.state.value,
-                      ) ?? null
-                    }
-                    onChange={(option) => {
-                      field.handleChange(
-                        option ? (option as AssigneeOption).value : '',
-                      )
-                    }}
-                    error={
-                      field.state.meta.isTouched
-                        ? field.state.meta.errors.join(', ')
-                        : undefined
-                    }
-                  />
-                </div>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col gap-y-1.5">
-            <Field
-              name="priority"
-              children={(field) => (
-                <div className="flex flex-col gap-y-1.5">
-                  <InputSelect
-                    required
-                    options={priorityOption}
-                    label={t('Priority')}
-                    components={{ Option: OptionWithIconColor }}
-                    value={
-                      priorityOption.find(
-                        (opt) => opt.value === field.state.value,
-                      ) ?? null
-                    }
-                    onChange={(option) => {
-                      // Always has a value (defaults to Low), so ignore clears
-                      if (option) {
-                        field.handleChange(
-                          (option as SelectOption).value as Priority,
-                        )
-                      }
-                    }}
-                  />
-                </div>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col gap-y-1.5">
-            <Field
-              name="description"
-              children={(field) => (
-                <div className="flex flex-col gap-y-1.5">
-                  <Textarea
-                    label={t('Description')}
-                    placeholder={t('Add more details...')}
-                    error={
-                      field.state.meta.isTouched
-                        ? field.state.meta.errors.join(', ')
-                        : undefined
-                    }
-                    maxLength={280}
-                    showCount
-                    value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                </div>
-              )}
-            />
-          </div>
+      <form
+        id={formId}
+        className="space-y-3"
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit()
+        }}
+      >
+        <div className="flex flex-col gap-y-1.5">
           <Field
-            name="isImportant"
+            name="title"
+            validators={{
+              onSubmit: ({ value }) => !value.trim() && t('Title is required'),
+            }}
             children={(field) => (
-              // No onClick on the label: the label already forwards clicks to
-              // the checkbox, so a second toggle here would cancel it out
-              <label className="flex w-fit cursor-pointer items-center gap-x-2 text-sm text-foreground">
-                <CheckBox
-                  checked={field.state.value}
-                  onChange={() => field.handleChange(!field.state.value)}
+              <div className="flex flex-col gap-y-1.5">
+                <Input
+                  label={t('Title')}
+                  required
+                  placeholder={t('What needs to be done?')}
+                  id={field.name}
+                  type="text"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  error={
+                    field.state.meta.isTouched
+                      ? field.state.meta.errors.join(', ')
+                      : undefined
+                  }
                 />
-                {t('Mark as important')}
-              </label>
+              </div>
             )}
           />
-        </form>
-      </div>
-      <div className="card-footer justify-end! gap-x-2">
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={closeDialog}
-        >
-          {t('Cancel')}
-        </button>
-        <button type="submit" form={formId} className="btn btn-primary">
-          {t(currentRow ? 'Save changes' : 'Create task')}
-        </button>
-      </div>
+        </div>
+
+        <div className="flex flex-col gap-y-1.5">
+          <Field
+            name="assignee"
+            validators={{
+              onSubmit: ({ value }) => !value && t('Assignee is required'),
+            }}
+            children={(field) => (
+              <div className="flex flex-col gap-y-1.5">
+                <InputSelect
+                  options={assigneeOptions}
+                  required
+                  label={t('Assignee')}
+                  components={{ Option: OptionWithAvatar }}
+                  value={
+                    assigneeOptions.find(
+                      (opt) => opt.value === field.state.value,
+                    ) ?? null
+                  }
+                  onChange={(option) => {
+                    field.handleChange(
+                      option ? (option as AssigneeOption).value : '',
+                    )
+                  }}
+                  error={
+                    field.state.meta.isTouched
+                      ? field.state.meta.errors.join(', ')
+                      : undefined
+                  }
+                />
+              </div>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-col gap-y-1.5">
+          <Field
+            name="priority"
+            children={(field) => (
+              <div className="flex flex-col gap-y-1.5">
+                <InputSelect
+                  required
+                  options={priorityOption}
+                  label={t('Priority')}
+                  components={{ Option: OptionWithIconColor }}
+                  value={
+                    priorityOption.find(
+                      (opt) => opt.value === field.state.value,
+                    ) ?? null
+                  }
+                  onChange={(option) => {
+                    // Always has a value (defaults to Low), so ignore clears
+                    if (option) {
+                      field.handleChange(
+                        (option as SelectOption).value as Priority,
+                      )
+                    }
+                  }}
+                />
+              </div>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-col gap-y-1.5">
+          <Field
+            name="description"
+            children={(field) => (
+              <div className="flex flex-col gap-y-1.5">
+                <Textarea
+                  label={t('Description')}
+                  placeholder={t('Add more details...')}
+                  error={
+                    field.state.meta.isTouched
+                      ? field.state.meta.errors.join(', ')
+                      : undefined
+                  }
+                  maxLength={280}
+                  showCount
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+              </div>
+            )}
+          />
+        </div>
+        <Field
+          name="isImportant"
+          children={(field) => (
+            // No onClick on the label: the label already forwards clicks to
+            // the checkbox, so a second toggle here would cancel it out
+            <label className="flex w-fit cursor-pointer items-center gap-x-2 text-sm text-foreground">
+              <CheckBox
+                checked={field.state.value}
+                onChange={() => field.handleChange(!field.state.value)}
+              />
+              {t('Mark as important')}
+            </label>
+          )}
+        />
+      </form>
     </Dialog>
   )
 }

@@ -1,4 +1,5 @@
-import useDialogState from '#/hooks/use-dialog-state'
+import { createContext, useContext, useState } from 'react'
+import type { ReactNode } from 'react'
 import {
   ArrowDown,
   ArrowLeft,
@@ -6,17 +7,21 @@ import {
   ArrowUp,
   RotateCcw,
   Sparkles,
+  ZoomIn,
 } from 'lucide-react'
-import React, {
-  createContext,
-  useContext,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from 'react'
+import type { LucideIcon } from 'lucide-react'
+import type { DialogSize } from '#/components/dialog'
 
 export type ModalDialogType =
-  'transition' | 'basic' | 'confirmation' | 'form' | 'top' | 'success' | 'size'
+  | 'transition'
+  | 'basic'
+  | 'confirmation'
+  | 'form'
+  | 'top'
+  | 'success'
+  | 'drawer'
+  | 'scroll'
+  | 'size'
 
 export type TransitionVariant =
   | 'fadeIn'
@@ -28,64 +33,119 @@ export type TransitionVariant =
   | 'fadeInRight'
   | 'zoomInUp'
 
-export type Size = 'sm' | 'md' | 'lg' | 'xl'
+export type Size = Extract<
+  DialogSize,
+  'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | 'full'
+>
 
-export type transitionOption = {
+export interface TransitionOption {
   variant: TransitionVariant
   label: string
-  icon: typeof ArrowDown
+  icon: LucideIcon
+  /** Hover hint on the preview tile — static strings so Tailwind sees them */
+  hoverMotion: string
 }
 
-export type sizeOption = { size: Size; label: string; badgeWidth: string }
+export interface SizeOption {
+  size: Size
+  label: string
+  /** The panel's max width, as shown to the user */
+  width: string
+  /** Bar length on the size ruler, relative to "full" */
+  ruler: string
+}
 
-type ModalContextType = {
+export const transitionOptions: TransitionOption[] = [
+  {
+    variant: 'fadeIn',
+    label: 'Fade In',
+    icon: Sparkles,
+    hoverMotion: 'group-hover:opacity-20',
+  },
+  {
+    variant: 'slideInDown',
+    label: 'Slide Down',
+    icon: ArrowDown,
+    hoverMotion: 'group-hover:-translate-y-3 group-hover:opacity-40',
+  },
+  {
+    variant: 'fadeInUp',
+    label: 'Fade Up',
+    icon: ArrowUp,
+    hoverMotion: 'group-hover:translate-y-2 group-hover:opacity-40',
+  },
+  {
+    variant: 'slideInUp',
+    label: 'Slide Up',
+    icon: ArrowUp,
+    hoverMotion: 'group-hover:translate-y-4 group-hover:opacity-40',
+  },
+  {
+    variant: 'fadeInLeft',
+    label: 'Fade Left',
+    icon: ArrowLeft,
+    hoverMotion: 'group-hover:-translate-x-3 group-hover:opacity-40',
+  },
+  {
+    variant: 'rotateInLeft',
+    label: 'Rotate Left',
+    icon: RotateCcw,
+    hoverMotion:
+      'group-hover:-rotate-12 group-hover:-translate-x-2 group-hover:opacity-50',
+  },
+  {
+    variant: 'fadeInRight',
+    label: 'Fade Right',
+    icon: ArrowRight,
+    hoverMotion: 'group-hover:translate-x-3 group-hover:opacity-40',
+  },
+  {
+    variant: 'zoomInUp',
+    label: 'Zoom Up',
+    icon: ZoomIn,
+    hoverMotion:
+      'group-hover:scale-75 group-hover:translate-y-2 group-hover:opacity-40',
+  },
+]
+
+export const sizeOptions: SizeOption[] = [
+  { size: 'sm', label: 'Small', width: '24rem', ruler: 'w-[30%]' },
+  { size: 'md', label: 'Medium', width: '28rem', ruler: 'w-[35%]' },
+  { size: 'lg', label: 'Large', width: '32rem', ruler: 'w-[40%]' },
+  { size: 'xl', label: 'Extra large', width: '36rem', ruler: 'w-[45%]' },
+  { size: '2xl', label: '2× large', width: '42rem', ruler: 'w-[53%]' },
+  { size: '4xl', label: '4× large', width: '56rem', ruler: 'w-[70%]' },
+  { size: 'full', label: 'Full width', width: '100%', ruler: 'w-full' },
+]
+
+interface ModalContextType {
   open: ModalDialogType | null
-  setOpen: (str: ModalDialogType | null) => void
+  openModal: (modal: ModalDialogType) => void
+  close: () => void
   activeTransition: TransitionVariant
-  setActiveTransition: Dispatch<SetStateAction<TransitionVariant>>
-  transitionOptions: transitionOption[]
+  setActiveTransition: (variant: TransitionVariant) => void
   activeSize: Size
-  setActiveSize: Dispatch<SetStateAction<Size>>
-  sizeOptions: sizeOption[]
+  setActiveSize: (size: Size) => void
 }
 
 const ModalContext = createContext<ModalContextType | null>(null)
 
-export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useDialogState<ModalDialogType>(null)
+export function ModalProvider({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState<ModalDialogType | null>(null)
   const [activeTransition, setActiveTransition] =
     useState<TransitionVariant>('fadeIn')
   const [activeSize, setActiveSize] = useState<Size>('md')
-
-  const transitionOptions: transitionOption[] = [
-    { variant: 'fadeIn', label: 'Fade In', icon: Sparkles },
-    { variant: 'slideInDown', label: 'Slide Down', icon: ArrowDown },
-    { variant: 'fadeInUp', label: 'Fade Up', icon: ArrowUp },
-    { variant: 'slideInUp', label: 'Slide Up', icon: ArrowUp },
-    { variant: 'fadeInLeft', label: 'Fade Left', icon: ArrowLeft },
-    { variant: 'rotateInLeft', label: 'Rotate Left', icon: RotateCcw },
-    { variant: 'fadeInRight', label: 'Fade Right', icon: ArrowRight },
-    { variant: 'zoomInUp', label: 'Zoom Up', icon: Sparkles },
-  ]
-
-  const sizeOptions: sizeOption[] = [
-    { size: 'sm', label: 'Small', badgeWidth: 'w-6' },
-    { size: 'md', label: 'Medium', badgeWidth: 'w-9' },
-    { size: 'lg', label: 'Large', badgeWidth: 'w-12' },
-    { size: 'xl', label: 'Extra Large', badgeWidth: 'w-16' },
-  ]
 
   return (
     <ModalContext.Provider
       value={{
         open,
-        setOpen,
+        openModal: setOpen,
+        close: () => setOpen(null),
         activeTransition,
         setActiveTransition,
-        transitionOptions,
         activeSize,
         setActiveSize,
-        sizeOptions,
       }}
     >
       {children}
@@ -94,11 +154,11 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
 }
 
 export const useModal = () => {
-  const tasksContext = useContext(ModalContext)
+  const modalContext = useContext(ModalContext)
 
-  if (!tasksContext) {
-    throw new Error('useTasks has to be used within <TasksContext>')
+  if (!modalContext) {
+    throw new Error('useModal has to be used within <ModalProvider>')
   }
 
-  return tasksContext
+  return modalContext
 }

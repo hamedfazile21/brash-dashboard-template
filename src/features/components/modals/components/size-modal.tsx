@@ -1,47 +1,55 @@
-import Dialog from '#/components/dialog'
-import  { type FC } from 'react'
-import type { ModalDialogType, Size, sizeOption } from './modal-provider'
 import { useTranslation } from 'react-i18next'
+import Dialog from '#/components/dialog'
+import { sizeOptions } from './modal-provider'
+import type { Size } from './modal-provider'
 
-interface props {
+interface SizeModalProps {
   open: boolean
-  onClose: (str: ModalDialogType | null) => void
-  sizeOptions: sizeOption[]
-  activeSize: Size
+  onClose: () => void
+  size: Size
 }
 
-const SizeModal: FC<props> = ({ onClose, open, sizeOptions, activeSize }) => {
+function SizeModal({ open, onClose, size }: SizeModalProps) {
   const { t } = useTranslation()
+  const option = sizeOptions.find((o) => o.size === size)
+
   return (
-    <>
-      <Dialog
-        open={open}
-        onClose={() => onClose('size')}
-        title={sizeOptions.find((o) => o.size === activeSize)?.label}
-        size={activeSize}
-      >
-        <p className="text-sm text-muted">
-          This dialog is using the{' '}
-          <span className="font-medium text-foreground">{activeSize}</span> size
-          (
-          {
-            { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-lg', xl: 'max-w-xl' }[
-              activeSize
-            ]
-          }
-          ).
-        </p>
-        <div className="mt-6 flex justify-end border-t border-white/10 pt-4 dark:border-white/8">
-          <button
-            type="button"
-            onClick={() => onClose('size')}
-            className="btn btn-primary w-auto px-4"
+    <Dialog
+      open={open}
+      onClose={onClose}
+      size={size}
+      title={t(option?.label ?? '')}
+      description={t('Max width {{width}}', { width: option?.width })}
+      footer={
+        <button
+          type="button"
+          onClick={onClose}
+          className="btn btn-primary px-4"
+        >
+          {t('Close')}
+        </button>
+      }
+    >
+      {/* Ruler spanning the panel's actual width */}
+      <div className="flex flex-col gap-y-2">
+        <div className="relative flex h-10 items-center justify-center rounded-lg border border-dashed border-primary/40 bg-primary/5">
+          <span className="absolute inset-y-2 inset-s-0 w-px bg-primary/60" />
+          <span className="absolute inset-y-2 inset-e-0 w-px bg-primary/60" />
+          <span className="absolute inset-x-2 top-1/2 h-px -translate-y-1/2 bg-primary/30" />
+          <span
+            className="relative rounded-md bg-background px-2 py-0.5 font-mono text-xs font-medium text-primary"
+            dir="ltr"
           >
-            {t('Close')}
-          </button>
+            size="{size}" · {option?.width}
+          </span>
         </div>
-      </Dialog>
-    </>
+        <p className="text-xs text-muted">
+          {t(
+            'Resize the window — the panel never grows wider than this, and shrinks to fit small screens.',
+          )}
+        </p>
+      </div>
+    </Dialog>
   )
 }
 

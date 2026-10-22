@@ -1,47 +1,62 @@
-import { useModal, type TransitionVariant } from './modal-provider'
+import { Clapperboard } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { transitionOptions, useModal } from './modal-provider'
+import type { TransitionVariant } from './modal-provider'
+import ShowcaseSection from './showcase-section'
 
-const TransitionsSection = () => {
+function TransitionsSection() {
   const { t } = useTranslation()
-  const {
-    transitionOptions,
-    activeTransition,
-    setActiveTransition,
-    open,
-    setOpen,
-  } = useModal()
+  const { activeTransition, setActiveTransition, open, openModal } = useModal()
 
   const openTransition = (variant: TransitionVariant) => {
-    setOpen('transition')
     setActiveTransition(variant)
+    openModal('transition')
   }
-  return (
-    <section>
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">
-          {t('Transitions')}
-        </h2>
-        <p className="text-xs text-muted">{t('Click any to preview')}</p>
-      </div>
 
-      <div className="card grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
-        {transitionOptions.map(({ variant, label, icon: Icon }) => (
-          <button
-            key={variant}
-            type="button"
-            onClick={() => openTransition(variant)}
-            className={`flex flex-col items-center gap-y-2 rounded-lg border py-4 text-xs font-medium transition-all duration-150 ${
+  return (
+    <ShowcaseSection
+      icon={Clapperboard}
+      title="Transitions"
+      description="Hover to get a feel for the motion, click to open a live dialog"
+    >
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {transitionOptions.map(
+          ({ variant, label, icon: Icon, hoverMotion }) => {
+            const isActive =
               activeTransition === variant && open === 'transition'
-                ? 'border-primary/40 bg-primary/10 text-primary'
-                : 'border-transparent text-muted hover:border-white/10 hover:bg-surface-hover hover:text-foreground'
-            }`}
-          >
-            <Icon size={18} />
-            {label}
-          </button>
-        ))}
+            return (
+              <button
+                key={variant}
+                type="button"
+                onClick={() => openTransition(variant)}
+                className={`card group flex flex-col items-center gap-y-3 py-5! text-center outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary ${
+                  isActive ? 'border-primary/50! bg-primary/10!' : 'card-hover'
+                }`}
+              >
+                {/* A mini panel that drifts the way the dialog will enter */}
+                <span className="relative flex size-14 items-center justify-center rounded-xl border border-dashed border-borderColor">
+                  <span
+                    className={`flex size-9 items-center justify-center rounded-lg bg-primary text-white shadow-md shadow-primary/30 transition-all duration-500 ease-out ${hoverMotion}`}
+                  >
+                    <Icon size={16} />
+                  </span>
+                </span>
+                <span>
+                  <span
+                    className={`block text-sm font-medium ${isActive ? 'text-primary' : 'text-foreground'}`}
+                  >
+                    {t(label)}
+                  </span>
+                  <span className="block font-mono text-[11px] text-muted">
+                    {variant}
+                  </span>
+                </span>
+              </button>
+            )
+          },
+        )}
       </div>
-    </section>
+    </ShowcaseSection>
   )
 }
 
