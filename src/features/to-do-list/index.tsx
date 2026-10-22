@@ -1,87 +1,126 @@
-import Input from '#/components/input'
-import { useDeferredValue, useEffect, useState } from 'react'
+import { Plus, Search } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { todoData, type TodoType } from './data/todos'
+import Pagination from '#/components/pagination'
 import TodoRow from './components/todo-row'
 import SidePanelFilter from './components/side-panel-filter'
-import { TodoProvider, useTodo } from './components/todo-provider'
+import { useTodo } from './components/todo-provider'
+import type { TodoFilter } from './components/todo-provider'
 import TodoDialog from './components/todo-dialogs'
-import Pagination from '#/components/pagination'
 import EmptyTodos from './components/empty-todo'
+import type { EmptyTodosVariant } from './components/empty-todo'
+import { priorityFilters, statusFilters } from './data/filters'
 
-const FILTERS: Record<number, (item: TodoType) => boolean> = {
-  1: () => true,
-  2: (item) => item.status === 'complete',
-  3: (item) => item.isImportant,
-  4: (item) => item.status === 'trashed',
-  5: (item) => item.priority === 'Low',
-  6: (item) => item.priority === 'Medium',
-  7: (item) => item.priority === 'High',
+const emptyVariants: Record<TodoFilter, EmptyTodosVariant> = {
+  inbox: 'all',
+  done: 'completed',
+  important: 'important',
+  trash: 'trashed',
+  low: 'priority',
+  medium: 'priority',
+  high: 'priority',
 }
 
 function TodoList() {
-  const [activeItem, setActiveItem] = useState<number>(1)
-  const [search, setSearch] = useState<string>('')
-  const delaySearch = useDeferredValue(search)
-
-  const { page, setPage, totalPage, paginateData, setOpen } = useTodo()
-
   const { t } = useTranslation()
-  const mapData = paginateData.filter(FILTERS[activeItem] ?? (() => true))
-  const variantProps: 'all' | 'completed' | 'important' | 'trashed' | 'search' =
-    activeItem === 1
-      ? 'all'
-      : activeItem === 2
-        ? 'completed'
-        : activeItem === 3
-          ? 'important'
-          : 'trashed'
+  const {
+    page,
+    setPage,
+    totalPage,
+    visibleTodos,
+    matchCount,
+    counts,
+    filter,
+    setFilter,
+    search,
+    setSearch,
+    setOpen,
+    setCurrentRow,
+  } = useTodo()
+
+  const openCreate = () => {
+    setCurrentRow(null)
+    setOpen('create')
+  }
+
+  const activeTitle = [...statusFilters, ...priorityFilters].find(
+    (item) => item.value === filter,
+  )?.title
 
   return (
     <>
-      <div className="w-full flex items-stretch gap-x-2">
-        <SidePanelFilter
-          activeItem={activeItem}
-          setActiveItem={setActiveItem}
-        />
-        <div className="card relative flex h-[calc(100vh-7rem)] w-[80%] flex-col p-0!">
+      <div className="flex w-full items-stretch gap-x-4">
+        <SidePanelFilter />
+
+        <div className="card relative flex h-[calc(100vh-7rem)] min-w-0 flex-1 flex-col p-0!">
           {/* Header — fixed, doesn't scroll */}
-          <div className="card-header m-0! flex shrink-0 items-center justify-between border-b border-borderColor p-2 rounded-t-xl">
-            <div className="w-1/3">
-              <Input
-                onChange={(e) => setSearch(e.target.value)}
-                type="text"
-                placeholder={t('Search To Do')}
-              />
+          <div className="flex shrink-0 flex-col gap-3 border-b border-borderColor p-3">
+            <div className="flex items-center gap-x-3">
+              <div className="min-w-0 flex-1">
+                <h2 className="truncate text-base font-semibold text-foreground">
+                  {t(activeTitle ?? 'Inbox')}
+                </h2>
+                <p className="text-xs text-muted">
+                  {t('{{count}} tasks', { count: matchCount })}
+                </p>
+              </div>
+
+              <label className="glass-solid flex w-full max-w-64 items-center gap-x-2 rounded-lg px-3 py-1.5 text-sm transition-colors focus-within:border-primary/50">
+                <Search size={16} className="shrink-0 text-muted" />
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t('Search tasks')}
+                  aria-label={t('Search tasks')}
+                  className="w-full bg-transparent text-foreground outline-none placeholder:text-muted"
+                />
+              </label>
+            </div>
+
+            {/* Mobile filters — the side panel is hidden below md */}
+            <div className="-mx-3 flex gap-x-2 overflow-x-auto px-3 md:hidden">
+              {[...statusFilters, ...priorityFilters].map(
+                ({ value, title }) => (
+                  <button
+                    key={value}
+                    type="button"
+                    aria-pressed={filter === value}
+                    onClick={() => setFilter(value)}
+                    className={`shrink-0 rounded-full border px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors ${
+                      filter === value
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'border-borderColor text-muted hover:text-foreground'
+                    }`}
+                  >
+                    {t(title)}
+                    <span className="ms-1.5 opacity-70">{counts[value]}</span>
+                  </button>
+                ),
+              )}
             </div>
           </div>
 
-          <div className="card-body w-full flex-1 overflow-y-auto">
-            {mapData.length === 0 ? (
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            {visibleTodos.length === 0 ? (
               <EmptyTodos
-                onAddTask={() => setOpen('create')}
-                variant={variantProps}
+                onAddTask={openCreate}
+                variant={search.trim() ? 'search' : emptyVariants[filter]}
               />
             ) : (
-              mapData.map((item, index) => (
-                <TodoRow
-                  key={item.id ?? index}
-                  rowKey={index + 1}
-                  setActiveItem={setActiveItem}
-                  item={item}
-                />
-              ))
+              visibleTodos.map((item) => <TodoRow key={item.id} item={item} />)
             )}
           </div>
 
           {/* Footer — fixed, doesn't scroll */}
-          <div className="card-footer w-full shrink-0 p-3 flex! items-end! justify-end! border-b border-borderColor rounded-b-xl">
-            <Pagination
-              currentPage={page}
-              totalPages={totalPage}
-              onPageChange={setPage}
-            />
-          </div>
+          {totalPage > 1 && (
+            <div className="flex shrink-0 justify-end border-t border-borderColor p-3">
+              <Pagination
+                currentPage={page}
+                totalPages={totalPage}
+                onPageChange={setPage}
+              />
+            </div>
+          )}
         </div>
       </div>
       <TodoDialog />

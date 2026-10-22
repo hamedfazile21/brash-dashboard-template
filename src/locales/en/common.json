@@ -1,3 +1,5 @@
 {
-    "name" : "Name"
+  "name": "Name",
+  "{{count}} tasks_one": "{{count}} task",
+  "{{count}} tasks_other": "{{count}} tasks"
 }

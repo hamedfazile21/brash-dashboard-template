@@ -1,6 +1,9 @@
-import InputSelect, { type SelectOption } from '@/components/input-select'
-import { components, type OptionProps, type GroupBase } from 'react-select'
-import { Check, Diamond } from 'lucide-react'
+import type { SelectOption } from '@/components/input-select'
+import { priorityStyles } from '../data/filters'
+import type { Priority } from '../data/todos'
+import { components } from 'react-select'
+import type { OptionProps, GroupBase } from 'react-select'
+import { Check } from 'lucide-react'
 
 interface UserOption extends SelectOption {
   avatarUrl: string
@@ -29,32 +32,17 @@ export function OptionWithAvatar(
 export const OptionWithIconColor = (
   props: OptionProps<SelectOption, boolean, GroupBase<SelectOption>>,
 ) => {
-  // 'Low' | 'Medium' | 'High'
+  // Static class names via priorityStyles — `text-${color}` is invisible to Tailwind
+  const styles = priorityStyles[props.data.value as Priority] as
+    (typeof priorityStyles)[Priority] | undefined
 
-  const customColor = (assignee: string): string => {
-    if (assignee === 'Low') {
-      return 'emerald-500'
-    }
-    if (assignee === 'Medium') {
-      return 'blue-500'
-    }
-
-    if (assignee === 'High') {
-      return 'red-500'
-    }
-
-    return ''
-  }
   return (
     <components.Option {...props}>
-      <div className="w-full flex items-center gap-x-2">
-        <Diamond
-          size={18}
-          className={`fill-${customColor(props.label)} text-${customColor(props.label)}`}
-        />
+      <div className="flex w-full items-center gap-x-2">
         <span
-          className={`truncate text-sm flex-1 text-${customColor(props.label)}`}
-        >
+          className={`size-2.5 shrink-0 rounded-full ${styles?.dot ?? ''}`}
+        />
+        <span className={`flex-1 truncate text-sm ${styles?.text ?? ''}`}>
           {props.label}
         </span>
         {props.isSelected && (

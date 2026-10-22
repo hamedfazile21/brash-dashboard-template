@@ -1,147 +1,111 @@
 import Dialog from '#/components/dialog'
-import React, { useEffect } from 'react'
-import { useTodo, type TodoDialogType } from './todo-provider'
+import React, { useId } from 'react'
+import { useTodo } from './todo-provider'
 import { useTranslation } from 'react-i18next'
 import { useForm } from '@tanstack/react-form'
-import z from 'zod'
 import type { Priority, TodoType } from '../data/todos'
 import Input from '#/components/input'
-import InputSelect, { type SelectOption } from '#/components/input-select'
+import InputSelect from '#/components/input-select'
+import type { SelectOption } from '#/components/input-select'
 import {
   OptionWithAvatar,
   OptionWithIconColor,
 } from '../helper/select-custom-component'
 import Textarea from '#/components/textarea'
 import CheckBox from '#/components/checkbox'
+import { assigneeOptions } from '../data/assignees'
+import type { AssigneeOption } from '../data/assignees'
 
 interface props {
   open: boolean
-  setOpen: (str: TodoDialogType | null) => void
+  onClose: () => void
+  /** Present → edit mode */
   currentRow?: TodoType | null
 }
 
-interface TodoFrom {
+interface TodoForm {
   title: string
   assignee: string
   description: string
   isImportant: boolean
-  priority: string
+  priority: Priority
 }
 
-interface UserOption {
-  value: string
-  label: string
-  avatarUrl: string
-}
-
-const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
-  const { todos, setTodos } = useTodo()
+const CreateTodoDialog: React.FC<props> = ({ open, onClose, currentRow }) => {
+  const { saveTodo } = useTodo()
+  const formId = useId()
   const { t } = useTranslation()
 
-  const assigneeOption = Array.from({ length: 30 }).map((_, index) => {
-    return {
-      value: `/assets/avatar/memo_${index + 1}.png`,
-      label: `User-${index + 1}`,
-      avatarUrl: `/assets/avatar/memo_${index + 1}.png`,
-    }
-  })
-
-  // 'Low' | 'Medium' | 'High'
   const priorityOption: SelectOption[] = [
-    { value: 'Low', label: 'Low' },
-    { value: 'Medium', label: 'Medium' },
-    { value: 'High', label: 'High' },
+    { value: 'Low', label: t('Low') },
+    { value: 'Medium', label: t('Medium') },
+    { value: 'High', label: t('High') },
   ]
 
-  // const initial
+  // The update dialog remounts per row (keyed in todo-dialogs), so the
+  // row can seed the defaults directly
+  const defaultValues: TodoForm = {
+    assignee: currentRow?.assignee ?? '',
+    description: currentRow?.description ?? '',
+    isImportant: currentRow?.isImportant ?? false,
+    priority: currentRow?.priority ?? 'Low',
+    title: currentRow?.title ?? '',
+  }
 
-  const { Field, handleSubmit, reset, setFieldValue } = useForm({
-    defaultValues: {
-      assignee: '',
-      description: '',
-      isImportant: false,
-      priority: 'Low',
-      title: '',
-    } as TodoFrom,
+  const { Field, handleSubmit, reset } = useForm({
+    defaultValues,
 
-    onSubmit: async ({ value }) => {
-      const date = new Date()
-
-      const formatted = date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-      })
-
-      const currentStatus = currentRow?.status || 'pending'
-      const currentId = currentRow?.id || todos.length + 1
-      const currentDate = currentRow?.date || formatted
-
-      const newRecord: TodoType = {
-        assignee: value.assignee,
-        description: value.description,
-        isImportant: value.isImportant,
-        priority: value.priority as Priority,
-        title: value.title,
-        id: currentId,
-        status: currentStatus,
-        date: currentDate,
-      }
-
-      console.log(newRecord, 'Good Man')
-
-      if (currentRow) {
-        const updatedData: TodoType[] = todos.map((item) =>
-          item.id === currentRow.id ? newRecord : item,
-        )
-        setTodos(updatedData)
-      } else {
-        setTodos((prev) => [...prev, newRecord])
-      }
+    onSubmit: ({ value }) => {
+      saveTodo(
+        {
+          assignee: value.assignee,
+          description: value.description,
+          isImportant: value.isImportant,
+          priority: value.priority,
+          title: value.title.trim(),
+        },
+        currentRow?.id,
+      )
       closeDialog()
     },
   })
 
-  useEffect(() => {
-    if (currentRow) {
-      reset({
-        assignee: currentRow.assignee,
-        description: currentRow.description,
-        isImportant: currentRow.isImportant,
-        priority: currentRow.priority,
-        title: currentRow.title,
-      })
-      console.log(currentRow)
-    }
-  }, [currentRow, open])
-
   const closeDialog = () => {
-    setOpen('create')
+    onClose()
     reset()
   }
+
   return (
     <Dialog
       open={open}
       onClose={closeDialog}
-      title="New To Do"
+      title={t(currentRow ? 'Edit To Do' : 'New To Do')}
       position="top"
       closeOnOutsideClick={false}
       size={'lg'}
     >
       <div className="card-body">
-        <form className="space-y-2">
+        <form
+          id={formId}
+          className="space-y-3"
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleSubmit()
+          }}
+        >
           <div className="flex flex-col gap-y-1.5">
             <Field
               name="title"
               validators={{
-                onSubmit: ({ value }) => !value && 'Title is required',
+                onSubmit: ({ value }) =>
+                  !value.trim() && t('Title is required'),
               }}
               children={(field) => (
                 <div className="flex flex-col gap-y-1.5">
                   <Input
                     label={t('Title')}
                     required
-                    placeholder="Do some thing..."
+                    placeholder={t('What needs to be done?')}
                     id={field.name}
                     type="text"
                     value={field.state.value}
@@ -162,23 +126,23 @@ const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
             <Field
               name="assignee"
               validators={{
-                onSubmit: ({ value }) => !value && 'Assignee is required',
+                onSubmit: ({ value }) => !value && t('Assignee is required'),
               }}
               children={(field) => (
                 <div className="flex flex-col gap-y-1.5">
                   <InputSelect
-                    options={assigneeOption}
+                    options={assigneeOptions}
                     required
                     label={t('Assignee')}
                     components={{ Option: OptionWithAvatar }}
                     value={
-                      assigneeOption.find(
+                      assigneeOptions.find(
                         (opt) => opt.value === field.state.value,
                       ) ?? null
                     }
                     onChange={(option) => {
                       field.handleChange(
-                        option ? (option as UserOption).value : '',
+                        option ? (option as AssigneeOption).value : '',
                       )
                     }}
                     error={
@@ -195,9 +159,6 @@ const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
           <div className="flex flex-col gap-y-1.5">
             <Field
               name="priority"
-              validators={{
-                onSubmit: ({ value }) => !value && 'Priority is required',
-              }}
               children={(field) => (
                 <div className="flex flex-col gap-y-1.5">
                   <InputSelect
@@ -211,15 +172,13 @@ const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
                       ) ?? null
                     }
                     onChange={(option) => {
-                      field.handleChange(
-                        option ? (option as SelectOption).value : '',
-                      )
+                      // Always has a value (defaults to Low), so ignore clears
+                      if (option) {
+                        field.handleChange(
+                          (option as SelectOption).value as Priority,
+                        )
+                      }
                     }}
-                    error={
-                      field.state.meta.isTouched
-                        ? field.state.meta.errors.join(', ')
-                        : undefined
-                    }
                   />
                 </div>
               )}
@@ -232,8 +191,8 @@ const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
               children={(field) => (
                 <div className="flex flex-col gap-y-1.5">
                   <Textarea
-                    label="Description"
-                    placeholder="Write something..."
+                    label={t('Description')}
+                    placeholder={t('Add more details...')}
                     error={
                       field.state.meta.isTouched
                         ? field.state.meta.errors.join(', ')
@@ -251,36 +210,30 @@ const CreateTodoDialog: React.FC<props> = ({ open, setOpen, currentRow }) => {
           <Field
             name="isImportant"
             children={(field) => (
-              <label
-                className="flex items-center gap-x-2 text-sm text-muted cursor-pointer"
-                onClick={() => field.handleChange(!field.state.value)}
-              >
+              // No onClick on the label: the label already forwards clicks to
+              // the checkbox, so a second toggle here would cancel it out
+              <label className="flex w-fit cursor-pointer items-center gap-x-2 text-sm text-foreground">
                 <CheckBox
                   checked={field.state.value}
                   onChange={() => field.handleChange(!field.state.value)}
                 />
-                {t('Is Important')}
+                {t('Mark as important')}
               </label>
             )}
           />
         </form>
       </div>
-      <div className="card-footer">
-        <div className="flex items-center gap-x-2">
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleSubmit()
-            }}
-            className="btn btn-primary"
-          >
-            {t('Submit')}
-          </button>
-          <button className="btn btn-secondary" onClick={closeDialog}>
-            {t('Cancel')}
-          </button>
-        </div>
+      <div className="card-footer justify-end! gap-x-2">
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={closeDialog}
+        >
+          {t('Cancel')}
+        </button>
+        <button type="submit" form={formId} className="btn btn-primary">
+          {t(currentRow ? 'Save changes' : 'Create task')}
+        </button>
       </div>
     </Dialog>
   )

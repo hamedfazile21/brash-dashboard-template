@@ -1,7 +1,7 @@
 const TypingIndicator = () => {
   return (
     <div className="flex justify-start">
-      <div className="glass-solid flex items-center gap-x-1 rounded-2xl rounded-bl-md px-4 py-3">
+      <div className="glass-solid flex items-center gap-x-1 rounded-2xl rounded-es-md px-4 py-3">
         {[0, 1, 2].map((i) => (
           <span
             key={i}

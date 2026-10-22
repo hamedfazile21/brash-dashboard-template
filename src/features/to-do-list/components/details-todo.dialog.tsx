@@ -1,6 +1,6 @@
 import React from 'react'
 import type { TodoType } from '../data/todos'
-import type { TodoDialogType } from './todo-provider'
+import { getAssigneeName } from '../data/assignees'
 import Dialog from '#/components/dialog'
 import {
   Calendar,
@@ -8,6 +8,7 @@ import {
   Circle,
   FileText,
   Flag,
+  SquarePen,
   Star,
   User,
 } from 'lucide-react'
@@ -15,7 +16,8 @@ import { useTranslation } from 'react-i18next'
 
 interface props {
   open: boolean
-  setOpen: (str: TodoDialogType | null) => void
+  onClose: () => void
+  onEdit: () => void
   currentRow: TodoType | null
 }
 
@@ -31,19 +33,31 @@ const statusStyles: Record<TodoType['status'], string> = {
   pending: 'bg-muted/15 text-muted',
 }
 
-const DetailsTodoDialog: React.FC<props> = ({ currentRow, open, setOpen }) => {
+const DetailsTodoDialog: React.FC<props> = ({
+  currentRow,
+  open,
+  onClose,
+  onEdit,
+}) => {
   const { t } = useTranslation()
-  const closeDialog = () => {
-    setOpen('details')
-  }
+
   return (
     <Dialog
       open={open}
-      onClose={closeDialog}
+      onClose={onClose}
       title={`${t('Details')} #${currentRow?.id}`}
       position="top"
-      closeOnOutsideClick={false}
       size="lg"
+      footer={
+        currentRow?.status !== 'trashed' && (
+          <div className="flex justify-end">
+            <button type="button" className="btn btn-primary" onClick={onEdit}>
+              <SquarePen size={16} />
+              {t('Edit')}
+            </button>
+          </div>
+        )
+      }
     >
       <div className="flex flex-col gap-y-5">
         {/* Header: title + important flag */}
@@ -79,7 +93,7 @@ const DetailsTodoDialog: React.FC<props> = ({ currentRow, open, setOpen }) => {
           </span>
         </div>
 
-        <div className="h-px bg-black/8 dark:bg-white/10" />
+        <div className="h-px bg-borderColor" />
 
         {/* Description */}
         <div className="flex flex-col gap-y-1.5">
@@ -92,10 +106,10 @@ const DetailsTodoDialog: React.FC<props> = ({ currentRow, open, setOpen }) => {
           </p>
         </div>
 
-        <div className="h-px bg-black/8 dark:bg-white/10" />
+        <div className="h-px bg-borderColor" />
 
         {/* Meta row: assignee + date */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {/* Assignee */}
           <div className="glass-solid flex items-center gap-x-3 rounded-xl p-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-info/15 text-info">
@@ -112,7 +126,7 @@ const DetailsTodoDialog: React.FC<props> = ({ currentRow, open, setOpen }) => {
                   className="h-5 w-5 rounded-full object-cover ring-1 ring-black/8 dark:ring-white/10"
                 />
                 <span className="truncate text-sm font-medium text-foreground">
-                  {t('Unassigned')}
+                  {getAssigneeName(currentRow?.assignee) ?? t('Unassigned')}
                 </span>
               </div>
             </div>
@@ -125,7 +139,7 @@ const DetailsTodoDialog: React.FC<props> = ({ currentRow, open, setOpen }) => {
             </div>
             <div className="flex min-w-0 flex-col gap-y-0.5">
               <span className="text-xs font-medium text-muted">
-                {t('Due date')}
+                {t('Created')}
               </span>
               <span className="truncate text-sm font-medium text-foreground">
                 {currentRow?.date}

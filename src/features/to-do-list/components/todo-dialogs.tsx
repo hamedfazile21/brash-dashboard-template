@@ -1,28 +1,30 @@
-import { useTodo, type TodoDialogType } from './todo-provider'
+import { useTodo } from './todo-provider'
 import CreateTodoDialog from './create-todo-dialog'
 import DetailsTodoDialog from './details-todo.dialog'
 
 const TodoDialog = () => {
   const { open, setOpen, currentRow } = useTodo()
+  const close = () => setOpen(null)
+
   return (
     <>
       <CreateTodoDialog
-        key={'todo-create'}
+        key="todo-create"
         open={open === 'create'}
-        setOpen={() => setOpen('create')}
+        onClose={close}
       />
 
       <CreateTodoDialog
         key={`todo-update-${currentRow?.id}`}
         open={open === 'update'}
-        setOpen={() => setOpen('update')}
+        onClose={close}
         currentRow={currentRow}
       />
 
       <DetailsTodoDialog
-        key={`todo-details`}
         open={open === 'details'}
-        setOpen={() => setOpen('details')}
+        onClose={close}
+        onEdit={() => setOpen('update')}
         currentRow={currentRow}
       />
     </>
