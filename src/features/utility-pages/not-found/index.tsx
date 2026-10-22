@@ -243,7 +243,7 @@ function NotFoundPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               to="/"
-              className="btn btn-primary btn-lg flex items-center gap-x-2"
+              className="btn btn-primary flex items-center gap-x-2"
             >
               <House size={18} />
               {t('Back to dashboard')}
@@ -251,7 +251,7 @@ function NotFoundPage() {
             <button
               type="button"
               onClick={() => router.history.back()}
-              className="btn btn-secondary btn-lg flex items-center gap-x-2"
+              className="btn btn-secondary flex items-center gap-x-2"
             >
               <ArrowLeft size={18} className="rtl:rotate-180" />
               {t('Go back')}

@@ -1,25 +1,23 @@
 import { useEffect, useState } from 'react'
-import { Lock } from 'lucide-react'
-import Input from '#/components/input'
-import { Avatar13, GlassBlob, GlassBlob1, GlassBlob2 } from '../../assets'
-import { useTranslation } from 'react-i18next'
+import { ArrowRight, Lock } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
+import { useTranslation } from 'react-i18next'
+import Input from '#/components/input'
+import GlassBackdrop from '#/components/layout/glass-backdrop'
 import { showObjectToast } from '#/helper/toast-helper'
-
-interface LockScreenFrom {
-  lockPassword: string
-}
+import { fieldError } from '#/features/auth/validators'
+import { AuthCard, AuthFooter } from '#/features/auth/components/auth-layout'
+import { Avatar13 } from '../../assets'
 
 function LockScreen() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [now, setNow] = useState(new Date())
 
   const { Field, handleSubmit } = useForm({
-    defaultValues: {
-      lockPassword: '',
-    } as LockScreenFrom,
-    onSubmit: async ({ value }) => {
-      showObjectToast(t('Screen Lock Submitted'), value)
+    defaultValues: { lockPassword: '' },
+    onSubmit: ({ value }) => {
+      showObjectToast(t('Unlock submitted'), value)
     },
   })
 
@@ -28,98 +26,101 @@ function LockScreen() {
     return () => clearInterval(timer)
   }, [])
 
-  const time = now.toLocaleTimeString([], {
+  const locale = i18n.language === 'fa' ? 'fa-IR' : 'en-US'
+  const time = now.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit',
   })
-  const date = now.toLocaleDateString([], {
+  const date = now.toLocaleDateString(locale, {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   })
 
   return (
-    <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden">
-      {/* Decorative blobs behind the glass card */}
-      <img
-        src={GlassBlob1}
-        alt=""
-        className="pointer-events-none fixed -top-20 -left-20 -z-10 size-128 opacity-70 dark:opacity-30"
-      />
-      <img
-        src={GlassBlob}
-        alt=""
-        className="pointer-events-none fixed bottom-50 right-180 -z-10 size-128 opacity-60 dark:opacity-25"
-      />
-      <img
-        src={GlassBlob2}
-        alt=""
-        className="pointer-events-none fixed -bottom-24 -right-16 -z-10 size-128 opacity-60 dark:opacity-25"
-      />
+    <div className="relative flex min-h-screen w-full flex-col overflow-hidden">
+      <GlassBackdrop />
 
-      {/* Clock */}
-      <div className="mb-10 text-center">
-        <p className="text-6xl font-semibold tracking-tight text-foreground">
-          {time}
-        </p>
-        <p className="mt-2 text-sm text-muted">{date}</p>
-      </div>
-
-      {/* Lock card */}
-      <div className="card w-125 p-10! text-center">
-        <div className="mx-auto mb-4 flex size-20 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-surface-hover">
-          <img src={Avatar13} className="size-full object-cover flex" />
+      <main className="flex flex-1 flex-col items-center justify-center px-4 py-10">
+        {/* Clock */}
+        <div className="mb-10 text-center">
+          <p className="bg-linear-to-b from-foreground to-foreground/60 bg-clip-text text-6xl font-bold tracking-tight text-transparent tabular-nums sm:text-7xl">
+            {time}
+          </p>
+          <p className="mt-2 text-sm font-medium text-muted">{date}</p>
         </div>
 
-        <h1 className="text-lg font-semibold text-foreground">
-          {'Hamed Fazeli'}
-        </h1>
-        <p className="mt-1 text-sm text-muted">{t('Your session is locked')}</p>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            handleSubmit()
-          }}
-          className="mt-6 flex flex-col gap-y-3 text-left"
-        >
-          <Field
-            name="lockPassword"
-            validators={{
-              onSubmit: ({ value }) =>
-                !value ? 'Password is required' : undefined,
-            }}
-            children={(field) => (
-              <Input
-                id={field.name}
-                type="password"
-                placeholder={t('Enter your password')}
-                onChange={(e) => field.handleChange(e.target.value)}
-                value={field.state.value}
-                error={
-                  field.state.meta.isTouched
-                    ? field.state.meta.errors.join(', ')
-                    : undefined
-                }
+        <AuthCard>
+          <div className="flex flex-col items-center text-center">
+            <div className="relative mb-4">
+              <div className="absolute inset-0 -z-10 scale-125 rounded-full bg-primary/30 blur-2xl" />
+              <img
+                src={Avatar13}
+                alt=""
+                className="size-20 rounded-full object-cover ring-4 ring-surface"
               />
-            )}
-          />
+              <span className="absolute inset-e-0 bottom-0 flex size-7 items-center justify-center rounded-full bg-surface text-muted ring-2 ring-surface">
+                <Lock size={14} />
+              </span>
+            </div>
+            <h1 className="text-lg font-semibold text-foreground">
+              Hamed Fazeli
+            </h1>
+            <p className="mt-1 text-sm text-muted">
+              {t('Your session is locked')}
+            </p>
+          </div>
 
-          <button
-            type="submit"
-            className="btn btn-primary w-full! flex items-center justify-center gap-x-2"
+          <form
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleSubmit()
+            }}
+            className="mt-6 flex flex-col gap-y-3"
           >
-            <Lock size={16} />
-            {t('Unlock')}
-          </button>
-        </form>
-        <button
-          type="button"
-          className="mt-5 text-xs font-medium text-muted hover:text-primary hover:underline"
-        >
-          {t('Not you? Switch account')}
-        </button>
+            <Field
+              name="lockPassword"
+              validators={{
+                onSubmit: ({ value }) =>
+                  !value ? t('Password is required') : undefined,
+              }}
+              children={(field) => (
+                <Input
+                  id={field.name}
+                  type="password"
+                  autoComplete="current-password"
+                  aria-label={t('Password')}
+                  placeholder={t('Enter your password')}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  error={fieldError(field.state.meta)}
+                />
+              )}
+            />
+
+            <button
+              type="submit"
+              className="btn btn-primary w-full! shadow-lg shadow-primary/25"
+            >
+              {t('Unlock')}
+              <ArrowRight size={16} className="rtl:rotate-180" />
+            </button>
+          </form>
+
+          <Link
+            to="/login-basic"
+            className="mt-5 block text-center text-xs font-medium text-muted transition-colors hover:text-primary"
+          >
+            {t('Not you? Switch account')}
+          </Link>
+        </AuthCard>
+      </main>
+
+      <div className="px-6 py-6">
+        <AuthFooter />
       </div>
     </div>
   )

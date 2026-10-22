@@ -159,14 +159,14 @@ function InternalServerError() {
               type="button"
               onClick={retry}
               disabled={retrying}
-              className="btn btn-primary btn-lg flex items-center gap-x-2"
+              className="btn btn-primary flex items-center gap-x-2"
             >
               <RotateCw size={18} className={retrying ? 'animate-spin' : ''} />
               {t('Try again')}
             </button>
             <Link
               to="/"
-              className="btn btn-secondary btn-lg flex items-center gap-x-2"
+              className="btn btn-secondary flex items-center gap-x-2"
             >
               <House size={18} />
               {t('Back to dashboard')}

@@ -1,204 +1,28 @@
-import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, MailCheck, ShieldCheck } from 'lucide-react'
-import { EmailValidationSVG, GlassBlob } from '../../../assets'
-import { showObjectToast } from '#/helper/toast-helper'
-import { Link } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
+import { Clock, ShieldCheck } from 'lucide-react'
+import AuthCoverLayout from '#/features/auth/components/auth-cover-layout'
+import type { AuthCoverContent } from '#/features/auth/components/auth-cover-layout'
+import { EmailValidationSVG } from '../../../assets'
+import EmailVerificationForm from '../components/email-verification-form'
 
-const CODE_LENGTH = 6
-const RESEND_COOLDOWN = 30 // seconds
+const cover: AuthCoverContent = {
+  image: EmailValidationSVG,
+  icon: ShieldCheck,
+  title: 'One quick step to secure your account',
+  description:
+    'Verifying your email helps us keep your account safe and makes sure you never miss an important update.',
+  points: [
+    'Takes less than 30 seconds',
+    'Code expires in 10 minutes',
+    "Didn't get it? You can resend anytime",
+  ],
+  badge: { icon: Clock, label: 'Code expires in 10 minutes' },
+}
 
 function EmailVerificationCover() {
-  const { t } = useTranslation()
-  const [code, setCode] = useState<string[]>(Array(CODE_LENGTH).fill(''))
-  const [error, setError] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-  const [coolDown, setCoolDown] = useState(RESEND_COOLDOWN)
-  const inputsRef = useRef<(HTMLInputElement | null)[]>([])
-
-  const email = 'hamed@example.com'
-
-  useEffect(() => {
-    if (coolDown <= 0) return
-    const timer = setInterval(() => setCoolDown((c) => c - 1), 1000)
-    return () => clearInterval(timer)
-  }, [coolDown])
-
-  const handleChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return // digits only
-
-    const next = [...code]
-    next[index] = value.slice(-1)
-    setCode(next)
-    if (error) setError('')
-
-    if (value && index < CODE_LENGTH - 1) {
-      inputsRef.current[index + 1]?.focus()
-    }
-  }
-
-  const handleKeyDown = (
-    index: number,
-    e: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
-    if (e.key === 'Backspace' && !code[index] && index > 0) {
-      inputsRef.current[index - 1]?.focus()
-    }
-  }
-
-  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    const pasted = e.clipboardData
-      .getData('text')
-      .replace(/\D/g, '')
-      .slice(0, CODE_LENGTH)
-    if (!pasted) return
-    const next = Array(CODE_LENGTH).fill('')
-    pasted.split('').forEach((char, i) => (next[i] = char))
-    setCode(next)
-    inputsRef.current[Math.min(pasted.length, CODE_LENGTH - 1)]?.focus()
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const value = code.join('')
-    if (value.length < CODE_LENGTH) {
-      setError('Enter the full 6-digit code')
-      return
-    }
-    setError('')
-    setSubmitting(true)
-    setSubmitting(false)
-    showObjectToast(t('Verification From Submitted'), { code: value })
-  }
-
-  const handleResend = () => {
-    if (coolDown > 0) return
-    setCoolDown(RESEND_COOLDOWN)
-  }
-
   return (
-    <div className="relative flex justify-center items-center min-h-screen w-full flex-col overflow-hidden lg:flex-row">
-      {/* Cover side */}
-
-      <img
-        src={GlassBlob}
-        alt=""
-        className="pointer-events-none fixed bottom-50 rtl:right-100 ltr:left-100 -z-10 size-128 opacity-60 dark:opacity-25"
-      />
-
-      {/* Form side */}
-      <div className="relative z-10 flex w-full items-center justify-center p-6 lg:w-[55%]">
-        <div className="card w-full max-w-md p-10 text-center">
-          <Link
-            to="/login-cover"
-            className="mb-6 inline-flex items-center gap-x-1.5 text-sm font-medium text-muted hover:text-primary"
-          >
-            <ArrowLeft className="rtl:rotate-180" size={16} />
-            {t('Back to sign in')}
-          </Link>
-
-          <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-full bg-primary/15 text-primary">
-            <MailCheck size={26} />
-          </div>
-
-          <h1 className="text-xl font-semibold text-foreground">
-            {t('Verify your email')}
-          </h1>
-          <p className="mt-2 text-sm text-muted">
-            {t('We sent a 6-digit code to')}{' '}
-            <span className="font-medium text-foreground">{email}</span>
-          </p>
-
-          <form
-            className="mt-8 flex flex-col items-center gap-y-4"
-            onSubmit={handleSubmit}
-          >
-            <div className="flex justify-center gap-x-2" onPaste={handlePaste}>
-              {code.map((digit, index) => (
-                <input
-                  key={index}
-                  ref={(el) => (inputsRef.current[index] = el)}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  className={`size-12 rounded-lg border bg-surface/60 text-center text-lg font-semibold
-                    text-foreground outline-none transition-all duration-150
-                    focus:border-primary/50 focus:ring-2 focus:ring-primary/30
-                    ${error ? 'border-red-500' : 'border-borderColor'}`}
-                />
-              ))}
-            </div>
-
-            {error && <p className="text-xs text-red-500">{error}</p>}
-
-            <button
-              type="submit"
-              disabled={submitting}
-              className="btn btn-primary mt-2 w-full! disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {submitting ? t('Verifying…') : t('Verify email')}
-            </button>
-          </form>
-
-          <p className="mt-6 text-sm text-muted">
-            {t("Didn't get a code?")}{' '}
-            <button
-              type="button"
-              onClick={handleResend}
-              disabled={coolDown > 0}
-              className="font-medium text-primary hover:underline disabled:cursor-not-allowed disabled:text-muted disabled:no-underline"
-            >
-              {coolDown > 0
-                ? t('Resend in ${coolDown}s', { coolDown })
-                : t('Resend code')}
-            </button>
-          </p>
-        </div>
-      </div>
-
-      <div className="relative hidden h-screen w-[45%] items-center justify-center overflow-hidden p-10 lg:flex">
-        <img
-          src={EmailValidationSVG}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/20" />
-
-        <div className="card relative z-10 w-full max-w-md p-8">
-          <div className="flex size-12 items-center justify-center rounded-full bg-primary/15 text-primary">
-            <ShieldCheck size={22} />
-          </div>
-          <h2 className="mt-4 text-2xl font-semibold text-foreground">
-            {t('One quick step to secure your account')}
-          </h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted">
-            {t(
-              'Verifying your email helps us keep your account safe and makes sure you never miss an important update.',
-            )}
-          </p>
-
-          <div className="mt-6 flex flex-col gap-y-3 border-t border-white/10 pt-6">
-            {[
-              'Takes less than 30 seconds',
-              'Code expires in 10 minutes',
-              "Didn't get it? You can resend anytime",
-            ].map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-x-2.5 text-sm text-foreground"
-              >
-                <span className="mt-0.5 size-1.5 shrink-0 rounded-full bg-primary" />
-                {t(item)}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+    <AuthCoverLayout cover={cover}>
+      <EmailVerificationForm variant="cover" />
+    </AuthCoverLayout>
   )
 }
 

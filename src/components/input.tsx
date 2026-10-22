@@ -1,12 +1,15 @@
 import { forwardRef, useId, useState } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   parentClassName?: string
   labelClassName?: string
   error?: string
+  /** Optional leading icon inside the field */
+  icon?: LucideIcon
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -21,6 +24,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       required,
       placeholder = '',
       type = 'text',
+      icon: Icon,
       ...rest
     },
     ref,
@@ -35,16 +39,21 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className={`text-sm font-medium text-foreground ${labelClassName}`}
+            className={`mb-1.5 inline-block text-sm font-medium text-foreground ${labelClassName}`}
           >
             {label}
-            {required && (
-              <span className="text-red-500 ltr:ml-0.5 rtl:mr-0.5">*</span>
-            )}
+            {required && <span className="ms-0.5 text-danger">*</span>}
           </label>
         )}
 
-        <div className="relative w-full">
+        <div className="group/input relative w-full">
+          {Icon && (
+            <Icon
+              size={16}
+              aria-hidden
+              className="pointer-events-none absolute inset-s-3 top-1/2 -translate-y-1/2 text-muted transition-colors group-focus-within/input:text-primary"
+            />
+          )}
           <input
             ref={ref}
             id={inputId}
@@ -54,8 +63,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             aria-invalid={!!error}
             aria-describedby={error ? `${inputId}-error` : undefined}
             required={required}
-            className={`input ${isPassword ? 'pr-10 rtl:pr-3 rtl:pl-10' : ''} ${
-              error ? 'border-red-500 focus:ring-red-500/30' : ''
+            // `!` on padding: .input is unlayered CSS, so plain utilities lose to it
+            className={`input ${Icon ? 'ps-9!' : ''} ${isPassword ? 'pe-10!' : ''} ${
+              error ? 'border-danger! focus:ring-danger/30!' : ''
             } ${className}`}
             {...rest}
           />
@@ -67,15 +77,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               aria-label={visible ? 'Hide password' : 'Show password'}
               aria-pressed={visible}
               tabIndex={-1}
-              className="btn btn-secondary btn-rounded-full w-fit! ltr:right-2 rtl:left-2 p-1! top-1.25 absolute!"
+              className="absolute inset-e-1.5 top-1/2 flex -translate-y-1/2 items-center rounded-md p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
             >
-              {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+              {visible ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           )}
         </div>
 
         {error && (
-          <p id={`${inputId}-error`} className="mt-1 text-xs text-red-500">
+          <p id={`${inputId}-error`} className="mt-1.5 text-xs text-danger">
             {error}
           </p>
         )}
