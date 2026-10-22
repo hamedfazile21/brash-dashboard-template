@@ -105,7 +105,8 @@ type Position = 'center' | 'top' | 'left' | 'right'
 
 const wrapperPositionClasses: Record<Position, string> = {
   center: 'items-center justify-center p-4',
-  top: 'items-start justify-center',
+  // Offset from the top edge like a command palette; padding keeps the panel off the sides on phones
+  top: 'items-start justify-center pt-[8vh]',
   left: 'items-stretch justify-start',
   right: 'items-stretch justify-end',
 }

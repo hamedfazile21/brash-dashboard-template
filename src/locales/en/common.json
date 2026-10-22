@@ -1,5 +1,7 @@
 {
   "name": "Name",
   "{{count}} tasks_one": "{{count}} task",
-  "{{count}} tasks_other": "{{count}} tasks"
+  "{{count}} tasks_other": "{{count}} tasks",
+  "{{count}} results_one": "{{count}} result",
+  "{{count}} results_other": "{{count}} results"
 }

@@ -21,7 +21,11 @@ import type { ThemeMode } from '#/features/theme/slice/theme-types'
 import { AfghanistanFlag, EnglishFlag, UserPNG } from '../../assets'
 import i18n from '#/app/i18n'
 import { useNavigate } from '@tanstack/react-router'
-import { HeaderSearchTrigger, useHeaderSearch } from './header-search-trigger'
+import {
+  HeaderSearchDialog,
+  HeaderSearchTrigger,
+  useHeaderSearch,
+} from './header-search-trigger'
 import Popover from '../popover'
 const Header = () => {
   const { searchOpen, setSearchOpen } = useHeaderSearch()
@@ -109,6 +113,10 @@ const Header = () => {
     >
       <div>
         <HeaderSearchTrigger onOpen={() => setSearchOpen(true)} />
+        <HeaderSearchDialog
+          open={searchOpen}
+          onClose={() => setSearchOpen(false)}
+        />
       </div>
       <div className="flex items-center gap-x-3">
         <button
