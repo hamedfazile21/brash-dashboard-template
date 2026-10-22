@@ -1,17 +1,30 @@
-export const faq = [
+import { CreditCard, Rocket, ShieldCheck } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+
+export interface FaqItem {
+  value: string
+  q: string
+  a: string
+  icon: LucideIcon
+}
+
+export const faq: FaqItem[] = [
   {
     value: 'q1',
     q: 'How does billing work?',
-    a: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos itaque, nobis, illo error atque iste soluta doloremque harum perferendis dolorum dolor alias a eius eveniet fuga iusto? Harum, dignissimos neque ab qui in doloribus earum accusamus vel est a laborum eos ducimus sequi. Dolor voluptas consequatur vel itaque eaque, explicabo nesciunt expedita possimus. Accusamus dignissimos excepturi alias dolorum minus assumenda, odio sint animi voluptatem eos magnam iure facere asperiores recusandae.',
+    a: 'You are billed monthly or yearly, depending on your plan. Invoices are emailed to your billing address and the full history is available in Settings.',
+    icon: CreditCard,
   },
   {
     value: 'q2',
     q: 'Can I change plans later?',
-    a: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos itaque, nobis, illo error atque iste soluta doloremque harum perferendis dolorum dolor alias a eius eveniet fuga iusto? Harum, dignissimos neque ab qui in doloribus earum accusamus vel est a laborum eos ducimus sequi. Dolor voluptas consequatur vel itaque eaque, explicabo nesciunt expedita possimus. Accusamus dignissimos excepturi alias dolorum minus assumenda, odio sint animi voluptatem eos magnam iure facere asperiores recusandae.',
+    a: 'Yes. Upgrades take effect immediately and are prorated; downgrades apply at the start of your next billing period.',
+    icon: Rocket,
   },
   {
     value: 'q3',
-    q: 'Is there a free trial?',
-    a: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos itaque, nobis, illo error atque iste soluta doloremque harum perferendis dolorum dolor alias a eius eveniet fuga iusto? Harum, dignissimos neque ab qui in doloribus earum accusamus vel est a laborum eos ducimus sequi. Dolor voluptas consequatur vel itaque eaque, explicabo nesciunt expedita possimus. Accusamus dignissimos excepturi alias dolorum minus assumenda, odio sint animi voluptatem eos magnam iure facere asperiores recusandae.',
+    q: 'Is my data secure?',
+    a: 'All data is encrypted in transit and at rest. SSO, audit logs and custom retention are available on the Business plan.',
+    icon: ShieldCheck,
   },
 ]

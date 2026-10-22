@@ -26,6 +26,8 @@ export function useAccordionContext(): AccordionContextValue {
 interface AccordionItemContextValue {
   value: string
   disabled: boolean
+  /** Shared by the item's trigger and panel so their ARIA ids match */
+  id: string
 }
 
 export const AccordionItemContext =

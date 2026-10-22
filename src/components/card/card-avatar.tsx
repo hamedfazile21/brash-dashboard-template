@@ -19,7 +19,7 @@ export function CardAvatar({
   return (
     <div
       style={{ width: size, height: size }}
-      className={`flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-surface-hover ${className}`}
+      className={`flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface-hover ring-4 ring-primary/10 ${className}`}
     >
       {src ? (
         <img src={src} alt={name} className="h-full w-full object-cover" />

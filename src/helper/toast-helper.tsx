@@ -11,7 +11,8 @@ import ObjectViewer from '#/components/object-viewer'
 export function showObjectToast(title: string, data: unknown) {
   toast.custom(
     (id) => (
-      <div className="relative w-104.5">
+      // Fits sonner's column — a wider custom width sticks out of the stack
+      <div className="relative w-full min-w-0">
         <div className="flex items-center justify-between mb-2">
           <p className="text-sm font-medium text-foreground">{title}</p>
           <button
@@ -32,10 +33,6 @@ export function showObjectToast(title: string, data: unknown) {
     ),
     {
       duration: 8000, // give the person enough time to actually read the object
-      style: {
-        '--width': '28rem', // overrides sonner's default ~356px toast width
-        width: '450px',
-      } as React.CSSProperties,
     },
   )
 }

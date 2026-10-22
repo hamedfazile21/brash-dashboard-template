@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import { CardContext, type CardView } from './card-provider'
+import { CardContext  } from './card-provider'
+import type {CardView} from './card-provider';
 import { CardTitle } from './card-title'
 import { CardHeader } from './card-header'
 import { CardContent } from './card-content'
@@ -22,16 +23,18 @@ interface CardProps {
 const rootViewClasses: Record<CardView, string> = {
   default: `card group relative overflow-hidden p-0! transition-all duration-300 ease-out
     hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl hover:shadow-black/10`,
-  stat: `card flex items-center justify-between relative overflow-hidden p-5 transition-all duration-300 ease-out`,
-  media: `card group overflow-hidden p-0 transition-all duration-300 ease-out
+  stat: `card group flex items-center justify-between relative overflow-hidden transition-all duration-300 ease-out
+    hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/5`,
+  // `p-0!` — .card is unlayered CSS and would win over a plain p-0
+  media: `card group overflow-hidden p-0! transition-all duration-300 ease-out
     hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10`,
   hover: `group relative aspect-[4/5] cursor-pointer overflow-hidden rounded-xl
     transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-black/30`,
   // Image on the left, content on the right — list/search-result style
-  horizontal: `card group flex overflow-hidden p-0 transition-all duration-300 ease-out
+  horizontal: `card group flex overflow-hidden p-0! transition-all duration-300 ease-out
     hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10`,
   // Centered avatar + name + role, e.g. a team-member card
-  profile: `card flex flex-col items-center p-6 text-center transition-all duration-300 ease-out
+  profile: `card flex flex-col items-center p-6! text-center transition-all duration-300 ease-out
     hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10`,
 }
 
@@ -42,11 +45,11 @@ function Card({ children, view = 'default', className = '' }: CardProps) {
         {children}
 
         {view === 'default' && (
-          <span className="absolute inset-y-0 left-0 w-1 origin-top scale-y-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-y-100" />
+          <span className="absolute inset-y-0 inset-s-0 w-1 origin-top scale-y-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-y-100" />
         )}
 
         {view === 'stat' && (
-          <span className="pointer-events-none absolute -right-6 -top-6 size-28 rounded-full bg-primary/10 blur-2xl" />
+          <span className="pointer-events-none absolute -inset-e-6 -top-6 size-28 rounded-full bg-primary/10 blur-2xl" />
         )}
 
         {view === 'hover' && (

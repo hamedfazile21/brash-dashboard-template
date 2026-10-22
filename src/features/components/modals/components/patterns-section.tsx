@@ -2,7 +2,7 @@ import { ArrowRight, Check, LayoutTemplate, TriangleAlert } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useModal } from './modal-provider'
 import type { ModalDialogType } from './modal-provider'
-import ShowcaseSection from './showcase-section'
+import ShowcaseSection from '../../shared/showcase-section'
 
 type Pattern = Exclude<ModalDialogType, 'transition' | 'size'>
 

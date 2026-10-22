@@ -2,7 +2,7 @@ import { Ruler } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { sizeOptions, useModal } from './modal-provider'
 import type { Size } from './modal-provider'
-import ShowcaseSection from './showcase-section'
+import ShowcaseSection from '../../shared/showcase-section'
 
 function SizeSection() {
   const { t } = useTranslation()

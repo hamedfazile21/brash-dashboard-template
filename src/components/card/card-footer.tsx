@@ -1,5 +1,6 @@
-import type { ReactNode } from "react"
-import { useCardContext, type CardView } from "./card-provider"
+import type { ReactNode } from 'react'
+import { useCardContext  } from './card-provider'
+import type {CardView} from './card-provider';
 
 const footerViewClasses: Record<CardView, string> = {
   default: 'relative z-10 border-t border-borderColor p-4',

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { AccordionContext, type AccordionVariant } from './accordion-provider'
+import { AccordionContext } from './accordion-provider'
+import type { AccordionVariant } from './accordion-provider'
 import AccordionContent from './accordion-content'
 import AccordionTrigger from './accordion-trigger'
 import AccordionItem from './accordion-item'

@@ -2,7 +2,7 @@ import { Clapperboard } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { transitionOptions, useModal } from './modal-provider'
 import type { TransitionVariant } from './modal-provider'
-import ShowcaseSection from './showcase-section'
+import ShowcaseSection from '../../shared/showcase-section'
 
 function TransitionsSection() {
   const { t } = useTranslation()

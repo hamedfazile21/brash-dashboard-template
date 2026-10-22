@@ -27,7 +27,7 @@ export function CardMedia({
         <img
           src={src}
           alt={alt}
-          className={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 rounded-lg ${className}`}
+          className={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${className}`}
         />
       </div>
     )
@@ -38,7 +38,7 @@ export function CardMedia({
       <img
         src={src}
         alt={alt}
-        className={`h-40 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 rounded-lg ${className}`}
+        className={`h-40 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${className}`}
       />
     </div>
   )

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import { useCardContext, type CardView } from './card-provider'
+import { useCardContext  } from './card-provider'
+import type {CardView} from './card-provider';
 
 const descriptionViewClasses: Record<CardView, string> = {
   default: 'mt-0.5 text-xs text-muted',

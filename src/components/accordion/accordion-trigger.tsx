@@ -1,10 +1,10 @@
 import { ChevronDown, Minus, Plus } from 'lucide-react'
-import { useId, type FC, type ReactNode } from 'react'
+import type { FC, ReactNode } from 'react'
 import {
   useAccordionContext,
   useAccordionItemContext,
-  type AccordionVariant,
 } from './accordion-provider'
+import type { AccordionVariant } from './accordion-provider'
 
 function triggerClasses(variant: AccordionVariant, isOpen: boolean) {
   switch (variant) {
@@ -13,7 +13,7 @@ function triggerClasses(variant: AccordionVariant, isOpen: boolean) {
     case 'bordered':
       return `px-4 py-3.5 text-foreground hover:text-primary ${isOpen ? 'text-primary' : ''}`
     case 'boxed':
-      return `px-4 py-3.5 text-foreground ${isOpen ? 'bg-primary/10 text-primary' : 'hover:bg-surface-hover'}`
+      return `px-4 py-3.5 ${isOpen ? 'text-primary' : 'text-foreground hover:bg-surface-hover/60'}`
     case 'icon':
       return 'py-3.5 text-foreground hover:text-primary'
     case 'plusMinus':
@@ -30,9 +30,8 @@ interface props {
 
 const AccordionTrigger: FC<props> = ({ children, icon }) => {
   const { isOpen: isOpenFn, toggle, variant } = useAccordionContext()
-  const { value, disabled } = useAccordionItemContext()
+  const { value, disabled, id } = useAccordionItemContext()
   const isOpen = isOpenFn(value)
-  const id = useId()
 
   return (
     <button
@@ -42,11 +41,11 @@ const AccordionTrigger: FC<props> = ({ children, icon }) => {
       aria-controls={`accordion-panel-${id}`}
       id={`accordion-trigger-${id}`}
       onClick={() => toggle(value)}
-      className={`flex w-full items-center justify-between gap-x-3 text-left text-sm font-medium
+      className={`flex w-full items-center justify-between gap-x-3 text-start text-sm font-medium
         transition-colors duration-150
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset
         disabled:pointer-events-none disabled:opacity-40
-        ${triggerClasses(variant, isOpen)} ${variant === 'boxed' ? 'rounded-lg' : ''}`}
+        ${triggerClasses(variant, isOpen)}`}
     >
       <span className="flex items-center gap-x-2.5">
         {variant === 'icon' && icon && (
@@ -64,13 +63,17 @@ const AccordionTrigger: FC<props> = ({ children, icon }) => {
       </span>
 
       {variant === 'plusMinus' ? (
-        <span className="shrink-0 text-muted">
-          {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+        <span
+          className={`flex size-6 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
+            isOpen ? 'bg-primary text-white' : 'bg-surface-hover text-muted'
+          }`}
+        >
+          {isOpen ? <Minus size={14} /> : <Plus size={14} />}
         </span>
       ) : (
         <ChevronDown
           size={16}
-          className={`shrink-0 text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : 'text-muted'}`}
         />
       )}
     </button>

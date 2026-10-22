@@ -1,6 +1,7 @@
 import { useId, useState } from 'react'
 import type { ReactNode } from 'react'
-import { TabsContext, type TabsVariant } from './tab-provider'
+import { TabsContext, isVerticalVariant } from './tab-provider'
+import type { TabsVariant } from './tab-provider'
 import TabsContent from './tabs-content'
 import TabsTrigger from './tab-trigger'
 import TabsList from './tab-list'
@@ -22,6 +23,7 @@ function Tabs({
   variant = 'pill',
   className = '',
 }: TabsProps) {
+  const baseId = useId()
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue ?? '')
   const isControlled = controlledValue !== undefined
   const value = isControlled ? controlledValue : uncontrolledValue
@@ -32,12 +34,10 @@ function Tabs({
   }
 
   return (
-    <TabsContext.Provider value={{ value, setValue, variant }}>
+    <TabsContext.Provider value={{ value, setValue, variant, baseId }}>
       <div
         className={
-          variant === 'vertical' || variant === 'circle-vertical'
-            ? `flex gap-x-6 ${className}`
-            : className
+          isVerticalVariant(variant) ? `flex gap-x-6 ${className}` : className
         }
       >
         {children}

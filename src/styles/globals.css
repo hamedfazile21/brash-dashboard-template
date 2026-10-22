@@ -99,6 +99,8 @@
   --animate-blink: blink 1s steps(2, start) infinite;
   --animate-grow: grow 2.4s ease-in-out infinite alternate;
   --animate-message-in: message-in 0.2s ease-out;
+  /* Same keyframes, for panels and content swaps */
+  --animate-fade-up: message-in 0.25s ease-out;
   @keyframes message-in {
     from {
       opacity: 0;

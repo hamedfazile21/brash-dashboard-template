@@ -1,21 +1,20 @@
-import { useId, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import {
   useAccordionContext,
   useAccordionItemContext,
-  type AccordionVariant,
 } from './accordion-provider'
+import type { AccordionVariant } from './accordion-provider'
 
 const AccordionContent = ({ children }: { children: ReactNode }) => {
   const { isOpen: isOpenFn, variant } = useAccordionContext()
-  const { value } = useAccordionItemContext()
+  const { value, id } = useAccordionItemContext()
   const isOpen = isOpenFn(value)
-  const id = useId()
 
   const contentPadding: Record<AccordionVariant, string> = {
     simple: 'pb-3.5',
     bordered: 'px-4 pb-3.5',
-    boxed: 'px-4 pb-3.5 mt-2',
-    icon: 'pb-3.5 pl-[42px]',
+    boxed: 'px-4 pb-4',
+    icon: 'pb-3.5 ps-[42px]',
     plusMinus: 'pb-3.5',
     ghost: 'pb-2.5',
   }
@@ -25,7 +24,11 @@ const AccordionContent = ({ children }: { children: ReactNode }) => {
       id={`accordion-panel-${id}`}
       role="region"
       aria-labelledby={`accordion-trigger-${id}`}
-      className="grid transition-[grid-template-rows] duration-300 ease-out"
+      // Closed panels stay mounted for the height animation, so take them
+      // out of the tab order and the accessibility tree
+      aria-hidden={!isOpen}
+      {...(!isOpen && { inert: '' })}
+      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${isOpen ? 'opacity-100' : 'opacity-0'}`}
       style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
     >
       <div className="overflow-hidden">

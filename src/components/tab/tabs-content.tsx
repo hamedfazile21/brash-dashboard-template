@@ -1,5 +1,10 @@
 import type { ReactNode } from 'react'
-import { useTabsContext } from './tab-provider'
+import {
+  isVerticalVariant,
+  panelId,
+  tabId,
+  useTabsContext,
+} from './tab-provider'
 
 const TabsContent = ({
   value,
@@ -10,14 +15,18 @@ const TabsContent = ({
   children: ReactNode
   className?: string
 }) => {
-  const { value: activeValue, variant } = useTabsContext()
+  const { value: activeValue, variant, baseId } = useTabsContext()
   if (value !== activeValue) return null
 
   return (
     <div
       role="tabpanel"
+      id={panelId(baseId, value)}
+      aria-labelledby={tabId(baseId, value)}
       tabIndex={0}
-      className={`focus-visible:outline-none ${variant === 'vertical' ? 'flex-1' : 'mt-4'} ${className}`}
+      className={`animate-fade-up outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-lg ${
+        isVerticalVariant(variant) ? 'min-w-0 flex-1' : 'mt-5'
+      } ${className}`}
     >
       {children}
     </div>

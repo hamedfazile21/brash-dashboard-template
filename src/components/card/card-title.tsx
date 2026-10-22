@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import { useCardContext, type CardView } from './card-provider'
+import { useCardContext  } from './card-provider'
+import type {CardView} from './card-provider';
 
 const titleViewClasses: Record<CardView, string> = {
   default: 'text-sm font-semibold text-foreground',
