@@ -214,7 +214,7 @@ button {
   @apply inline-flex w-fit items-center justify-center gap-x-1.5 rounded-md p-(--btn-padding) text-sm font-semibold
     text-foreground outline-none transition-all duration-200 ease-out
     disabled:pointer-events-none disabled:opacity-50
-    focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
 
 /* ---- Sizes ----
@@ -327,9 +327,12 @@ button {
   @apply rounded-full;
 }
 
-.btn-rounded-full {
-  @apply rounded-full;
+/* Square, icon-only button — pair with aria-label */
+.btn-icon {
+  @apply aspect-square justify-center px-(--btn-padding)!;
 }
+
+/* Logical sides (s/e, margin-inline) so groups also join correctly in RTL */
 
 .btn-group {
   @apply inline-flex;
@@ -340,15 +343,15 @@ button {
 }
 
 .btn-group > .btn:not(:first-child) {
-  margin-left: -1px; /* collapses the double border into a single line */
+  margin-inline-start: -1px; /* collapses the double border into a single line */
 }
 
 .btn-group > .btn:first-child {
-  @apply rounded-l-md;
+  @apply rounded-s-md;
 }
 
 .btn-group > .btn:last-child {
-  @apply rounded-r-md;
+  @apply rounded-e-md;
 }
 
 /* Keeps a hovered/focused button's border and focus ring fully visible
@@ -363,11 +366,11 @@ button {
    group's outer edges into full pills instead of the default btn-group
    corner radius above. */
 .btn-group-full > .btn:first-child {
-  @apply rounded-l-full;
+  @apply rounded-s-full;
 }
 
 .btn-group-full > .btn:last-child {
-  @apply rounded-r-full;
+  @apply rounded-e-full;
 }
 
 /* Vertical variant — same collapsed-border idea, stacked top to bottom */
@@ -380,7 +383,7 @@ button {
 }
 
 .btn-group-vertical > .btn:not(:first-child) {
-  margin-left: 0;
+  margin-inline-start: 0;
   margin-top: -1px;
 }
 
