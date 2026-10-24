@@ -37,7 +37,7 @@ function ShowcaseHeader({
           {code && (
             <code
               dir="ltr"
-              className="mt-4 inline-block max-w-full overflow-x-auto rounded-lg border border-borderColor bg-surface/60 px-3 py-1.5 font-mono text-xs whitespace-nowrap text-foreground"
+              className="mt-4 inline-block max-w-full overflow-x-auto rounded-lg [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border border-borderColor bg-surface/60 px-3 py-1.5 font-mono text-xs whitespace-nowrap text-foreground"
             >
               {code}
             </code>

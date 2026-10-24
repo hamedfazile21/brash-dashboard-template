@@ -16,16 +16,7 @@ import {
   useRole,
   useTransitionStyles,
 } from '@floating-ui/react'
-
-type Placement =
-  | 'top'
-  | 'top-start'
-  | 'top-end'
-  | 'bottom'
-  | 'bottom-start'
-  | 'bottom-end'
-  | 'left'
-  | 'right'
+import type { Placement } from './popover'
 
 export type TooltipVariant =
   'primary' | 'secondary' | 'success' | 'danger' | 'info' | 'warning'
@@ -52,10 +43,10 @@ const variantClasses: Record<
   { bubble: string; arrow: string }
 > = {
   secondary: {
-    bubble: `border border-white/10 bg-surface/40 text-foreground
-      backdrop-blur-xl backdrop-saturate-150 shadow-lg shadow-black/10 ring-1 ring-black/5
-      dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30`,
-    arrow: 'fill-surface/40 dark:fill-surface/35',
+    bubble: `border border-borderColor bg-background/95 text-foreground
+      backdrop-blur-xl backdrop-saturate-150 shadow-[0_8px_24px_-6px_rgb(0_0_0/0.18)]
+      dark:bg-surface/95 dark:shadow-[0_8px_24px_-6px_rgb(0_0_0/0.5)]`,
+    arrow: 'fill-background/95 stroke-borderColor dark:fill-surface/95',
   },
   primary: {
     bubble:
@@ -162,19 +153,22 @@ export function Tooltip({
             className={`z-50 ${className ?? ''}`}
             {...getFloatingProps()}
           >
-            <div
-              style={transitionStyles}
-              className={`rounded-lg px-2.5 py-1.5 text-sm font-medium ${bubble}`}
-            >
-              {content}
+            {/* Arrow inside the animated wrapper so both fade and slide together */}
+            <div style={transitionStyles}>
+              <div
+                className={`max-w-xs rounded-lg px-2.5 py-1.5 text-sm font-medium ${bubble}`}
+              >
+                {content}
+              </div>
+              <FloatingArrow
+                ref={arrowRef}
+                context={context}
+                className={arrow}
+                strokeWidth={variant === 'secondary' ? 1 : 0}
+                width={10}
+                height={5}
+              />
             </div>
-            <FloatingArrow
-              ref={arrowRef}
-              context={context}
-              className={arrow}
-              width={10}
-              height={5}
-            />
           </div>
         </FloatingPortal>
       )}
