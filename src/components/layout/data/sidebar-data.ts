@@ -258,8 +258,8 @@ export const sidebar_data: SidebarItem[] = [
         ],
       },
       {
-        id: 'element',
-        title: 'Element',
+        id: 'elements',
+        title: 'Elements',
         icon: Box,
         href: '',
         children: [

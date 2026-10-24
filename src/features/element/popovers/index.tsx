@@ -33,18 +33,10 @@ const menuItem =
 /* ------------------------------------------------------------------ */
 
 const ring: { placement: Placement; area: string }[] = [
-  { placement: 'top-start', area: 'col-start-2 row-start-1' },
   { placement: 'top', area: 'col-start-3 row-start-1' },
-  { placement: 'top-end', area: 'col-start-4 row-start-1' },
-  { placement: 'left-start', area: 'col-start-1 row-start-2' },
   { placement: 'left', area: 'col-start-1 row-start-3' },
-  { placement: 'left-end', area: 'col-start-1 row-start-4' },
-  { placement: 'right-start', area: 'col-start-5 row-start-2' },
   { placement: 'right', area: 'col-start-5 row-start-3' },
-  { placement: 'right-end', area: 'col-start-5 row-start-4' },
-  { placement: 'bottom-start', area: 'col-start-2 row-start-5' },
   { placement: 'bottom', area: 'col-start-3 row-start-5' },
-  { placement: 'bottom-end', area: 'col-start-4 row-start-5' },
 ]
 
 function PlacementSection() {
@@ -163,40 +155,6 @@ function BehaviourSection() {
         </DemoCard>
 
         <DemoCard
-          title="Arrow"
-          code="showArrow={false}"
-          description="The arrow shares the panel's fill and border"
-        >
-          <div className="flex flex-wrap items-center gap-3">
-            <Popover
-              placement="top"
-              trigger={
-                <button type="button" className="btn btn-secondary">
-                  {t('With arrow')}
-                </button>
-              }
-            >
-              <p className="px-2.5 py-1.5 text-sm text-foreground">
-                {t('Points back at the trigger')}
-              </p>
-            </Popover>
-            <Popover
-              placement="top"
-              showArrow={false}
-              trigger={
-                <button type="button" className="btn btn-secondary">
-                  {t('Without arrow')}
-                </button>
-              }
-            >
-              <p className="px-2.5 py-1.5 text-sm text-foreground">
-                {t('Cleaner, no pointer')}
-              </p>
-            </Popover>
-          </div>
-        </DemoCard>
-
-        <DemoCard
           title="Menu"
           code='closeOn="select"'
           description="Choosing an item closes it — blank space doesn't"
@@ -281,7 +239,6 @@ function BehaviourSection() {
           title="Controlled"
           code="open / onOpenChange"
           description="Open and close it from outside the popover"
-          className="lg:col-span-2"
         >
           <div className="flex flex-wrap items-center gap-3">
             <Popover
