@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, useState } from 'react'
+import { cloneElement, isValidElement, useState, useRef  } from 'react'
 import type { ReactElement, ReactNode } from 'react'
 import {
   autoUpdate,
@@ -17,9 +17,8 @@ import {
   useRole,
   useTransitionStyles,
 } from '@floating-ui/react'
-import { useRef } from 'react'
 
-type Placement =
+export type Placement =
   | 'top'
   | 'top-start'
   | 'top-end'
@@ -27,7 +26,11 @@ type Placement =
   | 'bottom-start'
   | 'bottom-end'
   | 'left'
+  | 'left-start'
+  | 'left-end'
   | 'right'
+  | 'right-start'
+  | 'right-end'
 
 type CloseBehavior = 'select' | 'outside' | 'both'
 
@@ -100,10 +103,15 @@ export function Popover({
   ])
   const shouldCloseOnSelect = closeOn === 'select' || closeOn === 'both'
 
-  const handleContentClick = (e: Event) => {
-    e.preventDefault()
+  // No preventDefault here — it would stop checkboxes, links and submit
+  // buttons inside the popover from working. Only clicks on an actual
+  // item (button / link / menuitem) count as a "select", not blank padding.
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    if (shouldCloseOnSelect) {
+    const item = (e.target as HTMLElement).closest(
+      'button, a, [role="menuitem"]',
+    )
+    if (shouldCloseOnSelect && item) {
       setOpen(false)
     }
   }
@@ -138,16 +146,17 @@ export function Popover({
             <div
               ref={refs.setFloating}
               style={floatingStyles}
-              className="z-50"
+              // Focus moves here on open (FloatingFocusManager) — no browser outline
+              className="z-50 outline-none"
               {...getFloatingProps()}
             >
               <div
                 style={transitionStyles}
-                onClick={(e: any) => handleContentClick(e)}
-                className={` rounded-xl border border-white/10 bg-surface/40 p-1
+                onClick={handleContentClick}
+                className={`rounded-xl border border-borderColor bg-background/95 p-1
                   backdrop-blur-xl backdrop-saturate-150
-                  shadow-lg shadow-black/10 ring-1 ring-black/5
-                  dark:border-white/8 dark:bg-surface/35 dark:shadow-black/30
+                  shadow-[0_12px_32px_-8px_rgb(0_0_0/0.18)]
+                  dark:bg-surface/90 dark:shadow-[0_12px_32px_-8px_rgb(0_0_0/0.5)]
                   ${className}`}
               >
                 {children}
@@ -156,7 +165,9 @@ export function Popover({
                 <FloatingArrow
                   ref={arrowRef}
                   context={context}
-                  className="fill-surface/40 dark:fill-surface/35"
+                  // Same fill and border as the panel so the arrow reads as part of it
+                  className="fill-background/95 stroke-borderColor dark:fill-surface/90"
+                  strokeWidth={1}
                   width={14}
                   height={7}
                 />
