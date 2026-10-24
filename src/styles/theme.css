@@ -27,6 +27,14 @@
   --font-size: 16px; /* = text-base */
   --font-scale: 1; /* --font-size ÷ 16, set alongside it — scales icons */
 
+  /* Categorical chart palette — fixed order, validated for colour-blind
+     separation on the card surface. Status colours (success/warning/danger)
+     are reserved for state and never used as series colours. */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+
   --danger: #ef4444; /* red-500 */
   --info: #3b82f6; /* blue-500 */
   --success: #22c55e; /* green-500 */
@@ -53,6 +61,12 @@
   --glass-bg-opacity: 0.35;
   --glass-border-opacity: 0.1;
   --glass-shadow-opacity: 0.2;
+
+  /* Same four hues, stepped for the dark surface */
+  --chart-1: #3987e5;
+  --chart-2: #d95926;
+  --chart-3: #199e70;
+  --chart-4: #c98500;
 
   --danger: #f87171; /* red-400 — lighter, less harsh on dark glass */
   --info: #60a5fa; /* blue-400 */

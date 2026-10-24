@@ -1,425 +1,641 @@
 import {
-  LineChart,
-  Line,
-  AreaChart,
+  ArrowDownRight,
+  ArrowUpRight,
+  ChartColumn,
+  ChartPie,
+  Gauge,
+  TrendingUp,
+} from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import {
   Area,
-  BarChart,
+  AreaChart,
   Bar,
-  PieChart,
-  Pie,
+  BarChart,
+  CartesianGrid,
   Cell,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
   ComposedChart,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  PolarAngleAxis,
+  PolarGrid,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from 'recharts'
+import ShowcaseHeader from '#/features/components/shared/showcase-header'
+import ShowcaseSection from '#/features/components/shared/showcase-section'
+import ChartCard from './components/chart-card'
+import {
+  ChartLegend,
+  ChartTooltip,
+  axisTick,
+  compact,
+  dotProps,
+  gridProps,
+  useChartDirection,
+} from './components/chart-parts'
+import {
+  kpis,
+  ordersData,
+  revenueData,
+  skillsData,
+  targetData,
+  trafficData,
+  usersData,
+  yearOverYearData,
+} from './data'
 
-/* ==========================================================================
-   Sample data
-   ========================================================================== */
-const lineData = [
-  { month: 'Jan', users: 1200 },
-  { month: 'Feb', users: 1900 },
-  { month: 'Mar', users: 1700 },
-  { month: 'Apr', users: 2400 },
-  { month: 'May', users: 2100 },
-  { month: 'Jun', users: 2800 },
-  { month: 'Jul', users: 3200 },
-]
+/* ------------------------------------------------------------------ */
+/* Figures — stat tiles with sparklines                                */
+/* ------------------------------------------------------------------ */
 
-const areaData = [
-  { month: 'Jan', revenue: 4200 },
-  { month: 'Feb', revenue: 5100 },
-  { month: 'Mar', revenue: 4800 },
-  { month: 'Apr', revenue: 6300 },
-  { month: 'May', revenue: 7200 },
-  { month: 'Jun', revenue: 6800 },
-  { month: 'Jul', revenue: 8100 },
-]
-
-const barData = [
-  { category: 'Mon', orders: 32 },
-  { category: 'Tue', orders: 45 },
-  { category: 'Wed', orders: 38 },
-  { category: 'Thu', orders: 51 },
-  { category: 'Fri', orders: 62 },
-  { category: 'Sat', orders: 28 },
-  { category: 'Sun', orders: 19 },
-]
-
-const pieData = [
-  { name: 'Direct', value: 42, color: 'var(--color-primary)' },
-  { name: 'Social', value: 28, color: 'var(--color-success)' },
-  { name: 'Referral', value: 18, color: 'var(--color-warning)' },
-  { name: 'Email', value: 12, color: 'var(--color-info)' },
-]
-
-const radarData = [
-  { metric: 'Speed', team: 85, target: 90 },
-  { metric: 'Quality', team: 78, target: 85 },
-  { metric: 'Reliability', team: 92, target: 88 },
-  { metric: 'Coverage', team: 65, target: 80 },
-  { metric: 'Support', team: 88, target: 82 },
-]
-
-const composedData = [
-  { month: 'Jan', revenue: 4200, target: 4500 },
-  { month: 'Feb', revenue: 5100, target: 4800 },
-  { month: 'Mar', revenue: 4800, target: 5000 },
-  { month: 'Apr', revenue: 6300, target: 5500 },
-  { month: 'May', revenue: 7200, target: 6200 },
-  { month: 'Jun', revenue: 6800, target: 6800 },
-]
-
-/* ==========================================================================
-   Custom glass tooltip — reused across every chart below
-   ========================================================================== */
-function ChartTooltip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null
+function Sparkline({ points }: { points: number[] }) {
+  const width = 96
+  const height = 32
+  const min = Math.min(...points)
+  const max = Math.max(...points)
+  const x = (i: number) => (i / (points.length - 1)) * width
+  const y = (v: number) =>
+    height - 4 - ((v - min) / (max - min || 1)) * (height - 8)
+  const d = points.map((v, i) => `${i ? 'L' : 'M'}${x(i)},${y(v)}`).join(' ')
+  const last = points.length - 1
 
   return (
-    <div className="rounded-lg border border-black/8 bg-surface/90 px-3 py-2 text-xs shadow-lg shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-surface/90">
-      {label && <p className="mb-1 font-medium text-foreground">{label}</p>}
-      {payload.map((item: any) => (
-        <div key={item.name} className="flex items-center gap-x-1.5 text-muted">
-          <span
-            className="size-1.5 rounded-full"
-            style={{ backgroundColor: item.color || item.fill }}
-          />
-          {item.name}:{' '}
-          <span className="font-medium text-foreground">{item.value}</span>
-        </div>
-      ))}
-    </div>
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      aria-hidden
+      className="shrink-0 overflow-visible rtl:-scale-x-100"
+    >
+      {/* De-emphasised history, current period in the accent */}
+      <path
+        d={d}
+        fill="none"
+        stroke="var(--muted-foreground)"
+        strokeOpacity={0.5}
+        strokeWidth={2}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      <circle
+        cx={x(last)}
+        cy={y(points[last])}
+        r={4}
+        fill="var(--color-primary)"
+        stroke="var(--surface)"
+        strokeWidth={2}
+      />
+    </svg>
   )
 }
 
-const axisTick = { fill: 'var(--muted-foreground)', fontSize: 12 }
+function FiguresSection() {
+  const { t } = useTranslation()
+
+  return (
+    <ShowcaseSection
+      icon={Gauge}
+      title="Figures"
+      description="When the answer is one number, show the number"
+    >
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {kpis.map(
+          ({
+            label,
+            value,
+            prefix = '',
+            suffix = '',
+            delta,
+            upIsGood,
+            trend,
+          }) => {
+            // Color = direction × whether up is good; the arrow + sign carry it too
+            const good = delta >= 0 === upIsGood
+            const Arrow = delta >= 0 ? ArrowUpRight : ArrowDownRight
+            return (
+              <div key={label} className="card flex flex-col gap-y-3 p-5!">
+                <p className="text-sm text-muted">{t(label)}</p>
+                <div className="flex items-end justify-between gap-x-3">
+                  <p className="text-3xl font-semibold tracking-tight text-foreground">
+                    {value >= 1000
+                      ? compact(value, prefix, suffix)
+                      : `${prefix}${value}${suffix}`}
+                  </p>
+                  <Sparkline points={trend} />
+                </div>
+                <p className="flex items-center gap-x-1 text-xs text-muted">
+                  <span
+                    className={`flex items-center gap-x-0.5 font-semibold ${good ? 'text-success' : 'text-danger'}`}
+                  >
+                    <Arrow size={14} />
+                    {delta > 0 ? '+' : ''}
+                    {delta}
+                    {suffix === '%' || suffix === 'h' ? suffix : '%'}
+                  </span>
+                  {t('vs last month')}
+                </p>
+              </div>
+            )
+          },
+        )}
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Trends                                                              */
+/* ------------------------------------------------------------------ */
+
+function TrendsSection() {
+  const { t } = useTranslation()
+  const { rtl, xAxis, yAxis } = useChartDirection()
+  const margin = { top: 8, right: 16, left: 16, bottom: 0 }
+
+  // Direct label at each line's last point (≤ 4 series are labelled, plus the legend)
+  const endLabel =
+    (text: string) =>
+    ({
+      x,
+      y,
+      index,
+    }: {
+      x?: number | string
+      y?: number | string
+      index?: number
+    }) => {
+      if (
+        index !== yearOverYearData.length - 1 ||
+        x === undefined ||
+        y === undefined
+      ) {
+        return <g />
+      }
+      const px = Number(x)
+      return (
+        <text
+          x={rtl ? px - 10 : px + 10}
+          y={Number(y)}
+          dy={4}
+          // Physical anchoring: in an RTL document text-anchor flips meaning
+          direction="ltr"
+          textAnchor={rtl ? 'end' : 'start'}
+          fontSize={12}
+          fill="var(--foreground)"
+        >
+          {t(text)}
+        </text>
+      )
+    }
+
+  return (
+    <ShowcaseSection
+      icon={TrendingUp}
+      title="Trends"
+      description="Change over time — lines for rates, areas for volume"
+    >
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <ChartCard
+          title="Active users"
+          description="Monthly, Jan–Jul"
+          table={{
+            columns: ['Month', 'Users'],
+            rows: usersData.map((d) => [d.month, d.users]),
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={usersData} margin={margin}>
+              <CartesianGrid {...gridProps} />
+              <XAxis
+                dataKey="month"
+                tick={axisTick}
+                tickFormatter={(v: string) => t(v)}
+                axisLine={false}
+                tickLine={false}
+                {...xAxis}
+              />
+              <YAxis
+                tick={axisTick}
+                tickFormatter={(v: number) => compact(v)}
+                axisLine={false}
+                tickLine={false}
+                width={40}
+                {...yAxis}
+              />
+              <Tooltip
+                content={<ChartTooltip />}
+                cursor={{ stroke: 'var(--border)', strokeWidth: 1 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="users"
+                name="Users"
+                stroke="var(--color-primary)"
+                strokeWidth={2}
+                dot={false}
+                activeDot={dotProps('var(--color-primary)')}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        <ChartCard
+          title="Revenue"
+          description="Monthly volume in USD"
+          table={{
+            columns: ['Month', 'Revenue'],
+            rows: revenueData.map((d) => [d.month, d.revenue]),
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={revenueData} margin={margin}>
+              <CartesianGrid {...gridProps} />
+              <XAxis
+                dataKey="month"
+                tick={axisTick}
+                tickFormatter={(v: string) => t(v)}
+                axisLine={false}
+                tickLine={false}
+                {...xAxis}
+              />
+              <YAxis
+                tick={axisTick}
+                tickFormatter={(v: number) => compact(v, '$')}
+                axisLine={false}
+                tickLine={false}
+                width={44}
+                {...yAxis}
+              />
+              <Tooltip
+                content={<ChartTooltip prefix="$" />}
+                cursor={{ stroke: 'var(--border)', strokeWidth: 1 }}
+              />
+              {/* A ~10% wash, never a saturated block */}
+              <Area
+                type="monotone"
+                dataKey="revenue"
+                name="Revenue"
+                stroke="var(--color-primary)"
+                strokeWidth={2}
+                fill="var(--color-primary)"
+                fillOpacity={0.1}
+                activeDot={dotProps('var(--color-primary)')}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        <ChartCard
+          title="Revenue, year over year"
+          description="Two series with direct labels at the line ends"
+          className="lg:col-span-2"
+          legend={
+            <ChartLegend
+              items={[
+                { label: 'This year', color: 'var(--chart-1)' },
+                { label: 'Last year', color: 'var(--chart-2)' },
+              ]}
+            />
+          }
+          table={{
+            columns: ['Month', 'This year', 'Last year'],
+            rows: yearOverYearData.map((d) => [
+              d.month,
+              d.thisYear,
+              d.lastYear,
+            ]),
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={yearOverYearData}
+              margin={{ ...margin, [rtl ? 'left' : 'right']: 72 }}
+            >
+              <CartesianGrid {...gridProps} />
+              <XAxis
+                dataKey="month"
+                tick={axisTick}
+                tickFormatter={(v: string) => t(v)}
+                axisLine={false}
+                tickLine={false}
+                {...xAxis}
+              />
+              <YAxis
+                tick={axisTick}
+                tickFormatter={(v: number) => compact(v, '$')}
+                axisLine={false}
+                tickLine={false}
+                width={44}
+                {...yAxis}
+              />
+              <Tooltip
+                content={<ChartTooltip prefix="$" />}
+                cursor={{ stroke: 'var(--border)', strokeWidth: 1 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="thisYear"
+                name="This year"
+                stroke="var(--chart-1)"
+                strokeWidth={2}
+                dot={false}
+                activeDot={dotProps('var(--chart-1)')}
+                label={endLabel('This year')}
+              />
+              <Line
+                type="monotone"
+                dataKey="lastYear"
+                name="Last year"
+                stroke="var(--chart-2)"
+                strokeWidth={2}
+                dot={false}
+                activeDot={dotProps('var(--chart-2)')}
+                label={endLabel('Last year')}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Comparison                                                          */
+/* ------------------------------------------------------------------ */
+
+function ComparisonSection() {
+  const { t } = useTranslation()
+  const { xAxis, yAxis } = useChartDirection()
+  const margin = { top: 8, right: 16, left: 16, bottom: 0 }
+
+  return (
+    <ShowcaseSection
+      icon={ChartColumn}
+      title="Comparison"
+      description="Magnitude across categories, and against a goal"
+    >
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <ChartCard
+          title="Orders by weekday"
+          description="Last 7 days"
+          table={{
+            columns: ['Day', 'Orders'],
+            rows: ordersData.map((d) => [d.day, d.orders]),
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={ordersData} margin={margin}>
+              <CartesianGrid {...gridProps} />
+              <XAxis
+                dataKey="day"
+                tick={axisTick}
+                tickFormatter={(v: string) => t(v)}
+                axisLine={false}
+                tickLine={false}
+                {...xAxis}
+              />
+              <YAxis
+                tick={axisTick}
+                axisLine={false}
+                tickLine={false}
+                width={32}
+                {...yAxis}
+              />
+              <Tooltip
+                content={<ChartTooltip />}
+                cursor={{ fill: 'var(--surface-hover)', opacity: 0.5 }}
+              />
+              {/* ≤ 24px thick, 4px rounded data-end, square at the baseline */}
+              <Bar
+                dataKey="orders"
+                name="Orders"
+                fill="var(--color-primary)"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={24}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        <ChartCard
+          title="Revenue vs. target"
+          description="Bars for actuals, a dashed line for the goal"
+          legend={
+            <ChartLegend
+              items={[
+                { label: 'Revenue', color: 'var(--chart-1)' },
+                {
+                  label: 'Target',
+                  color: 'var(--muted-foreground)',
+                  dashed: true,
+                },
+              ]}
+            />
+          }
+          table={{
+            columns: ['Month', 'Revenue', 'Target'],
+            rows: targetData.map((d) => [d.month, d.revenue, d.target]),
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={targetData} margin={margin}>
+              <CartesianGrid {...gridProps} />
+              <XAxis
+                dataKey="month"
+                tick={axisTick}
+                tickFormatter={(v: string) => t(v)}
+                axisLine={false}
+                tickLine={false}
+                {...xAxis}
+              />
+              <YAxis
+                tick={axisTick}
+                tickFormatter={(v: number) => compact(v, '$')}
+                axisLine={false}
+                tickLine={false}
+                width={44}
+                {...yAxis}
+              />
+              <Tooltip
+                content={<ChartTooltip prefix="$" />}
+                cursor={{ fill: 'var(--surface-hover)', opacity: 0.5 }}
+              />
+              <Bar
+                dataKey="revenue"
+                name="Revenue"
+                fill="var(--chart-1)"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={24}
+              />
+              {/* The goal is a reference, not a series — muted ink, dashed, no status color */}
+              <Line
+                type="monotone"
+                dataKey="target"
+                name="Target"
+                stroke="var(--muted-foreground)"
+                strokeWidth={2}
+                strokeDasharray="5 4"
+                dot={false}
+                activeDot={dotProps('var(--muted-foreground)')}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Composition                                                         */
+/* ------------------------------------------------------------------ */
+
+function CompositionSection() {
+  const { t } = useTranslation()
+
+  return (
+    <ShowcaseSection
+      icon={ChartPie}
+      title="Composition"
+      description="Parts of a whole, and a profile across metrics"
+    >
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <ChartCard
+          title="Traffic sources"
+          description="Share of 12.4K sessions"
+          table={{
+            columns: ['Source', 'Share (%)'],
+            rows: trafficData.map((d) => [d.name, d.value]),
+          }}
+        >
+          <div className="flex h-full items-center gap-x-6 px-2">
+            <div className="relative h-full min-w-0 flex-1">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  {/* 2px surface-colored gap between slices instead of padding angles */}
+                  <Pie
+                    data={trafficData}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius="62%"
+                    outerRadius="90%"
+                    stroke="var(--surface)"
+                    strokeWidth={2}
+                    startAngle={90}
+                    endAngle={-270}
+                  >
+                    {trafficData.map((entry) => (
+                      <Cell key={entry.name} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<ChartTooltip suffix="%" />} />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+                {/* The absolute total — the shares already add up to 100% */}
+                <span className="text-2xl font-semibold text-foreground">
+                  12.4K
+                </span>
+                <span className="text-xs text-muted">{t('Sessions')}</span>
+              </div>
+            </div>
+            {/* Legend doubles as direct labels: name + value in text ink */}
+            <ul className="flex shrink-0 flex-col gap-y-2.5">
+              {trafficData.map(({ name, value, color }) => (
+                <li key={name} className="flex items-center gap-x-2 text-sm">
+                  <span
+                    className="size-2.5 rounded-sm"
+                    style={{ backgroundColor: color }}
+                  />
+                  <span className="text-muted">{t(name)}</span>
+                  <span className="ms-auto ps-4 font-semibold text-foreground tabular-nums">
+                    {value}%
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </ChartCard>
+
+        <ChartCard
+          title="Team health"
+          description="Score out of 100, against the target"
+          legend={
+            <ChartLegend
+              items={[
+                { label: 'Team', color: 'var(--chart-1)' },
+                {
+                  label: 'Target',
+                  color: 'var(--muted-foreground)',
+                  dashed: true,
+                },
+              ]}
+            />
+          }
+          table={{
+            columns: ['Metric', 'Team', 'Target'],
+            rows: skillsData.map((d) => [d.metric, d.team, d.target]),
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart data={skillsData} outerRadius="72%">
+              <PolarGrid stroke="var(--border)" />
+              <PolarAngleAxis
+                dataKey="metric"
+                tick={axisTick}
+                tickFormatter={(v: string) => t(v)}
+              />
+              <Tooltip content={<ChartTooltip />} />
+              <Radar
+                name="Target"
+                dataKey="target"
+                stroke="var(--muted-foreground)"
+                strokeDasharray="5 4"
+                strokeWidth={2}
+                fill="none"
+              />
+              <Radar
+                name="Team"
+                dataKey="team"
+                stroke="var(--chart-1)"
+                strokeWidth={2}
+                fill="var(--chart-1)"
+                fillOpacity={0.1}
+                dot={{ r: 3, fill: 'var(--chart-1)' }}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+    </ShowcaseSection>
+  )
+}
 
 function Charts() {
   return (
-    <div className="">
-      <div>
-        <h1 className="text-xl font-semibold text-foreground">Charts</h1>
-        <p className="mt-1 text-sm text-muted">
-          6 common dashboard chart types, built with{' '}
-          <a
-            href="https://recharts.org"
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium text-primary hover:underline"
-          >
-            Recharts
-          </a>{' '}
-          and themed with CSS variables.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 mt-8">
-        {/* 1. Line */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Line{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              trend over time
-            </span>
-          </p>
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={lineData}
-                margin={{ top: 5, right: 20, left: 0, bottom: 0 }}
-              >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="var(--border)"
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey="month"
-                  tick={axisTick}
-                  axisLine={{ stroke: 'var(--border)' }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={axisTick}
-                  axisLine={false}
-                  tickLine={false}
-                  width={40}
-                />
-                <Tooltip content={<ChartTooltip />} />
-                <Line
-                  type="monotone"
-                  dataKey="users"
-                  stroke="var(--color-primary)"
-                  strokeWidth={2.5}
-                  dot={{ r: 3, fill: 'var(--color-primary)' }}
-                  activeDot={{ r: 5 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-
-        {/* 2. Area */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Area{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              cumulative volume
-            </span>
-          </p>
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={areaData}
-                margin={{ top: 5, right: 20, left: 0, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="0%"
-                      stopColor="var(--color-primary)"
-                      stopOpacity={0.35}
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="var(--color-primary)"
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="var(--border)"
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey="month"
-                  tick={axisTick}
-                  axisLine={{ stroke: 'var(--border)' }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={axisTick}
-                  axisLine={false}
-                  tickLine={false}
-                  width={40}
-                />
-                <Tooltip content={<ChartTooltip />} />
-                <Area
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="var(--color-primary)"
-                  strokeWidth={2.5}
-                  fill="url(#areaFill)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-
-        {/* 3. Bar */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Bar{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              categorical comparison
-            </span>
-          </p>
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={barData}
-                margin={{ top: 5, right: 20, left: 0, bottom: 0 }}
-              >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="var(--border)"
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey="category"
-                  tick={axisTick}
-                  axisLine={{ stroke: 'var(--border)' }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={axisTick}
-                  axisLine={false}
-                  tickLine={false}
-                  width={40}
-                />
-                <Tooltip
-                  content={<ChartTooltip />}
-                  cursor={{ fill: 'var(--surface-hover)' }}
-                />
-                <Bar
-                  dataKey="orders"
-                  fill="var(--color-primary)"
-                  radius={[6, 6, 0, 0]}
-                  maxBarSize={36}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-
-        {/* 4. Pie / Donut */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Pie{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              proportions / share
-            </span>
-          </p>
-          <div className="flex h-64 w-full items-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  innerRadius="55%"
-                  outerRadius="85%"
-                  paddingAngle={3}
-                  stroke="none"
-                >
-                  {pieData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip content={<ChartTooltip />} />
-                <Legend
-                  verticalAlign="middle"
-                  align="right"
-                  layout="vertical"
-                  iconType="circle"
-                  iconSize={8}
-                  formatter={(value) => (
-                    <span className="text-xs text-muted">{value}</span>
-                  )}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-
-        {/* 5. Radar */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Radar{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              multi-metric comparison
-            </span>
-          </p>
-          <div className="h-72 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={radarData}>
-                <PolarGrid stroke="var(--border)" />
-                <PolarAngleAxis dataKey="metric" tick={axisTick} />
-                <PolarRadiusAxis
-                  tick={{ ...axisTick, fontSize: 10 }}
-                  axisLine={false}
-                />
-                <Tooltip content={<ChartTooltip />} />
-                <Radar
-                  name="Target"
-                  dataKey="target"
-                  stroke="var(--muted-foreground)"
-                  fill="var(--muted-foreground)"
-                  fillOpacity={0.1}
-                  strokeDasharray="4 4"
-                />
-                <Radar
-                  name="Team"
-                  dataKey="team"
-                  stroke="var(--color-primary)"
-                  fill="var(--color-primary)"
-                  fillOpacity={0.3}
-                />
-                <Legend
-                  iconType="circle"
-                  iconSize={8}
-                  formatter={(value) => (
-                    <span className="text-xs text-muted">{value}</span>
-                  )}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-
-        {/* 6. Composed (Bar + Line) */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Composed{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              actual vs. target
-            </span>
-          </p>
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart
-                data={composedData}
-                margin={{ top: 5, right: 20, left: 0, bottom: 0 }}
-              >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="var(--border)"
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey="month"
-                  tick={axisTick}
-                  axisLine={{ stroke: 'var(--border)' }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={axisTick}
-                  axisLine={false}
-                  tickLine={false}
-                  width={40}
-                />
-                <Tooltip
-                  content={<ChartTooltip />}
-                  cursor={{ fill: 'var(--surface-hover)' }}
-                />
-                <Legend
-                  iconType="circle"
-                  iconSize={8}
-                  formatter={(value) => (
-                    <span className="text-xs text-muted">{value}</span>
-                  )}
-                />
-                <Bar
-                  dataKey="revenue"
-                  name="Revenue"
-                  fill="var(--color-primary)"
-                  radius={[6, 6, 0, 0]}
-                  maxBarSize={32}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="target"
-                  name="Target"
-                  stroke="var(--color-danger)"
-                  strokeWidth={2}
-                  dot={{ r: 3, fill: 'var(--color-danger)' }}
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </div>
-        </section>
-      </div>
+    <div className="flex w-full flex-col gap-y-10">
+      <ShowcaseHeader
+        title="Charts"
+        description="Recharts themed with your tokens — a colour-blind-safe categorical palette, thin marks, token tooltips and a table view on every chart."
+        code="var(--chart-1) … var(--chart-4)"
+        stats={[
+          { value: 7, label: 'Charts' },
+          { value: 4, label: 'Figures' },
+          { value: 'RTL', label: 'Ready' },
+        ]}
+      />
+      <FiguresSection />
+      <TrendsSection />
+      <ComparisonSection />
+      <CompositionSection />
     </div>
   )
 }

@@ -37,7 +37,9 @@ interface ThemeState {
 
 const initialState: ThemeState = {
   themeMode: (localStorage.getItem('theme-mode') as ThemeMode) || 'system',
-  direction: 'ltr',
+  // Read the saved direction — a hard-coded 'ltr' made every reload in Farsi
+  // report LTR to components (sidebar tooltips, charts) while the page was RTL
+  direction: localStorage.getItem('dir') === 'rtl' ? 'rtl' : 'ltr',
   sidebarStatus:
     (localStorage.getItem('sidebar-status') as SidebarStatusType) || 'vertical',
   language: (localStorage.getItem('system-language') as Language) || 'english',
