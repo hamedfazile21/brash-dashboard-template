@@ -26,6 +26,8 @@ interface PaginationProps {
    * a real button — grouping only applies between genuinely adjacent
    * buttons on either side of it. */
   grouped?: boolean
+  /** Choices in the rows-per-page menu */
+  perPageOptions?: number[]
 }
 
 const DOTS = '...'
@@ -81,6 +83,7 @@ export function Pagination({
   variant = 'primary',
   rounded = 'md',
   grouped = false,
+  perPageOptions = [10, 20, 30, 40, 50],
 }: PaginationProps) {
   const { t } = useTranslation()
   const pages = getPageRange(currentPage, totalPages, siblingCount)
@@ -91,8 +94,9 @@ export function Pagination({
   }
 
   const cornerClass = rounded === 'full' ? 'rounded-full' : 'rounded-md'
-  const roundLeft = rounded === 'full' ? 'rounded-l-full' : 'rounded-l-md'
-  const roundRight = rounded === 'full' ? 'rounded-r-full' : 'rounded-r-md'
+  // Logical start/end so grouped mode rounds the correct ends in RTL too
+  const roundStart = rounded === 'full' ? 'rounded-s-full' : 'rounded-s-md'
+  const roundEnd = rounded === 'full' ? 'rounded-e-full' : 'rounded-e-md'
 
   /** Whether this button should collapse its border against the item
    * immediately before it in the actual rendered order. False right
@@ -106,7 +110,7 @@ export function Pagination({
   const groupedButtonClasses = (index: number, isActive: boolean) => {
     if (!grouped) return ''
 
-    const collapse = shouldCollapseLeft(index) ? '-ml-px' : ''
+    const collapse = shouldCollapseLeft(index) ? '-ms-px' : ''
     // Page-number buttons are never the outermost element — Prev/Next
     // always occupy those slots and round themselves separately (see
     // their own className below) — so every page button stays square.
@@ -147,7 +151,8 @@ export function Pagination({
             trigger={
               <button
                 type="button"
-                aria-label="Toggle columns"
+                aria-label={t('Rows per page')}
+                aria-haspopup="listbox"
                 className="flex items-center gap-x-1.5 rounded-md border border-borderColor px-3 py-2 text-xs font-medium text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
               >
                 {perPage}
@@ -157,11 +162,11 @@ export function Pagination({
             placement="bottom-start"
           >
             <div className="flex flex-col gap-y-1">
-              {Array.from({ length: 5 }).map((_, index) => {
-                const pageSize = (index + 1) * 10
+              {perPageOptions.map((pageSize) => {
                 return (
                   <button
-                    key={index}
+                    key={pageSize}
+                    type="button"
                     onClick={() => setPerPage(pageSize)}
                     className="flex w-full items-center justify-between rounded-md p-2 text-start text-xs text-foreground hover:bg-surface-hover"
                   >
@@ -183,10 +188,10 @@ export function Pagination({
       )}
 
       <nav
-        aria-label="Pagination"
+        aria-label={t('Pagination')}
         className={`flex items-center ${grouped ? '' : 'gap-x-1'} ${className}`}
       >
-        <span className="text-sm font-medium text-foreground me-2 whitespace-nowrap">
+        <span className="me-2 hidden text-sm font-medium whitespace-nowrap text-foreground sm:inline">
           {t('Page')} {currentPage} {t('of')} {totalPages}
         </span>
 
@@ -194,10 +199,11 @@ export function Pagination({
           type="button"
           onClick={() => goTo(currentPage - 1)}
           disabled={currentPage === 1}
-          aria-label="Previous page"
-          className={`${arrowBase} rtl:rotate-180 ${grouped ? roundLeft : cornerClass}`}
+          aria-label={t('Previous page')}
+          className={`${arrowBase} ${grouped ? roundStart : cornerClass}`}
         >
-          <ChevronLeft size={16} />
+          {/* Rotate only the icon — rotating the button would flip its corners */}
+          <ChevronLeft size={16} className="rtl:rotate-180" />
         </button>
 
         {pages.map((page, index) =>
@@ -227,12 +233,12 @@ export function Pagination({
           type="button"
           onClick={() => goTo(currentPage + 1)}
           disabled={currentPage === totalPages}
-          aria-label="Next page"
-          className={`${arrowBase} rtl:rotate-180 ${
-            grouped ? `${roundRight} -ml-px` : cornerClass
+          aria-label={t('Next page')}
+          className={`${arrowBase} ${
+            grouped ? `${roundEnd} -ms-px` : cornerClass
           }`}
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={16} className="rtl:rotate-180" />
         </button>
       </nav>
     </div>
