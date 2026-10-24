@@ -1,8 +1,6 @@
 import {
   Search,
   Check,
-  Copy,
-  ExternalLink,
   // Navigation
   Home,
   LayoutDashboard,
@@ -106,8 +104,8 @@ import {
   Video,
   Mic,
   Printer,
-  type LucideProps,
 } from 'lucide-react'
+import type { LucideProps } from 'lucide-react'
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 export type IconEntry = {
