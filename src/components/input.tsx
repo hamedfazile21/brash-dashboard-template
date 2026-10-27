@@ -2,12 +2,16 @@ import { forwardRef, useId, useState } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { FieldLabel, FieldMessage } from './field'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   parentClassName?: string
   labelClassName?: string
   error?: string
+  /** Helper text under the field, replaced by `error` when set */
+  hint?: string
   /** Optional leading icon inside the field */
   icon?: LucideIcon
 }
@@ -20,6 +24,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       parentClassName = '',
       labelClassName = '',
       error,
+      hint,
       id,
       required,
       placeholder = '',
@@ -29,21 +34,23 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const { t } = useTranslation()
     const generatedId = useId()
     const inputId = id ?? generatedId
+    const messageId = `${inputId}-message`
     const isPassword = type === 'password'
     const [visible, setVisible] = useState(false)
 
     return (
       <div className={`w-full ${parentClassName}`}>
         {label && (
-          <label
+          <FieldLabel
             htmlFor={inputId}
-            className={`mb-1.5 inline-block text-sm font-medium text-foreground ${labelClassName}`}
+            required={required}
+            className={labelClassName}
           >
             {label}
-            {required && <span className="ms-0.5 text-danger">*</span>}
-          </label>
+          </FieldLabel>
         )}
 
         <div className="group/input relative w-full">
@@ -51,7 +58,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             <Icon
               size={16}
               aria-hidden
-              className="pointer-events-none absolute inset-s-3 top-1/2 -translate-y-1/2 text-muted transition-colors group-focus-within/input:text-primary"
+              className={`pointer-events-none absolute inset-s-3 top-1/2 -translate-y-1/2 transition-colors ${
+                error
+                  ? 'text-danger'
+                  : 'text-muted group-focus-within/input:text-primary'
+              }`}
             />
           )}
           <input
@@ -61,12 +72,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             autoComplete="off"
             placeholder={placeholder}
             aria-invalid={!!error}
-            aria-describedby={error ? `${inputId}-error` : undefined}
+            aria-describedby={error || hint ? messageId : undefined}
             required={required}
             // `!` on padding: .input is unlayered CSS, so plain utilities lose to it
-            className={`input ${Icon ? 'ps-9!' : ''} ${isPassword ? 'pe-10!' : ''} ${
-              error ? 'border-danger! focus:ring-danger/30!' : ''
-            } ${className}`}
+            className={`input ${Icon ? 'ps-9!' : ''} ${isPassword ? 'pe-10!' : ''} ${className}`}
             {...rest}
           />
 
@@ -74,7 +83,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             <button
               type="button"
               onClick={() => setVisible((v) => !v)}
-              aria-label={visible ? 'Hide password' : 'Show password'}
+              aria-label={visible ? t('Hide password') : t('Show password')}
               aria-pressed={visible}
               tabIndex={-1}
               className="absolute inset-e-1.5 top-1/2 flex -translate-y-1/2 items-center rounded-md p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
@@ -84,11 +93,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
 
-        {error && (
-          <p id={`${inputId}-error`} className="mt-1.5 text-xs text-danger">
-            {error}
-          </p>
-        )}
+        <FieldMessage id={messageId} error={error} hint={hint} />
       </div>
     )
   },

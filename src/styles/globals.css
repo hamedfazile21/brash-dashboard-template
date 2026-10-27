@@ -398,7 +398,24 @@ button {
 .input {
   @apply glass-solid w-full rounded-md px-3 py-2 text-sm text-foreground
     outline-none transition-all duration-200 placeholder:text-muted
-    focus:border-primary/50 focus:ring-2 focus:ring-primary/30;
+    hover:border-primary/30
+    focus:border-primary/50 focus:ring-2 focus:ring-primary/30
+    disabled:cursor-not-allowed disabled:bg-surface-hover/60 disabled:text-muted;
+}
+
+/* Error state follows aria-invalid, so every field that sets it (input,
+   textarea, date-picker trigger) gets the same red border without `!`
+   overrides. Plain rules after the @apply, so they win over :hover. */
+.input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.input[aria-invalid='true']:focus {
+  --tw-ring-color: color-mix(in srgb, var(--danger) 25%, transparent);
+}
+
+.input:disabled:hover {
+  border-color: var(--border);
 }
 
 /* No spinner on number inputs: the step buttons crowd a field this size, and

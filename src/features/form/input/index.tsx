@@ -1,194 +1,318 @@
-import { useState } from 'react'
-import { Mail } from 'lucide-react'
+import { useRef, useState } from 'react'
+import {
+  AtSign,
+  Crosshair,
+  Globe,
+  Layers,
+  Lock,
+  Mail,
+  Search,
+  Sparkles,
+  TextCursorInput,
+  Type,
+} from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import Input from '#/components/input'
+import Textarea from '#/components/textarea'
+import ShowcaseHeader from '#/features/components/shared/showcase-header'
+import ShowcaseSection from '#/features/components/shared/showcase-section'
+import DemoCard from '#/features/components/shared/demo-card'
 
-function InputShowCase() {
-  const [controlledValue, setControlledValue] = useState('')
-  const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null)
+function StatesSection() {
+  const { t } = useTranslation()
 
   return (
-    <div className="">
-      <div>
-        <h1 className="text-xl font-semibold text-foreground">Input</h1>
-        <p className="mt-1 text-sm text-muted">
-          Label, required indicator, error state, password visibility toggle,
-          and every native input prop.
-        </p>
+    <ShowcaseSection
+      icon={Layers}
+      title="States"
+      description="Every field shares one label, hint and error layout"
+    >
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <DemoCard title="Default" code="label + placeholder">
+          <Input label={t('Full name')} placeholder="Hamed Fazeli" />
+        </DemoCard>
+
+        <DemoCard title="Required" code="required">
+          <Input
+            label={t('Email')}
+            type="email"
+            placeholder="you@example.com"
+            required
+          />
+        </DemoCard>
+
+        <DemoCard title="Hint" code="hint">
+          <Input
+            label={t('Display name')}
+            placeholder="hamed.f"
+            hint={t('Shown on your profile and in comments.')}
+          />
+        </DemoCard>
+
+        <DemoCard title="Error" code="error">
+          <Input
+            label={t('Username')}
+            defaultValue="ha"
+            error={t('Username must be at least 3 characters')}
+          />
+        </DemoCard>
+
+        <DemoCard title="Disabled" code="disabled">
+          <Input
+            label={t('Workspace ID')}
+            defaultValue="wksp_8f2a1c"
+            disabled
+          />
+        </DemoCard>
+
+        <DemoCard title="Read-only" code="readOnly">
+          <Input
+            label={t('API key')}
+            defaultValue="sk_live_51Hx…9fQ2"
+            readOnly
+            dir="ltr"
+            className="font-mono"
+          />
+        </DemoCard>
       </div>
+    </ShowcaseSection>
+  )
+}
 
-      <div className="grid grid-cols-2 gap-4 mt-8">
-        {/* Basic */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Basic{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              label + placeholder
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <Input id="basic" label="Full name" placeholder="Hamed Fazeli" />
-          </div>
-        </section>
+function TypesSection() {
+  const { t } = useTranslation()
 
-        {/* Required */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Required{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              required
-            </span>
-          </p>
-          <div className="max-w-sm">
+  return (
+    <ShowcaseSection
+      icon={Type}
+      title="Types & icons"
+      description="Native input types, a leading icon and the password toggle"
+    >
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2">
+        <DemoCard title="Leading icon" code="icon={Mail}">
+          <div className="flex flex-col gap-y-4">
             <Input
-              id="required"
-              label="Email"
+              icon={Mail}
+              label={t('Email')}
               type="email"
               placeholder="you@example.com"
-              required
             />
-          </div>
-        </section>
-
-        {/* Error */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Error{' '}
-            <span className="ml-2 text-xs font-normal text-muted">error</span>
-          </p>
-          <div className="max-w-sm">
             <Input
-              id="error"
-              label="Username"
-              placeholder="Choose a username"
-              defaultValue="ha"
-              error="Username must be at least 3 characters"
+              icon={Search}
+              type="search"
+              aria-label={t('Search')}
+              placeholder={t('Search tasks...')}
             />
           </div>
-        </section>
+        </DemoCard>
 
-        {/* Password */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Password{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
+        <DemoCard
+          title="Password"
+          code='type="password"'
+          description="The eye button reveals the value"
+        >
+          <div className="flex flex-col gap-y-4">
+            <Input
+              icon={Lock}
+              label={t('Password')}
               type="password"
-            </span>
-          </p>
-          <div className="max-w-sm">
+              defaultValue="correct-horse"
+            />
             <Input
-              id="password"
-              label="Password"
+              label={t('Confirm password')}
               type="password"
               placeholder="••••••••"
             />
           </div>
-        </section>
+        </DemoCard>
 
-        {/* Disabled */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Disabled{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              disabled
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <Input
-              id="disabled"
-              label="Workspace ID"
-              defaultValue="wksp_8f2a1c"
-              disabled
-            />
-          </div>
-        </section>
-
-        {/* Types */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Types{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              type="number" | "date" | "tel"
-            </span>
-          </p>
+        <DemoCard
+          title="Native types"
+          code='type="number" | "tel" | "url"'
+          className="md:col-span-2"
+        >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <Input id="number" label="Quantity" type="number" placeholder="0" />
+            <Input label={t('Quantity')} type="number" placeholder="0" />
             <Input
-              id="tel"
-              label="Phone"
+              label={t('Phone')}
               type="tel"
               placeholder="+98 912 345 6789"
+              dir="ltr"
             />
-          </div>
-        </section>
-
-        {/* Custom styling via parentClassName / labelClassName */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Custom label style
-            <span className="ml-2 text-xs font-normal text-muted">
-              labelClassName / parentClassName
-            </span>
-          </p>
-          <div className="max-w-sm">
             <Input
-              id="custom-label"
-              label="Search"
-              placeholder="Search tasks..."
-              labelClassName="text-primary uppercase tracking-wide text-xs"
-              parentClassName="gap-y-1 flex flex-col"
+              icon={Globe}
+              label={t('Website')}
+              type="url"
+              placeholder="https://"
+              dir="ltr"
             />
           </div>
-        </section>
-
-        {/* Controlled */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Controlled value{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              value + onChange
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <Input
-              id="controlled"
-              label="Bio"
-              placeholder="Tell us about yourself"
-              value={controlledValue}
-              onChange={(e) => setControlledValue(e.target.value)}
-            />
-            <p className="mt-2 text-xs text-muted">
-              {controlledValue.length} character
-              {controlledValue.length !== 1 ? 's' : ''}
-            </p>
-          </div>
-        </section>
-
-        {/* Ref forwarding — programmatic focus */}
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Ref forwarding{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              forwardRef
-            </span>
-          </p>
-          <div className="flex max-w-sm flex-col gap-y-3">
-            <Input
-              id="ref-demo"
-              ref={setInputRef}
-              label="Focus target"
-              placeholder="Click the button below"
-            />
-            <button
-              type="button"
-              onClick={() => inputRef?.focus()}
-              className="btn btn-secondary w-auto self-start px-4"
-            >
-              <Mail size={14} />
-              Focus this field
-            </button>
-          </div>
-        </section>
+        </DemoCard>
       </div>
+    </ShowcaseSection>
+  )
+}
+
+function TextareaSection() {
+  const { t } = useTranslation()
+  const [bio, setBio] = useState(
+    t('Frontend developer who enjoys building calm, fast dashboards.'),
+  )
+
+  return (
+    <ShowcaseSection
+      icon={TextCursorInput}
+      title="Textarea"
+      description="Multi-line text with the same states and an optional counter"
+    >
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2">
+        <DemoCard
+          title="Character counter"
+          code="maxLength + showCount"
+          description="The counter turns amber near the limit"
+        >
+          <Textarea
+            label={t('Bio')}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            maxLength={80}
+            showCount
+            hint={t('A sentence or two about you.')}
+          />
+        </DemoCard>
+
+        <DemoCard title="Error" code="error">
+          <Textarea
+            label={t('Message')}
+            placeholder={t('Describe the issue...')}
+            required
+            error={t('Please describe the issue')}
+          />
+        </DemoCard>
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function InContextSection() {
+  const { t } = useTranslation()
+  const [handle, setHandle] = useState('')
+  const [email, setEmail] = useState('')
+  const [touched, setTouched] = useState({ handle: false, email: false })
+  const focusRef = useRef<HTMLInputElement>(null)
+
+  const handleError =
+    touched.handle && handle.length < 3
+      ? t('Username must be at least 3 characters')
+      : undefined
+  const emailError =
+    touched.email && !emailPattern.test(email)
+      ? t('Enter a valid email address')
+      : undefined
+
+  return (
+    <ShowcaseSection
+      icon={Sparkles}
+      title="In context"
+      description="Validation on blur, and focus from code"
+    >
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2">
+        <DemoCard
+          title="Live validation"
+          description="Errors appear after you leave a field"
+        >
+          <form
+            noValidate
+            className="flex flex-col gap-y-4"
+            onSubmit={(e) => {
+              e.preventDefault()
+              setTouched({ handle: true, email: true })
+            }}
+          >
+            <Input
+              icon={AtSign}
+              label={t('Username')}
+              placeholder="hamed"
+              value={handle}
+              onChange={(e) => setHandle(e.target.value)}
+              onBlur={() => setTouched((s) => ({ ...s, handle: true }))}
+              error={handleError}
+              hint={t('At least 3 characters.')}
+              required
+              dir="ltr"
+            />
+            <Input
+              icon={Mail}
+              label={t('Email')}
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => setTouched((s) => ({ ...s, email: true }))}
+              error={emailError}
+              required
+              dir="ltr"
+            />
+            <button type="submit" className="btn btn-primary self-start px-4">
+              {t('Create account')}
+            </button>
+          </form>
+        </DemoCard>
+
+        <DemoCard
+          title="Ref forwarding"
+          code="ref"
+          description="Focus or select the field from code"
+        >
+          <div className="flex flex-col gap-y-4">
+            <Input
+              ref={focusRef}
+              label={t('Focus target')}
+              defaultValue={t('Select me')}
+            />
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => focusRef.current?.focus()}
+                className="btn btn-secondary px-3"
+              >
+                <Crosshair size={14} />
+                {t('Focus')}
+              </button>
+              <button
+                type="button"
+                onClick={() => focusRef.current?.select()}
+                className="btn btn-secondary px-3"
+              >
+                {t('Select text')}
+              </button>
+            </div>
+          </div>
+        </DemoCard>
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+function InputShowCase() {
+  return (
+    <div className="flex w-full flex-col gap-y-10">
+      <ShowcaseHeader
+        title="Inputs"
+        description="Text fields with a label, hint, error and required marker — plus leading icons, a password toggle and a textarea with a counter."
+        code='<Input label="Email" icon={Mail} hint="…" error="…" required />'
+        stats={[
+          { value: 6, label: 'States' },
+          { value: 2, label: 'Fields' },
+          { value: 'RTL', label: 'Ready' },
+        ]}
+      />
+      <StatesSection />
+      <TypesSection />
+      <TextareaSection />
+      <InContextSection />
     </div>
   )
 }

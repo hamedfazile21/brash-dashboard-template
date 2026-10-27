@@ -1,11 +1,14 @@
 import { forwardRef, useId } from 'react'
 import type { TextareaHTMLAttributes } from 'react'
+import { FieldLabel, FieldMessage } from './field'
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
   parentClassName?: string
   labelClassName?: string
   error?: string
+  /** Helper text under the field, replaced by `error` when set */
+  hint?: string
   showCount?: boolean
 }
 
@@ -17,6 +20,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       parentClassName = '',
       labelClassName = '',
       error,
+      hint,
       id,
       required,
       placeholder = '',
@@ -30,51 +34,49 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ) => {
     const generatedId = useId()
     const textareaId = id ?? generatedId
+    const messageId = `${textareaId}-message`
+    const length = String(value ?? '').length
+    // Counter turns amber in the last 10% so the limit is not a surprise
+    const nearLimit = !!maxLength && length >= maxLength * 0.9
 
     return (
       <div className={`w-full ${parentClassName}`}>
         {label && (
-          <label
+          <FieldLabel
             htmlFor={textareaId}
-            className={`text-sm font-medium text-foreground ${labelClassName}`}
+            required={required}
+            className={labelClassName}
           >
             {label}
-            {required && (
-              <span className="text-red-500 ltr:ml-0.5 rtl:mr-0.5">*</span>
-            )}
-          </label>
+          </FieldLabel>
         )}
 
-        <div className="relative w-full">
-          <textarea
-            ref={ref}
-            id={textareaId}
-            placeholder={placeholder}
-            aria-invalid={!!error}
-            aria-describedby={error ? `${textareaId}-error` : undefined}
-            required={required}
-            rows={rows}
-            maxLength={maxLength}
-            value={value}
-            className={`input resize-y ${
-              error ? 'border-red-500 focus:ring-red-500/30' : ''
-            } ${className}`}
-            {...rest}
-          />
-        </div>
+        <textarea
+          ref={ref}
+          id={textareaId}
+          placeholder={placeholder}
+          aria-invalid={!!error}
+          aria-describedby={error || hint ? messageId : undefined}
+          required={required}
+          rows={rows}
+          maxLength={maxLength}
+          value={value}
+          className={`input block min-h-20 resize-y ${className}`}
+          {...rest}
+        />
 
-        <div className="mt-1 flex items-start justify-between gap-x-2">
-          {error ? (
-            <p id={`${textareaId}-error`} className="text-xs text-red-500">
-              {error}
-            </p>
-          ) : (
-            <span />
-          )}
+        <div className="flex items-start justify-between gap-x-3">
+          <div className="min-w-0">
+            <FieldMessage id={messageId} error={error} hint={hint} />
+          </div>
 
           {showCount && maxLength && (
-            <span className="shrink-0 text-xs text-muted">
-              {String(value ?? '').length}/{maxLength}
+            <span
+              className={`mt-1.5 shrink-0 text-xs tabular-nums ${
+                nearLimit ? 'text-warning' : 'text-muted'
+              }`}
+            >
+              {length}/{maxLength}
             </span>
           )}
         </div>
