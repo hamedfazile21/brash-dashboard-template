@@ -1,6 +1,8 @@
 import { FadeLoader } from 'react-spinners'
+import { useTranslation } from 'react-i18next'
 
 export function SplashScreen() {
+  const { t } = useTranslation()
   const PRIMARY = 'var(--color-primary)'
 
   return (
@@ -14,7 +16,7 @@ export function SplashScreen() {
           margin={-8}
         />
 
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground">{t('Loading...')}</p>
       </div>
     </div>
   )

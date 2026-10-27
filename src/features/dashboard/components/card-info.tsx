@@ -6,7 +6,7 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react'
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const stats = [
   {
@@ -33,17 +33,17 @@ const stats = [
 ]
 
 const CardInfo = () => {
+  const { t } = useTranslation()
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
       {stats.map(({ label, value, change, up, icon: Icon }) => (
         <Card key={label} view="stat" className="">
           <Card.Header>
-            <Card.Description>{label}</Card.Description>
+            <Card.Description>{t(label)}</Card.Description>
             <Card.Title>{value}</Card.Title>
             <span
               className={`mt-1.5 flex items-center gap-x-1 text-xs font-medium ${up ? 'text-emerald-500' : 'text-danger'} `}
             >
-              <TrendingUp size={13} />
               {up ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
               {change}
             </span>

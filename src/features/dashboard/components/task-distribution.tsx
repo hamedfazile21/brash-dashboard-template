@@ -1,4 +1,4 @@
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { ChartTooltip } from '../dashboard'
 
@@ -10,6 +10,7 @@ const taskDistribution = [
 ]
 
 const TaskDistribution = () => {
+  const { t } = useTranslation()
   return (
     <div className="flex h-72 w-full flex-col items-center justify-center p-4">
       <ResponsiveContainer width="100%" height="70%">
@@ -41,8 +42,8 @@ const TaskDistribution = () => {
               className="size-2 shrink-0 rounded-full"
               style={{ backgroundColor: item.color }}
             />
-            <span className="truncate">{item.name}</span>
-            <span className="ml-auto font-medium text-foreground">
+            <span className="truncate">{t(item.name)}</span>
+            <span className="ms-auto font-medium text-foreground">
               {item.value}%
             </span>
           </div>

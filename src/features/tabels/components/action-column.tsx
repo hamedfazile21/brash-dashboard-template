@@ -21,7 +21,7 @@ const ActionColumn: FC<props> = ({ row }) => {
         trigger={
           <button
             type="button"
-            aria-label={`Actions for ${row.original.title}`}
+            aria-label={t('Actions for {{title}}', { title: row.original.title })}
             className="flex p-0.5 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
           >
             <Ellipsis size={18} />

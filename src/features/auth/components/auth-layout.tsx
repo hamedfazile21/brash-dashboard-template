@@ -8,10 +8,11 @@ import { toggleTheme } from '#/features/theme/slice/theme-slice'
 import { LogoDarkRow, LogoLightRow } from '../../../assets'
 
 export function AuthLogo() {
+  const { t } = useTranslation()
   return (
     // The row logo is a square SVG with the wordmark in a thin middle band —
     // object-cover in a short box crops the empty space above and below it
-    <Link to="/" aria-label="Home" className="inline-block">
+    <Link to="/" aria-label={t('Home')} className="inline-block">
       <img
         src={LogoLightRow}
         alt=""

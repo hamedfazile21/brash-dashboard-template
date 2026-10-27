@@ -1,6 +1,7 @@
 import { toast } from 'sonner'
 import { X } from 'lucide-react'
 import ObjectViewer from '#/components/object-viewer'
+import i18n from '#/app/i18n'
 
 /**
  * Shows a JS object (e.g. form submission result) inside a glass toast.
@@ -18,7 +19,7 @@ export function showObjectToast(title: string, data: unknown) {
           <button
             type="button"
             onClick={() => toast.dismiss(id)}
-            aria-label="Dismiss"
+            aria-label={i18n.t('Dismiss')}
             className="rounded-md p-1 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
           >
             <X size={14} />

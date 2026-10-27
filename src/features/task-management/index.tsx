@@ -106,7 +106,7 @@ function TaskManagement() {
     <div className="card h-[calc(100vh-7rem)] w-full p-4">
       <div className="card-header">
         <h1 className="text-lg font-semibold text-foreground">
-          Tasks Management
+          {t('Tasks Management')}
         </h1>
         <button className='btn btn-primary'>{t('Add Task')}</button>
       </div>
@@ -122,7 +122,7 @@ function TaskManagement() {
             <Column
               key={col.id}
               id={col.id}
-              title={col.title}
+              title={t(col.title)}
               dotColor={col.dotColor}
               tasks={tasks[col.id]}
             />

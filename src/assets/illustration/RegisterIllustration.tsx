@@ -1,4 +1,5 @@
-import React, { type SVGProps } from 'react'
+import type { SVGProps } from 'react'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Biometric login illustration (undraw.co, artist: Katerina Limpitsouni)
@@ -13,6 +14,7 @@ export function RegisterIllustrationComponent({
   className = 'text-primary',
   ...props
 }: SVGProps<SVGSVGElement>) {
+  const { t } = useTranslation()
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +22,7 @@ export function RegisterIllustrationComponent({
       height="800"
       viewBox="0 0 933.5 800"
       role="img"
-      aria-label="Biometric login illustration"
+      aria-label={t('Biometric login illustration')}
       className={className}
       {...props}
     >

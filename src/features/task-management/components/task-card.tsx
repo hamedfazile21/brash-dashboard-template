@@ -1,5 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable'
-import React, { type FC } from 'react'
+import type { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { Priority, Task } from '../data/task'
 import { GripVertical, User } from 'lucide-react'
 
@@ -15,6 +16,7 @@ interface props {
 }
 
 const TaskCard: FC<props> = ({ isOverlay, task }) => {
+  const { t } = useTranslation()
   const { attributes, listeners, setNodeRef, transition, isDragging } =
     useSortable({
       id: task.id,
@@ -37,7 +39,7 @@ const TaskCard: FC<props> = ({ isOverlay, task }) => {
           {...attributes}
           {...listeners}
           className="shrink-0 cursor-grab touch-none rounded p-0.5 text-muted opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing"
-          aria-label="Drag task"
+          aria-label={t('Drag task')}
         >
           <GripVertical size={14} />
         </button>
@@ -51,11 +53,11 @@ const TaskCard: FC<props> = ({ isOverlay, task }) => {
         <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${priorityStyles[task.priority]}`}
         >
-          {task.priority}
+          {t(task.priority)}
         </span>
         <span className="flex items-center gap-x-1 text-xs text-muted">
           <User size={12} />
-          {task.assignee}
+          {t(task.assignee)}
         </span>
       </div>
     </div>

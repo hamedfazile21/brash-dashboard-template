@@ -1,4 +1,4 @@
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Bar,
   BarChart,
@@ -19,6 +19,7 @@ const salesByCategory = [
 ]
 
 const SalesByCategory = () => {
+  const { t } = useTranslation()
   return (
     <div className="h-72 w-full p-4">
       <ResponsiveContainer width="100%" height="100%">
@@ -41,6 +42,7 @@ const SalesByCategory = () => {
           <YAxis
             type="category"
             dataKey="category"
+            tickFormatter={(category) => t(category)}
             tick={{ fill: 'var(--foreground)', fontSize: 12 }}
             axisLine={false}
             tickLine={false}
@@ -52,6 +54,7 @@ const SalesByCategory = () => {
           />
           <Bar
             dataKey="sales"
+            name="Sales"
             fill="var(--color-primary)"
             radius={[0, 6, 6, 0]}
             maxBarSize={22}

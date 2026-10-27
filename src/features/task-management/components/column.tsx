@@ -1,4 +1,5 @@
-import React, { type FC } from 'react'
+import type { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { ColumnId, Task } from '../data/task'
 import { useDroppable } from '@dnd-kit/core'
 import { Plus } from 'lucide-react'
@@ -15,6 +16,7 @@ interface props {
 }
 
 const Column: FC<props> = ({ id, title, dotColor, tasks }) => {
+  const { t } = useTranslation()
   const { setNodeRef } = useDroppable({ id })
   return (
     <div className="card flex h-[calc(100vh-13rem)] w-full flex-col p-3">
@@ -28,7 +30,7 @@ const Column: FC<props> = ({ id, title, dotColor, tasks }) => {
         </div>
         <button
           type="button"
-          aria-label={`Add task to ${title}`}
+          aria-label={t('Add task to {{column}}', { column: title })}
           className="rounded-md p-1 text-muted transition-colors hover:bg-surface-hover hover:text-primary"
         >
           <Plus size={16} />
@@ -40,12 +42,12 @@ const Column: FC<props> = ({ id, title, dotColor, tasks }) => {
         className="scrollbar-thin flex flex-1 flex-col gap-y-2 overflow-y-auto px-0.5 pb-1"
       >
         <SortableContext
-          items={tasks.map((t) => t.id)}
+          items={tasks.map((task) => task.id)}
           strategy={verticalListSortingStrategy}
         >
           {tasks.length === 0 ? (
             <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed border-borderColor py-8 text-xs text-muted">
-              Drop tasks here
+              {t('Drop tasks here')}
             </div>
           ) : (
             tasks.map((task) => (

@@ -9,18 +9,21 @@ import CardInfo from './components/card-info'
 import { useTranslation } from 'react-i18next'
 
 export function ChartTooltip({ active, payload, label }: any) {
+  const { t } = useTranslation()
   if (!active || !payload?.length) return null
 
   return (
     <div className="rounded-lg border border-black/8 bg-surface/90 px-3 py-2 text-xs shadow-lg shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-surface/90">
-      <p className="mb-1 font-medium text-foreground">{label}</p>
+      {label != null && (
+        <p className="mb-1 font-medium text-foreground">{t(String(label))}</p>
+      )}
       {payload.map((item: any) => (
         <div key={item.name} className="flex items-center gap-x-1.5 text-muted">
           <span
             className="size-1.5 rounded-full"
             style={{ backgroundColor: item.color || item.fill }}
           />
-          {item.name}:{' '}
+          {t(String(item.name))}:{' '}
           <span className="font-medium text-foreground">{item.value}</span>
         </div>
       ))}
@@ -45,7 +48,7 @@ const Dashboard = () => {
             </h3>
             <button
               type="button"
-              aria-label="Chart options"
+              aria-label={t('Chart options')}
               className="rounded-md p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
             >
               <Ellipsis size={18} />
@@ -64,7 +67,7 @@ const Dashboard = () => {
             </h3>
             <button
               type="button"
-              aria-label="Chart options"
+              aria-label={t('Chart options')}
               className="rounded-md p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
             >
               <Ellipsis size={18} />
@@ -81,7 +84,7 @@ const Dashboard = () => {
             </h3>
             <button
               type="button"
-              aria-label="Chart options"
+              aria-label={t('Chart options')}
               className="rounded-md p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
             >
               <Ellipsis size={18} />
@@ -98,7 +101,7 @@ const Dashboard = () => {
           </h3>
           <button
             type="button"
-            aria-label="Chart options"
+            aria-label={t('Chart options')}
             className="rounded-md p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
           >
             <Ellipsis size={18} />

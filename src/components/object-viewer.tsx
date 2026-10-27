@@ -49,7 +49,7 @@ export function ObjectViewer({ data, className = '' }: ObjectViewerProps) {
       <button
         type="button"
         onClick={handleCopy}
-        aria-label="Copy JSON"
+        aria-label={t('Copy JSON')}
         className="absolute top-3 z-10 flex items-center gap-x-1 rounded-md border border-white/10
           bg-surface px-2 py-1 text-xs text-muted opacity-0 backdrop-blur-md
           transition-all duration-150 ease-out

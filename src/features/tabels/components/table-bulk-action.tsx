@@ -55,7 +55,7 @@ const TableBulkAction: FC<props> = ({
 
           {/* Actions */}
           <div className="flex flex-1 items-center gap-x-2">
-            <Tooltip placement="top" content={'Archive Tasks'}>
+            <Tooltip placement="top" content={t('Archive Tasks')}>
               <button
                 type="button"
                 onClick={() => onArchive?.(selectedIds)}
@@ -64,7 +64,7 @@ const TableBulkAction: FC<props> = ({
                 <Archive size={18} />
               </button>
             </Tooltip>
-            <Tooltip placement="top" content={'Download Tasks'}>
+            <Tooltip placement="top" content={t('Download Tasks')}>
               <button
                 type="button"
                 onClick={() => onExport?.(selectedIds)}
@@ -73,7 +73,7 @@ const TableBulkAction: FC<props> = ({
                 <Download size={18} />
               </button>
             </Tooltip>
-            <Tooltip placement="top" content={'Delete Selected Tasks'}>
+            <Tooltip placement="top" content={t('Delete Selected Tasks')}>
               <button
                 type="button"
                 onClick={() => setOpen('delete-confirmation')}
@@ -90,7 +90,7 @@ const TableBulkAction: FC<props> = ({
           <button
             type="button"
             onClick={clearSelection}
-            aria-label="Clear selection"
+            aria-label={t('Clear selection')}
             className="shrink-0 rounded-full p-1.5 text-muted transition-colors duration-150 hover:bg-surface-hover hover:text-foreground"
           >
             <X size={16} />

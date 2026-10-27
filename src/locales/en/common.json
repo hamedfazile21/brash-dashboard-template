@@ -5,5 +5,7 @@
   "{{count}} results_one": "{{count}} result",
   "{{count}} results_other": "{{count}} results",
   "{{count}} nights_one": "{{count}} night",
-  "{{count}} nights_other": "{{count}} nights"
+  "{{count}} nights_other": "{{count}} nights",
+  "Delete {{count}} tasks?_one": "Delete {{count}} task?",
+  "Delete {{count}} tasks?_other": "Delete {{count}} tasks?"
 }

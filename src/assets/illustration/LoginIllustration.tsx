@@ -1,4 +1,5 @@
 import type { SVGProps } from 'react'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Login illustration (undraw.co, artist: Katerina Limpitsouni)
@@ -12,6 +13,7 @@ export function LoginIllustrationSVGComponents({
   className = 'text-primary',
   ...props
 }: SVGProps<SVGSVGElement>) {
+  const { t } = useTranslation()
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +21,7 @@ export function LoginIllustrationSVGComponents({
       height="551.73152"
       viewBox="0 0 793 551.73152"
       role="img"
-      aria-label="Login illustration"
+      aria-label={t('Login illustration')}
       className={className}
       {...props}
     >

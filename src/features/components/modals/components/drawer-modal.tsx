@@ -95,7 +95,9 @@ function DrawerModal({ open, onClose }: ModalProps) {
             />
             <div className="min-w-0 flex-1 text-sm">
               <p className="text-muted">
-                <span className="font-medium text-foreground">{item.name}</span>{' '}
+                <span className="font-medium text-foreground">
+                  {t(item.name)}
+                </span>{' '}
                 {t(item.action)}{' '}
                 <span className="font-medium text-foreground">
                   {item.target}

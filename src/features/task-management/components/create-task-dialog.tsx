@@ -1,5 +1,7 @@
 import Dialog from '#/components/dialog'
-import React, { useState, type FC } from 'react'
+import { useState } from 'react'
+import type { FC, FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { ColumnId, Priority, Task } from '../data/task'
 import { priorityStyles } from './task-card'
 import { useTask } from './task-provider'
@@ -11,8 +13,9 @@ interface props {
 }
 
 const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
+  const { t } = useTranslation()
   const { setTasks } = useTask()
-  const handleCreateTask = (e: React.FormEvent) => {
+  const handleCreateTask = (e: FormEvent) => {
     e.preventDefault()
     if (!form.title.trim() || !modalColumn) return
 
@@ -38,14 +41,14 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
   })
 
   return (
-    <Dialog open={open} onClose={setOpen} title={`New task`} position="top">
+    <Dialog open={open} onClose={setOpen} title={t('New task')} position="top">
       <form onSubmit={handleCreateTask} className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-1.5">
           <label
             htmlFor="title"
             className="text-sm font-medium text-foreground"
           >
-            Title
+            {t('Title')}
           </label>
           <input
             id="title"
@@ -53,7 +56,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
             autoFocus
             value={form.title}
             onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-            placeholder="e.g. Design the onboarding flow"
+            placeholder={t('e.g. Design the onboarding flow')}
             className="glass-solid w-full rounded-md px-3 py-2 text-sm text-foreground outline-none
                 transition-all duration-200 placeholder:text-muted
                 focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
@@ -65,7 +68,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
             htmlFor="assignee"
             className="text-sm font-medium text-foreground"
           >
-            Assignee
+            {t('Assignee')}
           </label>
           <input
             id="assignee"
@@ -74,7 +77,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
             onChange={(e) =>
               setForm((f) => ({ ...f, assignee: e.target.value }))
             }
-            placeholder="e.g. Sara Ahmadi"
+            placeholder={t('e.g. Sara Ahmadi')}
             className="glass-solid w-full rounded-md px-3 py-2 text-sm text-foreground outline-none
                 transition-all duration-200 placeholder:text-muted
                 focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
@@ -83,7 +86,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
 
         <div className="flex flex-col gap-y-1.5">
           <label className="text-sm font-medium text-foreground">
-            Priority
+            {t('Priority')}
           </label>
           <div className="flex gap-x-2">
             {(['Low', 'Medium', 'High'] as Priority[]).map((p) => (
@@ -97,7 +100,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
                     : 'border-borderColor text-muted hover:bg-surface-hover'
                 }`}
               >
-                {p}
+                {t(p)}
               </button>
             ))}
           </div>
@@ -108,7 +111,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
             htmlFor="description"
             className="text-sm font-medium text-foreground"
           >
-            Description
+            {t('Description')}
           </label>
           <textarea
             id="description"
@@ -117,7 +120,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
             onChange={(e) =>
               setForm((f) => ({ ...f, description: e.target.value }))
             }
-            placeholder="Add any extra context..."
+            placeholder={t('Add any extra context...')}
             className="glass-solid w-full resize-none rounded-md px-3 py-2 text-sm text-foreground outline-none
                 transition-all duration-200 placeholder:text-muted
                 focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
@@ -125,11 +128,11 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, modalColumn }) => {
         </div>
 
         <div className="mt-2 flex gap-x-2">
-          <button type="button" className="btn btn-secondary">
-            Cancel
+          <button type="button" onClick={setOpen} className="btn btn-secondary">
+            {t('Cancel')}
           </button>
           <button type="submit" className="btn btn-primary">
-            Create Task
+            {t('Create Task')}
           </button>
         </div>
       </form>

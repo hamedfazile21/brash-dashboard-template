@@ -74,6 +74,7 @@ const WeeklyActivity = () => {
           />
           <Bar
             dataKey="tasks"
+            name="Tasks"
             fill="var(--color-primary)"
             radius={[6, 6, 0, 0]}
             maxBarSize={36}

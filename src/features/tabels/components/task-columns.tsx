@@ -2,6 +2,7 @@ import { createColumnHelper } from '@tanstack/react-table'
 import type { Task } from '..'
 import CheckBox from '#/components/checkbox'
 import { useTranslation } from 'react-i18next'
+import i18n from '#/app/i18n'
 import {
   AlarmClock,
   ArrowDown,
@@ -17,6 +18,12 @@ import TaskSortPopover from './task-sort-popover'
 import ActionColumn from './action-column'
 
 const columnHelper = createColumnHelper<Task>()
+
+/** Cell renderers are plain functions, so the hook lives in this component */
+function Translated({ text }: { text: string }) {
+  const { t } = useTranslation()
+  return t(text)
+}
 export const statusIcon = {
   Backlog: <CircleAlert size={17} />,
   Todo: <CirclePlay size={17} />,
@@ -86,7 +93,7 @@ export const columns = [
       return (
         <div className="flex min-w-60 items-center gap-x-2 px-2">
           <span className="shrink-0 whitespace-nowrap text-xs px-2 font-medium border border-dashed border-borderColor rounded-xl">
-            {task.label}
+            <Translated text={task.label} />
           </span>
           <span className="line-clamp-2 font-medium text-system text-foreground">
             {info.getValue()}
@@ -142,7 +149,9 @@ export const columns = [
       return (
         <div className="flex items-center gap-x-2 whitespace-nowrap">
           <span className="text-muted">{priorityIcon[info.getValue()]}</span>
-          <span className="text-system font-medium">{info.getValue()}</span>
+          <span className="text-system font-medium">
+            <Translated text={info.getValue()} />
+          </span>
         </div>
       )
     },
@@ -193,7 +202,9 @@ export const columns = [
           <span className="text-muted">
             {statusIcon[info.getValue() as keyof typeof statusIcon]}
           </span>
-          <span className="text-system font-medium">{info.getValue()}</span>
+          <span className="text-system font-medium">
+            <Translated text={info.getValue()} />
+          </span>
         </div>
       )
     },
@@ -219,7 +230,7 @@ export const selectColumn = columnHelper.display({
           onChange={table.getToggleAllPageRowsSelectedHandler()}
           isIndeterminate={isIndeterminate}
           rounded
-          aria-label="Select all rows"
+          reset={{ 'aria-label': i18n.t('Select all rows') }}
         />
       </div>
     )
@@ -232,7 +243,7 @@ export const selectColumn = columnHelper.display({
         checked={row.getIsSelected()}
         onChange={row.getToggleSelectedHandler()}
         rounded
-        aria-label="Select row"
+        reset={{ 'aria-label': i18n.t('Select row') }}
       />
     </div>
   ),
@@ -244,6 +255,6 @@ export const actionsColumn = columnHelper.display({
   size: 48,
   minSize: 48,
   maxSize: 48,
-  header: () => <span className="sr-only">Actions</span>,
+  header: () => <span className="sr-only">{i18n.t('Actions')}</span>,
   cell: ({ row }) => <ActionColumn row={row} />,
 })

@@ -105,7 +105,7 @@ const Sidebar = () => {
         {sidebarStatus === 'collapsible-vertical' && (
           <p className="mb-1 flex items-center gap-x-3 px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
             {titleMessage !== item.title ? (
-              <Tooltip placement="right" content={item.title}>
+              <Tooltip placement="right" content={t(item.title)}>
                 <button
                   type="button"
                   className="truncate uppercase tracking-[0.2em] hover:text-primary transition-colors"

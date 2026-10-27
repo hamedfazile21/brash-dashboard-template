@@ -9,6 +9,7 @@ import {
   TransitionChild,
 } from '@headlessui/react'
 import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 /** One scale for both tables below, so a size always exists in each. */
 export type DialogSize =
@@ -153,6 +154,7 @@ export function Dialog({
   closeOnOutsideClick = true,
   transition,
 }: DialogProps) {
+  const { t } = useTranslation()
   const isSide = position === 'left' || position === 'right'
 
   const effectiveTransition: TransitionVariant =
@@ -251,7 +253,7 @@ export function Dialog({
                     <button
                       type="button"
                       onClick={onClose}
-                      aria-label="Close"
+                      aria-label={t('Close')}
                       className="-me-1.5 -mt-1 flex size-8 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
                     >
                       <X size={18} />

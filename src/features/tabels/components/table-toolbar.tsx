@@ -54,7 +54,9 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
       return counts
     }, {})
   const visibleStatuses = statusOptions.filter((status) =>
-    status.toLowerCase().includes(statusSearch.toLowerCase()),
+    [status, t(status)].some((s) =>
+      s.toLowerCase().includes(statusSearch.toLowerCase()),
+    ),
   )
   const selectedPriorities =
     (table.getColumn('priority')?.getFilterValue() as string[] | undefined) ??
@@ -67,7 +69,9 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
       return counts
     }, {})
   const visiblePriorities = priorityOptions.filter((priority) =>
-    priority.toLowerCase().includes(prioritySearch.toLowerCase()),
+    [priority, t(priority)].some((s) =>
+      s.toLowerCase().includes(prioritySearch.toLowerCase()),
+    ),
   )
 
   const removeFilters = () => {
@@ -89,7 +93,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
         {isSearching && (
           <LoaderCircle
             size={16}
-            aria-label="Searching"
+            aria-label={t('Searching')}
             className="pointer-events-none absolute top-1/2 ltr:right-3 rtl:left-3 -translate-y-1/2 animate-spin text-muted"
           />
         )}
@@ -118,7 +122,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
                       key={index}
                       className={`text-xs bg-muted/20 rounded-lg px-2 py-0.5 ${item === 'In Progress' ? 'w-24' : 'w-fit'}`}
                     >
-                      {item}
+                      {t(item)}
                     </span>
                   )
                 })
@@ -170,7 +174,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
                           <span className="text-muted">
                             {statusIcon[status]}
                           </span>
-                          <span>{status}</span>
+                          <span>{t(status)}</span>
                         </div>
                         <div>
                           <p className="text-xs">{statusCounts[status] ?? 0}</p>
@@ -224,7 +228,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
                       key={index}
                       className={`text-xs bg-muted/20 rounded-lg px-2 py-0.5 ${item === 'In Progress' ? 'w-24' : 'w-fit'}`}
                     >
-                      {item}
+                      {t(item)}
                     </span>
                   )
                 })
@@ -276,7 +280,7 @@ const TableToolbar = ({ table }: TableToolbarProps) => {
                           onChange={() => undefined}
                         />
                         <span>{priorityIcon[priority]}</span>
-                        <span>{priority}</span>
+                        <span>{t(priority)}</span>
                       </span>
                       <span className="text-xs">
                         {priorityCounts[priority] ?? 0}

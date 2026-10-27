@@ -33,7 +33,7 @@ const DeleteConfirmationDialog: FC<props> = ({
     try {
       setIsDeleting(true)
       await new Promise((resolve) => setTimeout(resolve, 3000))
-      toast.success(`${subject} deleted successfully`)
+      toast.success(t('{{subject}} deleted successfully', { subject }))
       setOpen(null)
     } finally {
       setIsDeleting(false)
@@ -42,10 +42,10 @@ const DeleteConfirmationDialog: FC<props> = ({
 
   const subject =
     itemCount && itemCount > 1
-      ? `${itemCount} tasks`
+      ? t('{{count}} tasks', { count: itemCount })
       : itemName
         ? `"${itemName}"`
-        : 'this task'
+        : t('this task')
 
   return (
     <Dialog
@@ -61,12 +61,16 @@ const DeleteConfirmationDialog: FC<props> = ({
         </div>
 
         <h3 className="mt-4 text-base font-semibold text-foreground">
-          Delete {itemCount && itemCount > 1 ? `${itemCount} tasks` : 'task'}?
+          {itemCount && itemCount > 1
+            ? t('Delete {{count}} tasks?', { count: itemCount })
+            : t('Delete task?')}
         </h3>
 
         <p className="mt-1.5 text-sm text-muted">
-          You're about to permanently delete {subject}. This action can't be
-          undone.
+          {t(
+            "You're about to permanently delete {{subject}}. This action can't be undone.",
+            { subject },
+          )}
         </p>
       </div>
 
@@ -92,7 +96,7 @@ const DeleteConfirmationDialog: FC<props> = ({
           {isDeleting ? (
             <>
               <Loader2 size={15} className="animate-spin" />
-              Deleting...
+              {t('Deleting...')}
             </>
           ) : (
             t('Delete')

@@ -1,5 +1,5 @@
 import { Ellipsis } from 'lucide-react'
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AreaChart,
   Area,
@@ -27,16 +27,19 @@ const revenueData = [
 ]
 
 const RevenueChart = () => {
+  const { t } = useTranslation()
   return (
     <div className="card w-full p-0 lg:w-2/3">
       <div className="flex w-full items-center justify-between border-b border-borderColor pb-3">
         <div>
-          <h3 className="text-sm font-semibold text-foreground">Revenue</h3>
-          <p className="mt-0.5 text-xs text-muted">Last 7 months</p>
+          <h3 className="text-sm font-semibold text-foreground">
+            {t('Revenue')}
+          </h3>
+          <p className="mt-0.5 text-xs text-muted">{t('Last 12 months')}</p>
         </div>
         <button
           type="button"
-          aria-label="Chart options"
+          aria-label={t('Chart options')}
           className="rounded-md p-1.5 text-muted transition-colors hover:bg-surface-hover hover:text-foreground"
         >
           <Ellipsis size={18} />
@@ -82,6 +85,7 @@ const RevenueChart = () => {
             />
             <XAxis
               dataKey="month"
+              tickFormatter={(month) => t(month)}
               tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
               axisLine={{ stroke: 'var(--border)' }}
               tickLine={false}
@@ -96,6 +100,7 @@ const RevenueChart = () => {
             <Area
               type="monotone"
               dataKey="expenses"
+              name="Expenses"
               stroke="var(--muted-foreground)"
               strokeWidth={2}
               fill="url(#expensesFill)"
@@ -103,6 +108,7 @@ const RevenueChart = () => {
             <Area
               type="monotone"
               dataKey="revenue"
+              name="Revenue"
               stroke="var(--color-primary)"
               strokeWidth={2.5}
               fill="url(#revenueFill)"

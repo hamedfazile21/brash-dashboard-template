@@ -106,14 +106,14 @@ const TaskTable = () => {
               onChange={table.getToggleAllPageRowsSelectedHandler()}
               isIndeterminate={table.getIsSomePageRowsSelected()}
               rounded
-              aria-label="Select all rows"
+              aria-label={t('Select all rows')}
             />
             <span className="text-sm font-medium text-foreground">
               {t('Select all')}
             </span>
           </div>
           {rows.length === 0 ? (
-            <div className="table-empty-state">No results found.</div>
+            <div className="table-empty-state">{t('No results found.')}</div>
           ) : (
             <ul>
               {rows.map((row) => {
@@ -129,7 +129,7 @@ const TaskTable = () => {
                         checked={row.getIsSelected()}
                         onChange={row.getToggleSelectedHandler()}
                         rounded
-                        aria-label="Select row"
+                        aria-label={t('Select row')}
                       />
                     </div>
                     <div className="flex min-w-0 flex-1 flex-col gap-y-2">
@@ -141,7 +141,7 @@ const TaskTable = () => {
                             </span>
                           )}
                           <span className="shrink-0 whitespace-nowrap text-xs px-2 font-medium border border-dashed border-borderColor rounded-xl text-foreground">
-                            {task.label}
+                            {t(task.label)}
                           </span>
                         </div>
                         <ActionColumn row={row} />
@@ -157,7 +157,7 @@ const TaskTable = () => {
                             <span className="text-muted">
                               {priorityIcon[task.priority]}
                             </span>
-                            {task.priority}
+                            {t(task.priority)}
                           </span>
                         )}
                         {isVisible('status') && (
@@ -165,7 +165,7 @@ const TaskTable = () => {
                             <span className="text-muted">
                               {statusIcon[task.status]}
                             </span>
-                            {task.status}
+                            {t(task.status)}
                           </span>
                         )}
                       </div>
@@ -206,7 +206,7 @@ const TaskTable = () => {
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={table.getAllColumns().length}>
-                  <div className="table-empty-state">No results found.</div>
+                  <div className="table-empty-state">{t('No results found.')}</div>
                 </td>
               </tr>
             ) : (

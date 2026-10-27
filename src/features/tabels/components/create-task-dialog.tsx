@@ -9,7 +9,7 @@ import type { SelectOption } from '#/components/input-select'
 import InputSelect from '#/components/input-select'
 import { showObjectToast } from '#/helper/toast-helper'
 import type { Row } from '@tanstack/react-table'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 export interface Task {
   title: string
@@ -46,6 +46,7 @@ const priorityStyles: Record<Task['priority'], string> = {
 }
 
 const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
+  const { t } = useTranslation()
   const { direction } = useAppSelector((state) => state.themeConfig)
   const isEditMode = currentRow
 
@@ -61,7 +62,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
   const form = useForm({
     defaultValues: defaultFormValue as Task,
     onSubmit: async ({ value }) => {
-      await showObjectToast('Login From Submitted', value)
+      await showObjectToast(t('Task created'), value)
 
       form.reset()
       closeDialog()
@@ -80,8 +81,8 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
       showCloseButton={false}
       size="xl"
       position={direction === 'ltr' ? 'right' : 'left'}
-      title="Create task"
-      description="Add a new task to your backlog."
+      title={t('Create task')}
+      description={t('Add a new task to your backlog.')}
       footer={
         <>
           <button
@@ -119,7 +120,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
         <form.Field
           name="title"
           validators={{
-            onSubmit: ({ value }) => (!value ? 'Title is required' : undefined),
+            onSubmit: ({ value }) => (!value ? t('Title is required') : undefined),
           }}
           children={(field) => (
             <div className="flex flex-col gap-y-1.5">
@@ -127,7 +128,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
                 htmlFor={field.name}
                 className="text-sm font-medium text-foreground"
               >
-                Title
+                {t('Title')}
               </label>
               <input
                 id={field.name}
@@ -137,7 +138,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="e.g. Fix RTL layout on settings page"
+                placeholder={t('e.g. Fix RTL layout on settings page')}
                 className={`glass-solid w-full rounded-md px-3 py-2 text-sm text-foreground outline-none
                   transition-all duration-200 placeholder:text-muted
                   focus:border-primary/50 focus:ring-2 focus:ring-primary/30
@@ -156,11 +157,11 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
           name="label"
           children={(field) => (
             <InputSelect
-              label="Label"
-              options={labelOptions}
-              value={labelOptions.find(
-                (option) => option.value === field.state.value,
-              )}
+              label={t('Label')}
+              options={labelOptions.map((o) => ({ ...o, label: t(o.label) }))}
+              value={labelOptions
+                .map((o) => ({ ...o, label: t(o.label) }))
+                .find((option) => option.value === field.state.value)}
               onChange={(option) =>
                 field.handleChange(option?.value as Task['label'])
               }
@@ -172,11 +173,11 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
           name="status"
           children={(field) => (
             <InputSelect
-              label="Status"
-              options={statusOptions}
-              value={labelOptions.find(
-                (option) => option.value === field.state.value,
-              )}
+              label={t('Status')}
+              options={statusOptions.map((o) => ({ ...o, label: t(o.label) }))}
+              value={statusOptions
+                .map((o) => ({ ...o, label: t(o.label) }))
+                .find((option) => option.value === field.state.value)}
               onChange={(option) =>
                 field.handleChange(option?.value as Task['status'])
               }
@@ -189,7 +190,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
           children={(field) => (
             <div className="flex flex-col gap-y-1.5">
               <label className="text-sm font-medium text-foreground">
-                Priority
+                {t('Priority')}
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {(Object.keys(priorityStyles) as Task['priority'][]).map(
@@ -204,7 +205,7 @@ const CreateTaskDialog: FC<props> = ({ open, setOpen, currentRow }) => {
                           : 'border-borderColor text-muted hover:bg-surface-hover'
                       }`}
                     >
-                      {p}
+                      {t(p)}
                     </button>
                   ),
                 )}
