@@ -1,232 +1,248 @@
 import { useState } from 'react'
-import DatePicker from '#/components/date-picker'
+import { DayPicker } from '@daypicker/react'
+import { CalendarDays, CalendarRange, Layers, Ruler, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import DatePicker, {
+  CalendarChevron,
+  calendarClassNames,
+} from '#/components/date-picker'
+import type { DateRange } from '#/components/date-picker'
+import ShowcaseHeader from '#/features/components/shared/showcase-header'
+import ShowcaseSection from '#/features/components/shared/showcase-section'
+import DemoCard from '#/features/components/shared/demo-card'
 
-const today = new Date()
-const startOfToday = new Date(
-  today.getFullYear(),
-  today.getMonth(),
-  today.getDate(),
-)
-const tomorrow = new Date(startOfToday)
-tomorrow.setDate(tomorrow.getDate() + 1)
-const nextWeek = new Date(startOfToday)
-nextWeek.setDate(nextWeek.getDate() + 7)
-const nextMonth = new Date(startOfToday)
-nextMonth.setMonth(nextMonth.getMonth() + 1)
+const addDays = (date: Date, days: number) => {
+  const next = new Date(date)
+  next.setDate(next.getDate() + days)
+  return next
+}
+
+const now = new Date()
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+const tomorrow = addDays(today, 1)
+const nextWeek = addDays(today, 7)
+const nextMonth = addDays(today, 30)
 
 const formatDate = (date: Date | undefined) =>
   date
-    ? new Intl.DateTimeFormat(undefined, {
-        dateStyle: 'medium',
-      }).format(date)
-    : 'none'
+    ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(date)
+    : '—'
 
-function DatePickerShowCase() {
-  const [controlledDate, setControlledDate] = useState<Date | undefined>(
-    startOfToday,
-  )
-  const [clearableDate, setClearableDate] = useState<Date | undefined>(tomorrow)
+const noop = () => undefined
+
+function StatesSection() {
+  const { t } = useTranslation()
 
   return (
-    <div>
-      <div>
-        <h1 className="text-xl font-semibold text-foreground">Date picker</h1>
-        <p className="mt-1 text-sm text-muted">
-          A calendar popover powered by{' '}
-          <a
-            href="https://www.npmjs.com/package/@daypicker/react"
-            target="_blank"
-            rel="noreferrer"
-            className="text-primary hover:underline"
-          >
-            @daypicker/react
-          </a>{' '}
-          for selecting a single date with validation, disabled states, and date
-          boundaries.
-        </p>
+    <ShowcaseSection
+      icon={Layers}
+      title="States"
+      description="A button that opens a calendar — styled like every other field"
+    >
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <DemoCard title="Default" code="label + placeholder">
+          <DatePicker
+            label={t('Start date')}
+            placeholder={t('Choose a date')}
+            onChange={noop}
+          />
+        </DemoCard>
+
+        <DemoCard title="Required" code="required">
+          <DatePicker
+            label={t('Due date')}
+            placeholder={t('Choose a date')}
+            required
+            onChange={noop}
+          />
+        </DemoCard>
+
+        <DemoCard title="Hint" code="hint">
+          <DatePicker
+            label={t('Reminder')}
+            placeholder={t('Choose a date')}
+            hint={t('We email you at 9:00 on this day.')}
+            onChange={noop}
+          />
+        </DemoCard>
+
+        <DemoCard title="Error" code="error">
+          <DatePicker
+            label={t('Birthday')}
+            placeholder={t('Choose a date')}
+            error={t('Please select a valid date')}
+            onChange={noop}
+          />
+        </DemoCard>
+
+        <DemoCard title="Disabled" code="disabled">
+          <DatePicker
+            label={t('Published on')}
+            value={today}
+            disabled
+            onChange={noop}
+          />
+        </DemoCard>
+
+        <DemoCard title="With value" code="value">
+          <DatePicker label={t('Start date')} value={today} onChange={noop} />
+        </DemoCard>
       </div>
+    </ShowcaseSection>
+  )
+}
 
-      <div className="mt-8 grid grid-cols-2 gap-4">
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Basic{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              label + placeholder
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="basic-date"
-              label="Start date"
-              placeholder="Choose a date"
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
+function LimitsSection() {
+  const { t } = useTranslation()
+  const [date, setDate] = useState<Date | undefined>(tomorrow)
 
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Required{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              required
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="required-date"
-              label="Due date"
-              placeholder="Select a due date"
-              required
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
+  return (
+    <ShowcaseSection
+      icon={Ruler}
+      title="Limits"
+      description="Dates outside the bounds are struck through and cannot be picked"
+    >
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2">
+        <DemoCard title="Minimum date" code="fromDate">
+          <DatePicker
+            label={t('Book from tomorrow')}
+            fromDate={tomorrow}
+            onChange={noop}
+          />
+        </DemoCard>
 
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Error{' '}
-            <span className="ml-2 text-xs font-normal text-muted">error</span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="error-date"
-              label="Birthday"
-              placeholder="Enter your birthday"
-              error="Please select a valid date"
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
+        <DemoCard title="Maximum date" code="toDate">
+          <DatePicker
+            label={t('Book before next week')}
+            toDate={nextWeek}
+            onChange={noop}
+          />
+        </DemoCard>
 
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Disabled{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              disabled
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="disabled-date"
-              label="Published on"
-              value={startOfToday}
-              disabled
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
+        <DemoCard title="Between two dates" code="fromDate + toDate">
+          <DatePicker
+            label={t('Within the next 30 days')}
+            fromDate={today}
+            toDate={nextMonth}
+            onChange={noop}
+          />
+        </DemoCard>
 
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Controlled value{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              value + onChange
-            </span>
-          </p>
-          <div className="max-w-sm">
+        <DemoCard
+          title="Controlled & clearable"
+          code="value={undefined}"
+          description="Clear by passing undefined"
+        >
+          <div className="flex items-end gap-x-2">
             <DatePicker
-              id="controlled-date"
-              label="Selected date"
-              value={controlledDate}
-              onChange={setControlledDate}
-            />
-            <p className="mt-2 text-xs text-muted">
-              Selected: {formatDate(controlledDate)}
-            </p>
-          </div>
-        </section>
-
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Custom placeholder{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              placeholder
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="custom-placeholder-date"
-              label="Appointment"
-              placeholder="Pick your appointment day"
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
-
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Minimum date{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              fromDate
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="minimum-date"
-              label="Book from tomorrow"
-              fromDate={tomorrow}
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
-
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Maximum date{' '}
-            <span className="ml-2 text-xs font-normal text-muted">toDate</span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="maximum-date"
-              label="Book before next week"
-              toDate={nextWeek}
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
-
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Date range{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              fromDate + toDate
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="range-date"
-              label="Choose a date this month"
-              fromDate={startOfToday}
-              toDate={nextMonth}
-              onChange={() => undefined}
-            />
-          </div>
-        </section>
-
-        <section className="card p-5">
-          <p className="mb-4 text-sm font-semibold text-foreground">
-            Clearable value{' '}
-            <span className="ml-2 text-xs font-normal text-muted">
-              undefined value
-            </span>
-          </p>
-          <div className="max-w-sm">
-            <DatePicker
-              id="clearable-date"
-              label="Optional date"
-              value={clearableDate}
-              onChange={setClearableDate}
+              label={t('Optional date')}
+              value={date}
+              onChange={setDate}
             />
             <button
               type="button"
-              className="mt-2 text-xs font-medium text-primary hover:underline"
-              onClick={() => setClearableDate(undefined)}
+              onClick={() => setDate(undefined)}
+              disabled={!date}
+              aria-label={t('Clear date')}
+              className="btn btn-secondary btn-icon shrink-0"
             >
-              Clear selected date
+              <X size={16} />
             </button>
           </div>
-        </section>
+        </DemoCard>
       </div>
+    </ShowcaseSection>
+  )
+}
+
+function InlineSection() {
+  const { t } = useTranslation()
+  const [day, setDay] = useState<Date | undefined>(today)
+  const [range, setRange] = useState<DateRange | undefined>({
+    from: addDays(today, 3),
+    to: addDays(today, 7),
+  })
+
+  const nights =
+    range?.from && range.to
+      ? Math.round((range.to.getTime() - range.from.getTime()) / 86_400_000)
+      : 0
+
+  return (
+    <ShowcaseSection
+      icon={CalendarDays}
+      title="Inline calendar"
+      description="The same calendar without the popover, using calendarClassNames"
+    >
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
+        <DemoCard title="Single date" code='mode="single"'>
+          <div className="flex flex-col items-center gap-y-3">
+            <DayPicker
+              mode="single"
+              selected={day}
+              onSelect={setDay}
+              defaultMonth={today}
+              classNames={calendarClassNames}
+              components={{ Chevron: CalendarChevron }}
+            />
+            <p className="text-xs text-muted">
+              {t('Selected')}:{' '}
+              <span className="font-medium text-foreground">
+                {formatDate(day)}
+              </span>
+            </p>
+          </div>
+        </DemoCard>
+
+        <DemoCard
+          title="Date range"
+          code='mode="range"'
+          description="Past dates are disabled"
+        >
+          <div className="flex flex-col items-center gap-y-3">
+            <DayPicker
+              mode="range"
+              selected={range}
+              onSelect={setRange}
+              defaultMonth={today}
+              disabled={{ before: today }}
+              classNames={calendarClassNames}
+              components={{ Chevron: CalendarChevron }}
+            />
+            <div className="flex w-full items-center justify-between gap-x-3 rounded-lg border border-borderColor px-3 py-2 text-xs">
+              <span className="flex items-center gap-x-2 text-muted">
+                <CalendarRange size={14} />
+                <span className="text-foreground">
+                  {formatDate(range?.from)} – {formatDate(range?.to)}
+                </span>
+              </span>
+              <span className="shrink-0 font-medium text-primary">
+                {t('{{count}} nights', { count: nights })}
+              </span>
+            </div>
+          </div>
+        </DemoCard>
+      </div>
+    </ShowcaseSection>
+  )
+}
+
+function DatePickerShowCase() {
+  return (
+    <div className="flex w-full flex-col gap-y-10">
+      <ShowcaseHeader
+        title="Date picker"
+        description="A calendar popover built on @daypicker/react — single dates with limits, hint and error states, plus inline single and range calendars."
+        code='<DatePicker label="Due date" value={date} onChange={setDate} fromDate={today} />'
+        stats={[
+          { value: 6, label: 'States' },
+          { value: 2, label: 'Modes' },
+          { value: 'RTL', label: 'Ready' },
+        ]}
+      />
+      <StatesSection />
+      <LimitsSection />
+      <InlineSection />
     </div>
   )
 }

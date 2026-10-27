@@ -3,10 +3,13 @@ import { DayPicker } from '@daypicker/react'
 import type { DateRange } from '@daypicker/react'
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
 import Popover from './popover'
+import { FieldLabel, FieldMessage } from './field'
 
 interface DatePickerProps {
   label?: string
   error?: string
+  /** Helper text under the field, replaced by `error` when set */
+  hint?: string
   required?: boolean
   parentClassName?: string
   labelClassName?: string
@@ -27,7 +30,7 @@ interface DatePickerProps {
 // cross-check the exact spelling against daypicker.dev/docs/anatomy, since
 // v10 removed several deprecated v9 aliases (e.g. old `nav_button`,
 // `day_selected` no longer exist).
-const calendarClassNames = {
+export const calendarClassNames = {
   months: 'relative flex flex-col',
   month: 'flex flex-col gap-y-3',
   month_caption:
@@ -61,11 +64,31 @@ const calendarClassNames = {
   disabled:
     'pointer-events-none [&>button]:text-muted/40 [&>button]:line-through',
   hidden: 'invisible',
+  // Range mode: a soft band on the cells, solid ends. Logical sides, so the
+  // band's rounded caps land on the right ends in RTL too.
+  range_start: 'rounded-s-full bg-primary/12',
+  range_end: 'rounded-e-full bg-primary/12',
+  range_middle:
+    'bg-primary/12 [&>button]:rounded-none [&>button]:bg-transparent! [&>button]:text-foreground! [&>button]:hover:bg-primary/15!',
+}
+
+/** Month arrows that point outward in RTL as well */
+export function CalendarChevron({
+  orientation,
+}: {
+  orientation?: 'up' | 'down' | 'left' | 'right'
+}) {
+  return orientation === 'left' ? (
+    <ChevronLeft size={16} className="rtl:rotate-180" />
+  ) : (
+    <ChevronRight size={16} className="rtl:rotate-180" />
+  )
 }
 
 function DatePicker({
   label,
   error,
+  hint,
   required,
   parentClassName = '',
   labelClassName = '',
@@ -79,6 +102,7 @@ function DatePicker({
 }: DatePickerProps) {
   const generatedId = useId()
   const inputId = id ?? generatedId
+  const messageId = `${inputId}-message`
   const [open, setOpen] = useState(false)
 
   /**
@@ -106,15 +130,13 @@ function DatePicker({
   return (
     <div className={`w-full ${parentClassName}`}>
       {label && (
-        <label
+        <FieldLabel
           htmlFor={inputId}
-          className={`text-sm font-medium text-foreground ${labelClassName}`}
+          required={required}
+          className={labelClassName}
         >
           {label}
-          {required && (
-            <span className="text-red-500 ltr:ml-0.5 rtl:mr-0.5">*</span>
-          )}
-        </label>
+        </FieldLabel>
       )}
 
       <Popover
@@ -129,13 +151,20 @@ function DatePicker({
             id={inputId}
             disabled={disabled}
             aria-invalid={!!error}
-            aria-describedby={error ? `${inputId}-error` : undefined}
-            className={`input flex w-full items-center justify-between text-left disabled:cursor-not-allowed disabled:bg-surface-hover! ${
-              error ? 'border-red-500 focus:ring-red-500/30' : ''
+            aria-describedby={error || hint ? messageId : undefined}
+            aria-expanded={open}
+            aria-haspopup="dialog"
+            className={`input flex w-full items-center justify-between gap-x-2 text-start ${
+              open ? 'border-primary/50 ring-2 ring-primary/30' : ''
             } ${!formattedValue ? 'text-muted' : ''}`}
           >
-            <span>{formattedValue ?? placeholder}</span>
-            <Calendar size={16} className="shrink-0 text-muted" />
+            <span className="truncate">{formattedValue ?? placeholder}</span>
+            <Calendar
+              size={16}
+              className={`shrink-0 transition-colors ${
+                error ? 'text-danger' : open ? 'text-primary' : 'text-muted'
+              }`}
+            />
           </button>
         }
       >
@@ -159,22 +188,11 @@ function DatePicker({
           }
           className="p-2"
           classNames={calendarClassNames}
-          components={{
-            Chevron: ({ orientation }) =>
-              orientation === 'left' ? (
-                <ChevronLeft size={16} />
-              ) : (
-                <ChevronRight size={16} />
-              ),
-          }}
+          components={{ Chevron: CalendarChevron }}
         />
       </Popover>
 
-      {error && (
-        <p id={`${inputId}-error`} className="mt-1 text-xs text-red-500">
-          {error}
-        </p>
-      )}
+      <FieldMessage id={messageId} error={error} hint={hint} />
     </div>
   )
 }
