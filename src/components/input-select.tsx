@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import ReactSelect, {
   components,
   type ClassNamesConfig,
@@ -11,6 +12,7 @@ import ReactSelect, {
 import { Check, ChevronDown, SearchX, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
+import { FieldLabel, FieldMessage } from './field'
 
 export interface SelectOption {
   value: string
@@ -26,6 +28,8 @@ interface SelectProps<
 > {
   label?: string
   error?: string
+  /** Helper text under the field, replaced by `error` when set */
+  hint?: string
   required?: boolean
 }
 
@@ -34,19 +38,34 @@ const glassClassNames: ClassNamesConfig<
   boolean,
   GroupBase<SelectOption>
 > = {
-  control: (state) =>
-    `glass-solid flex rounded-md px-2 py-1 text-sm transition-all duration-200 cursor-pointer ${
-      state.isFocused ? 'border-primary/50 ring-2 ring-primary/30' : ''
-    } ${state.isDisabled && 'bg-surface-hover'}`,
+  // Same height, hover, focus and error look as `.input`. The error flag
+  // comes from the `aria-invalid` prop InputSelect passes through.
+  control: (state) => {
+    const invalid = state.selectProps['aria-invalid'] === true
+    return `glass-solid flex min-h-9.5 rounded-md ps-3 pe-1.5 py-1 text-sm transition-all duration-200 ${
+      state.isDisabled
+        ? 'cursor-not-allowed bg-surface-hover/60 opacity-70'
+        : 'cursor-pointer'
+    } ${
+      invalid
+        ? `border-danger! ${state.isFocused ? 'ring-2 ring-danger/25' : ''}`
+        : state.isFocused
+          ? 'border-primary/50 ring-2 ring-primary/30'
+          : state.isDisabled
+            ? ''
+            : 'hover:border-primary/30'
+    }`
+  },
   placeholder: () => 'text-muted',
   singleValue: () => 'text-foreground',
   input: () => 'text-foreground',
-  valueContainer: () => 'gap-x-1',
+  valueContainer: () => 'gap-1',
   indicatorSeparator: () => 'hidden',
-  indicatorsContainer: () => 'gap-x-1',
+  indicatorsContainer: () => 'gap-x-0.5',
   clearIndicator: () =>
-    'text-muted hover:text-red-500 transition-colors cursor-pointer p-1',
-  dropdownIndicator: () => 'text-muted p-1',
+    'text-muted hover:text-danger hover:bg-danger/10 rounded-md transition-colors cursor-pointer p-1',
+  dropdownIndicator: (state) =>
+    `p-1 transition-colors ${state.isFocused ? 'text-primary' : 'text-muted'}`,
   menu: () =>
     `z-50 mt-2 rounded-xl border border-black/8 bg-surface/90 p-1 shadow-lg shadow-black/5
      backdrop-blur-xl backdrop-saturate-150
@@ -77,11 +96,12 @@ const glassClassNames: ClassNamesConfig<
     }`,
   noOptionsMessage: () => 'px-3 py-2 text-sm text-muted',
   loadingMessage: () => 'px-3 py-2 text-sm text-muted',
+  loadingIndicator: () => 'text-muted p-1',
   multiValue: () =>
-    'flex items-center gap-x-1 rounded-md bg-primary/15 pl-2 pr-1 py-0.5',
+    'flex items-center gap-x-1 rounded-md bg-primary/12 ps-2 pe-0.5 py-0.5',
   multiValueLabel: () => 'text-xs font-medium text-primary',
   multiValueRemove: () =>
-    'text-primary hover:text-red-500 transition-colors cursor-pointer rounded-sm',
+    'text-primary/70 hover:text-danger hover:bg-danger/10 transition-colors cursor-pointer rounded-sm p-0.5',
 }
 
 function DropdownIndicator(
@@ -112,8 +132,10 @@ function OptionWithCheck(
 ) {
   return (
     <components.Option {...props}>
-      <div className="w-full flex items-center justify-between">
-        <span className="truncate text-sm">{props.label}</span>
+      {/* `children` is the formatOptionLabel output, so custom labels
+          (avatars, status dots) show in the menu, not just the plain text */}
+      <div className="flex w-full items-center justify-between gap-x-2">
+        <span className="min-w-0 truncate text-sm">{props.children}</span>
         {props.isSelected && (
           <Check size={15} className="shrink-0 text-primary" />
         )}
@@ -147,6 +169,7 @@ function InputSelect<
 >({
   label,
   error,
+  hint,
   id,
   components: customComponents,
   required = false,
@@ -154,22 +177,23 @@ function InputSelect<
   ...props
 }: SelectProps<Option, IsMulti>) {
   const { t } = useTranslation()
+  const generatedId = useId()
+  const inputId = id ?? generatedId
+  const messageId = `${inputId}-message`
+
   return (
     <div className="w-full">
       {label && (
-        <label
-          htmlFor={id}
-          className="mb-1.5 block text-sm font-medium text-foreground"
-        >
-          {label}{' '}
-          {required && (
-            <span className="text-red-500 ltr:ml-0.5 rtl:mr-0.5">*</span>
-          )}
-        </label>
+        <FieldLabel htmlFor={inputId} required={required}>
+          {label}
+        </FieldLabel>
       )}
 
       <ReactSelect<Option, IsMulti, GroupBase<Option>>
-        inputId={id}
+        inputId={inputId}
+        aria-invalid={!!error}
+        aria-errormessage={error ? messageId : undefined}
+        loadingMessage={() => t('Loading...')}
         unstyled
         menuPortalTarget={
           typeof document !== 'undefined' ? document.body : undefined
@@ -203,7 +227,7 @@ function InputSelect<
         {...props}
       />
 
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      <FieldMessage id={messageId} error={error} hint={hint} />
     </div>
   )
 }
