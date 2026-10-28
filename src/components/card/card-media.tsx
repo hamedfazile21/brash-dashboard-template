@@ -16,6 +16,8 @@ export function CardMedia({
       <img
         src={src}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         className={`absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110 ${className}`}
       />
     )
@@ -27,6 +29,8 @@ export function CardMedia({
         <img
           src={src}
           alt={alt}
+          loading="lazy"
+          decoding="async"
           className={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${className}`}
         />
       </div>
@@ -38,6 +42,8 @@ export function CardMedia({
       <img
         src={src}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         className={`h-40 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${className}`}
       />
     </div>

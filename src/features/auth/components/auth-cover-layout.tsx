@@ -70,6 +70,8 @@ function AuthCoverLayout({ children, cover, footer }: AuthCoverLayoutProps) {
           <img
             src={image}
             alt=""
+            fetchPriority="high"
+            decoding="async"
             className="absolute inset-0 size-full object-cover"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-black/5" />
