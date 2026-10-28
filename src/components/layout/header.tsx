@@ -141,7 +141,7 @@ const Header = () => {
                 )}
               </span>
               <span className="text-sm ltr:pr-1 rtl:pl-1">
-                {themeMode.slice(0, 1).toUpperCase() + themeMode.slice(1)}
+                {t(themeMode.slice(0, 1).toUpperCase() + themeMode.slice(1))}
               </span>
             </button>
           }
