@@ -37,15 +37,15 @@ export function initializeSystemDir() {
   }
 }
 
-export function initializeSystemLanguage() {
+export async function initializeSystemLanguage() {
   const language = localStorage.getItem('system-language') as Language
 
   if (language === 'english') {
-    i18n.changeLanguage('en')
+    await i18n.changeLanguage('en')
   }
 
   if (language === 'farsi') {
-    i18n.changeLanguage('fa')
+    await i18n.changeLanguage('fa')
   }
 }
 
