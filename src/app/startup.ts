@@ -15,7 +15,8 @@ export async function startup() {
 
   initializeSystemDir()
 
-  initializeSystemLanguage()
+  // Awaited so a lazily loaded language is ready before the first render
+  await initializeSystemLanguage()
 
   // Future initialization
   // await restoreSession();
